@@ -12,7 +12,10 @@ BS: bramble slash(er)
 - http://pixijs.github.io/examples/#/basics/graphics.js
 - https://github.com/outr/scalajs-pixijs
 
-## more stuff around pixi
+## 3D engine
+- http://www.babylonjs.com/
+
+## more stuff around pixi (2D)
 - https://github.com/kittykatattack
 - https://github.com/kittykatattack/hexi
 - https://github.com/kittykatattack/hexi/issues/44
