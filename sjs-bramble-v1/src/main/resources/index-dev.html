@@ -1,19 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Example Scala.js application</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Example Scala.js application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        #controls {
+            border: 10px solid lightgrey;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body style="margin: 0px">
 
 <div>
+    <div id="controls">
+        <input v-model.number="seed" type="number"/>
+        <input v-model.number="base" type="number"/>
+        <input v-model="name"/>
+        <p>
+        {{ JSON.stringify(paramSet) }}
+        </p>
+    </div>
     <canvas style="display: block" id="canvas" width="255" height="255"/>
 </div>
 
 <script type="text/javascript" src="../example-fastopt.js"></script>
 <script type="text/javascript" src="/workbench.js"></script>
+<script type="text/javascript" src="lib/vue.min.js"></script>
 <script>
-    BBTest().main(document.getElementById('canvas'));
+    var bs = new BSTest();
+    console.log(bs)
+    var canvas = document.getElementById('canvas');
+    bs.render(canvas);
+
+var app = new Vue({
+    el: '#controls',
+    data: {
+        seed: bs.seed$1,
+        base: bs.base$1,
+        name: bs.name$1,
+    },
+    computed: {
+        paramSet: function() {
+            var all = ['seed', 'base', 'name'];
+            return Object.assign(...all.map( k => ({[k]: this[k]})) );
+        }
+    },
+    watch: {
+        paramSet: function (val, oldVal) {
+            bs.injectParams(val);
+            bs.render(canvas);
+        }
+    }
+});
 </script>
 </body>
 </html>
