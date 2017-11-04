@@ -20,13 +20,21 @@
 <div>
     <div id="controls">
         <input v-model.number="seed" type="number"/>
-        <input v-model.number="base" type="number"/>
-        <input v-model="name"/>
+        <div>
+            <input v-model.number="baseWidth" type="number"/>
+            <input v-model.number="baseLength" type="number"/>
+        </div>
+        <div>
+            <input v-model.number="factorWidth" type="range" min="0" max="1" step="0.001"/>
+            <input v-model.number="factorLength" type="range" min="0" max="1" step="0.001"/>
+        </div>
+        <input v-model.number="depth" type="number"/>
+        <input v-model.number="fluffyDepth" type="number"/>
         <p>
         {{ JSON.stringify(paramSet) }}
         </p>
     </div>
-    <canvas style="display: block" id="canvas" width="255" height="255"/>
+    <canvas style="display: block" id="canvas" width="600" height="400"/>
 </div>
 
 <script type="text/javascript" src="../example-fastopt.js"></script>
@@ -38,17 +46,21 @@
     var canvas = document.getElementById('canvas');
     bs.render(canvas);
 
+    var all = ['seed', 'name', 'baseLength', 'baseWidth', 'factorLength', 'factorWidth', 'depth', 'fluffyDepth'];
+
 var app = new Vue({
     el: '#controls',
     data: {
-        seed: bs.seed$1,
-        base: bs.base$1,
-        name: bs.name$1,
+        all: [...all],
+        ...all.reduce( (o, k) => ({
+            ...o,
+            [k]: bs[k+'$1']
+        }), {})
+        // seed: bs.seed$1, ........ etc, $1 for scalajs
     },
     computed: {
         paramSet: function() {
-            var all = ['seed', 'base', 'name'];
-            return Object.assign(...all.map( k => ({[k]: this[k]})) );
+            return Object.assign(...this.all.map( k => ({[k]: this[k]})) );
         }
     },
     watch: {
