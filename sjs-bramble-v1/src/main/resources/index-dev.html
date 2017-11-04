@@ -28,6 +28,11 @@
             <input v-model.number="factorWidth" type="range" min="0" max="1" step="0.001"/>
             <input v-model.number="factorLength" type="range" min="0" max="1" step="0.001"/>
         </div>
+        <div>
+            <input v-model.number="forbiddenX" type="range" min="-50" max="650" step="0.1"/>
+            <input v-model.number="forbiddenY" type="range" min="-50" max="450" step="0.1"/>
+            <input v-model.number="forbiddenRadius" type="range" min="1" max="100" step="0.1"/>
+        </div>
         <input v-model.number="depth" type="number"/>
         <input v-model.number="fluffyDepth" type="number"/>
         <button @click.prevent="exportDataURL">data URL</button>
@@ -47,7 +52,7 @@
     var canvas = document.getElementById('canvas');
     bs.render(canvas);
 
-    var all = ['seed', 'name', 'baseLength', 'baseWidth', 'factorLength', 'factorWidth', 'depth', 'fluffyDepth'];
+    var all = ['seed', 'name', 'baseLength', 'baseWidth', 'factorLength', 'factorWidth', 'depth', 'fluffyDepth', 'forbiddenX', 'forbiddenY', 'forbiddenRadius'];
 
 var app = new Vue({
     el: '#controls',
