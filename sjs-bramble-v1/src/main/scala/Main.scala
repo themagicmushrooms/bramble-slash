@@ -1,3 +1,5 @@
+import language.experimental.macros
+
 import org.scalajs.dom
 import org.scalajs.dom.html
 
@@ -9,6 +11,7 @@ class PosAngle (val x:Double, val y:Double, val a:Double) {
   def rotateAdvance(da: Double, l: Double) = new PosAngle(x+l*Math.cos(a+da), y+l*Math.sin(a+da), a+da)
   def distTo2(cx: Double, cy: Double) = Math.pow((cx-x), 2) + Math.pow((cy-y), 2)
 }
+
 
 @JSExport
 class BSTest (
@@ -27,19 +30,19 @@ class BSTest (
 
   @JSExport
   def injectParams(params: js.Dictionary[Any]): Unit = {
-    // no introspection in scalajs (they say), so we do write this code
-    this.seed = params.getOrElse("seed", this.seed).asInstanceOf[Int]
-    this.baseLength = params.getOrElse("baseLength", this.baseLength).asInstanceOf[Int]
-    this.baseWidth = params.getOrElse("baseWidth", this.baseWidth).asInstanceOf[Int]
-    this.factorLength = params.getOrElse("factorLength", this.factorLength).asInstanceOf[Float]
-    this.factorWidth = params.getOrElse("factorWidth", this.factorWidth).asInstanceOf[Float]
+    Macros.autoField(this.seed)
+    Macros.autoField(this.baseWidth)
+    Macros.autoField(this.baseLength)
 
-    this.forbiddenX = params.getOrElse("forbiddenX", this.forbiddenX).asInstanceOf[Double]
-    this.forbiddenY = params.getOrElse("forbiddenY", this.forbiddenY).asInstanceOf[Double]
-    this.forbiddenRadius = params.getOrElse("forbiddenRadius", this.forbiddenRadius).asInstanceOf[Double]
+    Macros.autoField(this.factorWidth)
+    Macros.autoField(this.factorLength)
 
-    this.depth = params.getOrElse("depth", this.depth).asInstanceOf[Int]
-    this.fluffyDepth = params.getOrElse("fluffyDepth", this.fluffyDepth).asInstanceOf[Int]
+    Macros.autoField(this.forbiddenX)
+    Macros.autoField(this.forbiddenY)
+    Macros.autoField(this.forbiddenRadius)
+
+    Macros.autoField(this.depth)
+    Macros.autoField(this.fluffyDepth)
   }
 
   @JSExport
