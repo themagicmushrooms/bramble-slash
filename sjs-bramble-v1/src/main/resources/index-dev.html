@@ -30,11 +30,13 @@
         </div>
         <input v-model.number="depth" type="number"/>
         <input v-model.number="fluffyDepth" type="number"/>
+        <button @click.prevent="exportDataURL">data URL</button>
         <p>
         {{ JSON.stringify(paramSet) }}
         </p>
     </div>
-    <canvas style="display: block" id="canvas" width="600" height="400"/>
+    <canvas style="display: block" id="canvas" width="600" height="400"></canvas>
+    <img id="forDataURL" />
 </div>
 
 <script type="text/javascript" src="../example-fastopt.js"></script>
@@ -67,6 +69,11 @@ var app = new Vue({
         paramSet: function (val, oldVal) {
             bs.injectParams(val);
             bs.render(canvas);
+        }
+    },
+    methods: {
+        exportDataURL: function() {
+            document.querySelector('#forDataURL').src = canvas.toDataURL();
         }
     }
 });
