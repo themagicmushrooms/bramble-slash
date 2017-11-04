@@ -9,7 +9,7 @@ object Macros {
     val q"""this $tr""" = f
     val ty = c.symbolOf[T]
     var trstr = Literal(Constant(tr.toString()))
-    c.Expr[Unit](q"""this.$tr = params.getOrElse($trstr, this.$tr).asInstanceOf[$ty] ; println(this.$tr)""")
+    c.Expr[Unit](q"""this.$tr = params.getOrElse($trstr, this.$tr).asInstanceOf[$ty]""")
 
     //this.seed = params.getOrElse("seed", this.seed).asInstanceOf[Int]
 
