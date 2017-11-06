@@ -21,7 +21,7 @@
 </head>
 <body style="margin: 0px">
 
-<div>
+<div id="vapp">
     <div id="controls">
         <input v-model.number="seed" type="number"/>
         <div>
@@ -55,7 +55,7 @@
         {{ JSON.stringify(paramSet) }}
         </p>
     </div>
-    <canvas style="display: block" id="canvas" width="600" height="400"></canvas>
+    <canvas @mousemove.shift="mouseMove($event)" style="display: block" id="canvas" width="600" height="400"></canvas>
     <img id="forDataURL" />
 </div>
 
@@ -64,13 +64,11 @@
 <script type="text/javascript" src="lib/vue.min.js"></script>
 <script>
     var bs = new BSTest();
-    var canvas = document.getElementById('canvas');
-    bs.render(canvas);
 
     var all = ['seed', 'name', 'baseLength', 'baseWidth', 'factorLength', 'factorWidth', 'depth', 'fluffyDepth', 'forbiddenX', 'forbiddenY', 'forbiddenRadius'];
 
 var app = new Vue({
-    el: '#controls',
+    el: '#vapp',
     data: {
         all: [...all],
         ...all.reduce( (o, k) => ({
@@ -87,15 +85,22 @@ var app = new Vue({
     watch: {
         paramSet: function (val, oldVal) {
             bs.injectParams(val);
-            bs.render(canvas);
+            bs.render(document.getElementById('canvas'));
         }
     },
     methods: {
         exportDataURL: function() {
             document.querySelector('#forDataURL').src = canvas.toDataURL();
+        },
+        mouseMove: function(e) {
+            var rect = canvas.getBoundingClientRect();
+            this.forbiddenX = (e.clientX - rect.left);
+            this.forbiddenY = (e.clientY - rect.top);
+            console.log(e)
         }
     }
 });
+bs.render(document.getElementById('canvas'));
 </script>
 </body>
 </html>
