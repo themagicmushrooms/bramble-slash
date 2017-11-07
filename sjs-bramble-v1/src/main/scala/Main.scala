@@ -6,10 +6,11 @@ import org.scalajs.dom.html
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExport
 import scala.util.Random
+import scala.collection.mutable.ArrayBuffer
 
 class PosAngle (val x:Double, val y:Double, val a:Double) {
   def rotateAdvance(da: Double, l: Double) = new PosAngle(x+l*Math.cos(a+da), y+l*Math.sin(a+da), a+da)
-  def distTo2(cx: Double, cy: Double) = Math.pow((cx-x), 2) + Math.pow((cy-y), 2)
+  def squareDistanceTo(cx: Double, cy: Double) = Math.pow((cx-x), 2) + Math.pow((cy-y), 2)
 }
 
 
@@ -53,14 +54,16 @@ class BSTest (
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    ctx.strokeStyle = "red"
-    ctx.beginPath()
-    ctx.lineWidth = 2
-    ctx.arc(forbiddenX, forbiddenY, forbiddenRadius,  0, 2 * Math.PI)
-    ctx.stroke()
+    drawForbiddenCircle(ctx)
 
+    drawTree(canvas, ctx)
+
+    ctx.restore()
+  }
+
+  def drawTree(canvas: html.Canvas, ctx: dom.CanvasRenderingContext2D): Unit = {
     ctx.strokeStyle = "green"
-    ctx.translate(canvas.width/2, canvas.height)
+    ctx.translate(canvas.width / 2, canvas.height)
     ctx.rotate(-Math.PI / 2)
 
     val r = new Random()
@@ -68,45 +71,52 @@ class BSTest (
     // TODO breadth first randomized (so adding levels keeps the base shape)
     // ^ not so conveninent from a ux point of view, with the current behavior of fluffyDepth
 
-    def go(d: Int, width: Float, len: Float, pa: PosAngle):Unit = {
-      if (d < 1) return
-      if (pa.distTo2(forbiddenX, forbiddenY) < Math.pow(forbiddenRadius, 2)) return
+    def isBranchAllowed(branchOrigin: PosAngle, branchLength: Float): Boolean = {
+      branchOrigin.squareDistanceTo(forbiddenX, forbiddenY) > Math.pow(forbiddenRadius, 2)
+    }
+
+    def drawBranch(depth: Int, firstSegmentWidth: Float, firstSegmentLength: Float, branchOrigin: PosAngle): Unit = {
+      if (depth < 1) return
+      if (!isBranchAllowed(branchOrigin, firstSegmentLength)) return
       ctx.save()
       ctx.beginPath()
       ctx.moveTo(0, 0)
-      ctx.lineTo(len, 0)
-      ctx.lineWidth = width
+      ctx.lineTo(firstSegmentLength, 0)
+      ctx.lineWidth = firstSegmentWidth
       ctx.stroke()
-      ctx.translate(len, 0)
+      ctx.translate(firstSegmentLength, 0)
 
-      val subw = factorWidth*width
-      val subl = factorLength*len
+      val childrenWidth = factorWidth * firstSegmentWidth
+      val childrenLength = factorLength * firstSegmentLength
 
-      {
-        val a = -Math.PI/9+(r.nextFloat()-0.5)/10
-        ctx.rotate(a)
-        go(d-1, subw, subl, pa.rotateAdvance(a, subl))
-        ctx.rotate(-a)
+      def drawChild(relativeAngle: Double) = {
+        ctx.rotate(relativeAngle)
+        drawBranch(depth - 1, childrenWidth, childrenLength, branchOrigin.rotateAdvance(relativeAngle, childrenLength))
+        ctx.rotate(-relativeAngle)
       }
-      if (d <= fluffyDepth+1) // 2 branches at the first levels
-      {
-        val a = (r.nextFloat()-0.5)/10
-        ctx.rotate(a)
-        go(d-1, subw, subl, pa.rotateAdvance(a, subl))
-        ctx.rotate(-a)
+
+      val childrenAngles = ArrayBuffer[Double](
+        -Math.PI / 9 + (r.nextFloat() - 0.5) / 10,
+        +Math.PI / 9 + (r.nextFloat() - 0.5) / 10)
+      // One more central child branch when it starts getting fluffy
+      if (depth <= fluffyDepth + 1) {
+        childrenAngles += (r.nextFloat() - 0.5) / 10
       }
-      {
-        val a = +Math.PI/9+(r.nextFloat()-0.5)/10
-        ctx.rotate(a)
-        go(d-1, subw, subl, pa.rotateAdvance(a, subl))
-        ctx.rotate(-a)
-      }
+
+      childrenAngles map drawChild
 
       ctx.restore()
     }
 
-    go(depth, baseWidth, baseLength, new PosAngle(canvas.width/2, canvas.height, 0).rotateAdvance(-Math.PI/2, baseLength))
-
-    ctx.restore()
+    drawBranch(depth, baseWidth, baseLength, new PosAngle(canvas.width / 2, canvas.height, -Math.PI / 2))
   }
+
+  def drawForbiddenCircle(ctx: dom.CanvasRenderingContext2D): Any = {
+    ctx.strokeStyle = "red"
+    ctx.beginPath()
+    ctx.lineWidth = 2
+    ctx.arc(forbiddenX, forbiddenY, forbiddenRadius, 0, 2 * Math.PI)
+    ctx.stroke()
+  }
+
 }
