@@ -1,29 +1,25 @@
 
 import scala.scalajs.js
-import js.annotation._
-import js.|
+import org.scalajs.dom.raw._
 
-package importedjs {
+import scala.scalajs.js.typedarray._
+import scala.scalajs.js.|
 
-  import org.scalajs.dom.AudioContext
-  import org.scalajs.dom.experimental.gamepad.GamepadButton
+import scala.scalajs.js.annotation._
 
-  import scala.scalajs.js.typedarray.Float32Array
-  import org.scalajs.dom.raw.{IDBFactory, FocusEvent, XMLHttpRequest, WebGLRenderbuffer, WebGLFramebuffer, ClientRect, WebGLContextAttributes, WebGLProgram, WebGLUniformLocation, AudioBuffer, AudioNode, HTMLImageElement, Event, GainNode, HTMLElement}
+object CUSTOM {
+  type IndicesArray = js.Array[Double] | Int32Array | Uint32Array | Uint16Array
+  type WebGLObject = js.Any
+  trait PointerEvent
+  trait MouseWheelEvent
+  type PostProcessOptions = js.Any
+  type GamepadButton = js.Any
+}
+import CUSTOM._
 
-  package BABYLON {
-
-  import java.awt.event.MouseWheelEvent
-
-  import importedjs.BABYLON.BABYLON.{IndicesArray, PostProcessOptions}
-  import org.scalajs.dom.experimental.deviceorientation.DeviceOrientationEvent
-  import org.scalajs.dom.raw.File
-
-  import scala.collection.mutable
-  import scala.scalajs.js.typedarray.{ArrayBuffer, ArrayBufferView, Float32Array, Int32Array, Uint16Array, Uint32Array, Uint8Array}
+package BABYLON {
 
 @js.native
-//@JSGlobalScope("BABYLON.InstancingAttributeInfo")
 @JSGlobal("BABYLON.InstancingAttributeInfo")
 class InstancingAttributeInfo extends js.Object {
   var index: Double = js.native
@@ -47,14 +43,14 @@ class EngineCapabilities extends js.Object {
   var maxVertexUniformVectors: Double = js.native
   var maxFragmentUniformVectors: Double = js.native
   var standardDerivatives: Boolean = js.native
-//  var s3tc: WEBGL_compressed_texture_s3tc = js.native
+//   var s3tc: WEBGL_compressed_texture_s3tc = js.native
   var pvrtc: js.Any = js.native
   var etc1: js.Any = js.native
   var etc2: js.Any = js.native
   var astc: js.Any = js.native
   var textureFloat: Boolean = js.native
   var vertexArrayObject: Boolean = js.native
-//  var textureAnisotropicFilterExtension: EXT_texture_filter_anisotropic = js.native
+//   var textureAnisotropicFilterExtension: EXT_texture_filter_anisotropic = js.native
   var maxAnisotropy: Double = js.native
   var instancedArrays: Boolean = js.native
   var uintIndices: Boolean = js.native
@@ -80,7 +76,7 @@ trait EngineOptions extends WebGLContextAttributes {
 
 @js.native
 @JSGlobal("BABYLON.Engine")
-class Engine protected () extends js.Object {
+class Engine extends js.Object {
   def this(canvas: HTMLCanvasElement, antialias: Boolean = ???, options: EngineOptions = ???, adaptToDeviceRatio: Boolean = ???) = this()
   var isFullscreen: Boolean = js.native
   var isPointerLock: Boolean = js.native
@@ -92,10 +88,8 @@ class Engine protected () extends js.Object {
   var onResizeObservable: Observable[Engine] = js.native
   var onCanvasBlurObservable: Observable[Engine] = js.native
   var vrDisplaysPromise: js.Any = js.native
-  var _gl: WebGLRenderingContext = js.native
   def badOS: Boolean = js.native
   def badDesktopOS: Boolean = js.native
-  var _drawCalls: PerfCounter = js.native
   def texturesSupported: js.Array[String] = js.native
   def textureFormatInUse: String = js.native
   def emptyTexture: WebGLTexture = js.native
@@ -139,7 +133,6 @@ class Engine protected () extends js.Object {
   def setStencilOperationPass(operation: Double): Unit = js.native
   def setDitheringState(value: Boolean): Unit = js.native
   def stopRenderLoop(renderFunction: js.Function0[Unit] = ???): Unit = js.native
-  def _renderLoop(): Unit = js.native
   def runRenderLoop(renderFunction: js.Function0[Unit]): Unit = js.native
   def switchFullscreen(requestPointerLock: Boolean): Unit = js.native
   def clear(color: Color4, backBuffer: Boolean, depth: Boolean, stencil: Boolean = ???): Unit = js.native
@@ -178,7 +171,6 @@ class Engine protected () extends js.Object {
   def bindBuffers(vertexBuffers: js.Dictionary[VertexBuffer], indexBuffer: WebGLBuffer, effect: Effect): Unit = js.native
   def unbindInstanceAttributes(): Unit = js.native
   def releaseVertexArrayObject(vao: WebGLVertexArrayObject): Unit = js.native
-  def _releaseBuffer(buffer: WebGLBuffer): Boolean = js.native
   def createInstancesBuffer(capacity: Double): WebGLBuffer = js.native
   def deleteInstancesBuffer(buffer: WebGLBuffer): Unit = js.native
   def updateAndBindInstancesBuffer(instancesBuffer: WebGLBuffer, data: Float32Array, offsetLocations: js.Array[Double] | js.Array[InstancingAttributeInfo]): Unit = js.native
@@ -186,7 +178,6 @@ class Engine protected () extends js.Object {
   def draw(useTriangles: Boolean, indexStart: Double, indexCount: Double, instancesCount: Double = ???): Unit = js.native
   def drawPointClouds(verticesStart: Double, verticesCount: Double, instancesCount: Double = ???): Unit = js.native
   def drawUnIndexed(useTriangles: Boolean, verticesStart: Double, verticesCount: Double, instancesCount: Double = ???): Unit = js.native
-  def _releaseEffect(effect: Effect): Unit = js.native
   def createEffect(baseName: js.Any, attributesNamesOrOptions: js.Array[String] | EffectCreationOptions, uniformsNamesOrEngine: js.Array[String] | Engine, samplers: js.Array[String] = ???, defines: String = ???, fallbacks: EffectFallbacks = ???, onCompiled: js.Function1[Effect, Unit] = ???, onError: js.Function2[Effect, String, Unit] = ???, indexParameters: js.Any = ???): Effect = js.native
   def createEffectForParticles(fragmentName: String, uniformsNames: js.Array[String] = ???, samplers: js.Array[String] = ???, defines: String = ???, fallbacks: EffectFallbacks = ???, onCompiled: js.Function1[Effect, Unit] = ???, onError: js.Function2[Effect, String, Unit] = ???): Effect = js.native
   def createShaderProgram(vertexCode: String, fragmentCode: String, defines: String, context: WebGLRenderingContext = ???): WebGLProgram = js.native
@@ -240,8 +231,6 @@ class Engine protected () extends js.Object {
   def createRenderTargetTexture(size: js.Any, options: js.Any): WebGLTexture = js.native
   def createMultipleRenderTarget(size: js.Any, options: js.Any): js.Array[WebGLTexture] = js.native
   def updateRenderTargetTextureSampleCount(texture: WebGLTexture, samples: Double): Double = js.native
-  def _uploadDataToTexture(target: Double, lod: Double, internalFormat: Double, width: Double, height: Double, format: Double, `type`: Double, data: ArrayBufferView): Unit = js.native
-  def _uploadCompressedDataToTexture(target: Double, lod: Double, internalFormat: Double, width: Double, height: Double, data: ArrayBufferView): Unit = js.native
   def createRenderTargetCubeTexture(size: Double, options: js.Any = ???): WebGLTexture = js.native
   def createPrefilteredCubeTexture(rootUrl: String, scene: Scene, scale: Double, offset: Double, onLoad: js.Function0[Unit], onError: js.Function0[Unit] = ???, format: Double = ???): WebGLTexture = js.native
   def createCubeTexture(rootUrl: String, scene: Scene, files: js.Array[String], noMipmap: Boolean = ???, onLoad: js.Function1[js.Any, Unit] = ???, onError: js.Function0[Unit] = ???, format: Double = ???): WebGLTexture = js.native
@@ -249,16 +238,11 @@ class Engine protected () extends js.Object {
   def updateRawCubeTexture(texture: WebGLTexture, data: js.Array[ArrayBufferView], format: Double, `type`: Double, invertY: Boolean, compression: String = ???, level: Double = ???): Unit = js.native
   def createRawCubeTexture(data: js.Array[ArrayBufferView], size: Double, format: Double, `type`: Double, generateMipMaps: Boolean, invertY: Boolean, samplingMode: Double, compression: String = ???): WebGLTexture = js.native
   def createRawCubeTextureFromUrl(url: String, scene: Scene, size: Double, format: Double, `type`: Double, noMipmap: Boolean, callback: js.Function1[ArrayBuffer, js.Array[ArrayBufferView]], mipmmapGenerator: js.Function1[js.Array[ArrayBufferView], js.Array[js.Array[ArrayBufferView]]], onLoad: js.Function0[Unit] = ???, onError: js.Function0[Unit] = ???, samplingMode: Double = ???, invertY: Boolean = ???): WebGLTexture = js.native
-  def _releaseFramebufferObjects(texture: WebGLTexture): Unit = js.native
-  def _releaseTexture(texture: WebGLTexture): Unit = js.native
   def bindSamplers(effect: Effect): Unit = js.native
-  def _bindTextureDirectly(target: Double, texture: WebGLTexture): Unit = js.native
-  def _bindTexture(channel: Double, texture: WebGLTexture): Unit = js.native
   def setTextureFromPostProcess(channel: Double, postProcess: PostProcess): Unit = js.native
   def unbindAllTextures(): Unit = js.native
   def setTexture(channel: Double, uniform: WebGLUniformLocation, texture: BaseTexture): Unit = js.native
   def setTextureArray(channel: Double, uniform: WebGLUniformLocation, textures: js.Array[BaseTexture]): Unit = js.native
-  def _setAnisotropicLevel(key: Double, texture: BaseTexture): Unit = js.native
   def readPixels(x: Double, y: Double, width: Double, height: Double): Uint8Array = js.native
   def addExternalData[T](key: String, data: T): Boolean = js.native
   def getExternalData[T](key: String): T = js.native
@@ -273,16 +257,13 @@ class Engine protected () extends js.Object {
   var loadingScreen: ILoadingScreen = js.native
   var loadingUIText: String = js.native
   var loadingUIBackgroundColor: String = js.native
-//  def attachContextLostEvent(callback: js.Function1[WebGLContextEvent, Unit]): Unit = js.native
-//  def attachContextRestoredEvent(callback: js.Function1[WebGLContextEvent, Unit]): Unit = js.native
+//   def attachContextLostEvent(callback: js.Function1[WebGLContextEvent, Unit]): Unit = js.native
+//   def attachContextRestoredEvent(callback: js.Function1[WebGLContextEvent, Unit]): Unit = js.native
   def getVertexShaderSource(program: WebGLProgram): String = js.native
   def getFragmentShaderSource(program: WebGLProgram): String = js.native
   def getError(): Double = js.native
   def getFps(): Double = js.native
   def getDeltaTime(): Double = js.native
-  def _readTexturePixels(texture: WebGLTexture, width: Double, height: Double, faceIndex: Double = ???): ArrayBufferView = js.native
-  def _getWebGLTextureType(`type`: Double): Double = js.native
-  def _getRGBABufferInternalSizedFormat(`type`: Double): Double = js.native
 }
 
 @js.native
@@ -343,7 +324,7 @@ object Engine extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Node")
-class Node protected () extends js.Object {
+class Node extends js.Object {
   def this(name: String, scene: Scene) = this()
   var name: String = js.native
   var id: String = js.native
@@ -353,9 +334,6 @@ class Node protected () extends js.Object {
   var doNotSerialize: Boolean = js.native
   var animations: js.Array[Animation] = js.native
   var onReady: js.Function1[Node, Unit] = js.native
-  var _currentRenderId: Double = js.native
-  var _waitingParentId: String = js.native
-  var _cache: js.Any = js.native
   var parent: Node = js.native
   def getClassName(): String = js.native
   var onDisposeObservable: Observable[Node] = js.native
@@ -363,11 +341,7 @@ class Node protected () extends js.Object {
   def getScene(): Scene = js.native
   def getEngine(): Engine = js.native
   def getWorldMatrix(): Matrix = js.native
-  def _initCache(): Unit = js.native
   def updateCache(force: Boolean = ???): Unit = js.native
-  def _updateCache(ignoreParentClass: Boolean = ???): Unit = js.native
-  def _isSynchronized(): Boolean = js.native
-  def _markSyncedWithParent(): Unit = js.native
   def isSynchronizedWithParent(): Boolean = js.native
   def isSynchronized(updateCache: Boolean = ???): Boolean = js.native
   def hasNewParent(update: Boolean = ???): Boolean = js.native
@@ -375,11 +349,9 @@ class Node protected () extends js.Object {
   def isEnabled(): Boolean = js.native
   def setEnabled(value: Boolean): Unit = js.native
   def isDescendantOf(ancestor: Node): Boolean = js.native
-  def _getDescendants(results: js.Array[Node], directDescendantsOnly: Boolean = ???, predicate: js.Function1[Node, Boolean] = ???): Unit = js.native
   def getDescendants(directDescendantsOnly: Boolean = ???, predicate: js.Function1[Node, Boolean] = ???): js.Array[Node] = js.native
   def getChildMeshes(directDecendantsOnly: Boolean = ???, predicate: js.Function1[Node, Boolean] = ???): js.Array[AbstractMesh] = js.native
   def getChildren(predicate: js.Function1[Node, Boolean] = ???): js.Array[Node] = js.native
-  def _setReady(state: Boolean): Unit = js.native
   def getAnimationByName(name: String): Animation = js.native
   def createAnimationRange(name: String, from: Double, to: Double): Unit = js.native
   def deleteAnimationRange(name: String, deleteFrames: Boolean = ???): Unit = js.native
@@ -408,13 +380,6 @@ class PointerEventTypes extends js.Object {
 @js.native
 @JSGlobal("BABYLON.PointerEventTypes")
 object PointerEventTypes extends js.Object {
-  var _POINTERDOWN: Double = js.native
-  var _POINTERUP: Double = js.native
-  var _POINTERMOVE: Double = js.native
-  var _POINTERWHEEL: Double = js.native
-  var _POINTERPICK: Double = js.native
-  var _POINTERTAP: Double = js.native
-  var _POINTERDOUBLETAP: Double = js.native
   def POINTERDOWN: Double = js.native
   def POINTERUP: Double = js.native
   def POINTERMOVE: Double = js.native
@@ -426,7 +391,7 @@ object PointerEventTypes extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PointerInfoBase")
-class PointerInfoBase protected () extends js.Object {
+class PointerInfoBase extends js.Object {
   def this(`type`: Double, event: PointerEvent | MouseWheelEvent) = this()
   var `type`: Double = js.native
   var event: PointerEvent | MouseWheelEvent = js.native
@@ -434,7 +399,7 @@ class PointerInfoBase protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PointerInfoPre")
-class PointerInfoPre protected () extends PointerInfoBase {
+class PointerInfoPre extends PointerInfoBase {
   def this(`type`: Double, event: PointerEvent | MouseWheelEvent, localX: js.Any, localY: js.Any) = this()
   var localPosition: Vector2 = js.native
   var skipOnPointerObservable: Boolean = js.native
@@ -442,7 +407,7 @@ class PointerInfoPre protected () extends PointerInfoBase {
 
 @js.native
 @JSGlobal("BABYLON.PointerInfo")
-class PointerInfo protected () extends PointerInfoBase {
+class PointerInfo extends PointerInfoBase {
   def this(`type`: Double, event: PointerEvent | MouseWheelEvent, pickInfo: PickingInfo) = this()
   var pickInfo: PickingInfo = js.native
 }
@@ -467,13 +432,12 @@ object RenderingGroupInfo extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Scene")
-class Scene protected () extends IAnimatable {
+class Scene extends IAnimatable {
   def this(engine: Engine) = this()
   var autoClear: Boolean = js.native
   var autoClearDepthAndStencil: Boolean = js.native
   var clearColor: Color4 = js.native
   var ambientColor: Color3 = js.native
-  var _environmentBRDFTexture: BaseTexture = js.native
   protected var _environmentTexture: BaseTexture = js.native
   var environmentTexture: BaseTexture = js.native
   protected var _imageProcessingConfiguration: ImageProcessingConfiguration = js.native
@@ -506,7 +470,7 @@ class Scene protected () extends IAnimatable {
   var onNewMeshAddedObservable: Observable[AbstractMesh] = js.native
   var onMeshRemovedObservable: Observable[AbstractMesh] = js.native
   var onRenderingGroupObservable: Observable[RenderingGroupInfo] = js.native
-  override var animations: js.Array[Animation] = js.native
+
   var pointerDownPredicate: js.Function1[AbstractMesh, Boolean] = js.native
   var pointerUpPredicate: js.Function1[AbstractMesh, Boolean] = js.native
   var pointerMovePredicate: js.Function1[AbstractMesh, Boolean] = js.native
@@ -518,7 +482,6 @@ class Scene protected () extends IAnimatable {
   var onPointerObservable: Observable[PointerInfo] = js.native
   def unTranslatedPointer: Vector2 = js.native
   var cameraToUseForPointers: Camera = js.native
-  var _mirroredCameraPosition: Vector3 = js.native
   var useRightHandedSystem: Boolean = js.native
   var fogEnabled: Boolean = js.native
   var fogMode: Double = js.native
@@ -564,24 +527,11 @@ class Scene protected () extends IAnimatable {
   var reflectionProbes: js.Array[ReflectionProbe] = js.native
   var database: js.Any = js.native
   var actionManager: ActionManager = js.native
-  var _actionManagers: js.Array[ActionManager] = js.native
   var proceduralTexturesEnabled: Boolean = js.native
-  var _proceduralTextures: js.Array[ProceduralTexture] = js.native
   var mainSoundTrack: SoundTrack = js.native
   var soundTracks: js.Array[SoundTrack] = js.native
   var simplificationQueue: SimplificationQueue = js.native
-  var _activeIndices: PerfCounter = js.native
-  var _activeParticles: PerfCounter = js.native
-  var _particlesDuration: PerfCounter = js.native
-  var _spritesDuration: PerfCounter = js.native
-  var _activeBones: PerfCounter = js.native
   var animationTimeScale: Double = js.native
-  var _cachedMaterial: Material = js.native
-  var _cachedEffect: Effect = js.native
-  var _cachedVisibility: Double = js.native
-  var _toBeDisposed: SmartArray[IDisposable] = js.native
-  var _activeParticleSystems: SmartArray[ParticleSystem] = js.native
-  var _activeAnimatables: js.Array[Animatable] = js.native
   def frustumPlanes: js.Array[Plane] = js.native
   var requireLightSorting: Boolean = js.native
   def debugLayer: DebugLayer = js.native
@@ -628,11 +578,8 @@ class Scene protected () extends IAnimatable {
   def unregisterBeforeRender(func: js.Function0[Unit]): Unit = js.native
   def registerAfterRender(func: js.Function0[Unit]): Unit = js.native
   def unregisterAfterRender(func: js.Function0[Unit]): Unit = js.native
-  def _addPendingData(data: js.Any): Unit = js.native
-  def _removePendingData(data: js.Any): Unit = js.native
   def getWaitingItemsCount(): Double = js.native
   def executeWhenReady(func: js.Function0[Unit]): Unit = js.native
-  def _checkIsReady(): Unit = js.native
   def beginAnimation(target: js.Any, from: Double, to: Double, loop: Boolean = ???, speedRatio: Double = ???, onAnimationEnd: js.Function0[Unit] = ???, animatable: Animatable = ???): Animatable = js.native
   def beginDirectAnimation(target: js.Any, animations: js.Array[Animation], from: Double, to: Double, loop: Boolean = ???, speedRatio: Double = ???, onAnimationEnd: js.Function0[Unit] = ???): Animatable = js.native
   def getAnimatableByTarget(target: js.Any): Animatable = js.native
@@ -693,7 +640,6 @@ class Scene protected () extends IAnimatable {
   def getExternalData[T](key: String): T = js.native
   def getOrAddExternalDataWithFactory[T](key: String, factory: js.Function1[String, T]): T = js.native
   def removeExternalData(key: js.Any): Boolean = js.native
-  def _isInIntermediateRendering(): Boolean = js.native
   def updateTransformMatrix(force: Boolean = ???): Unit = js.native
   def render(): Unit = js.native
   var audioEnabled: Boolean = js.native
@@ -753,33 +699,25 @@ object Scene extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Action")
-class Action protected () extends js.Object {
+class Action extends js.Object {
   def this(triggerOptions: js.Any, condition: Condition = ???) = this()
   var triggerOptions: js.Any = js.native
   var trigger: Double = js.native
-  var _actionManager: ActionManager = js.native
-  def _prepare(): Unit = js.native
   def getTriggerParameter(): js.Dynamic = js.native
-  def _executeCurrent(evt: ActionEvent): Unit = js.native
   def execute(evt: ActionEvent): Unit = js.native
   def skipToNextActiveAction(): Unit = js.native
   def `then`(action: Action): Action = js.native
-  def _getProperty(propertyPath: String): String = js.native
-  def _getEffectiveTarget(target: js.Any, propertyPath: String): js.Dynamic = js.native
   def serialize(parent: js.Any): js.Dynamic = js.native
-  def _serialize(serializedAction: js.Any, parent: js.Any = ???): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Action")
 object Action extends js.Object {
-  var _SerializeValueAsString: js.Function1[js.Any, String] = js.native
-  var _GetTargetProperty: js.Function1[Scene | Node, js.Any] = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.ActionEvent")
-class ActionEvent protected () extends js.Object {
+class ActionEvent extends js.Object {
   def this(source: js.Any, pointerX: Double, pointerY: Double, meshUnderPointer: AbstractMesh, sourceEvent: js.Any = ???, additionalData: js.Any = ???) = this()
   var source: js.Any = js.native
   var pointerX: Double = js.native
@@ -800,7 +738,7 @@ object ActionEvent extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.ActionManager")
-class ActionManager protected () extends js.Object {
+class ActionManager extends js.Object {
   def this(scene: Scene) = this()
   var actions: js.Array[Action] = js.native
   var hoverCursor: String = js.native
@@ -812,8 +750,6 @@ class ActionManager protected () extends js.Object {
   def hasPickTriggers: Boolean = js.native
   def registerAction(action: Action): Action = js.native
   def processTrigger(trigger: Double, evt: ActionEvent): Unit = js.native
-  def _getEffectiveTarget(target: js.Any, propertyPath: String): js.Dynamic = js.native
-  def _getProperty(propertyPath: String): String = js.native
   def serialize(name: String): js.Dynamic = js.native
 }
 
@@ -846,26 +782,19 @@ object ActionManager extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Condition")
-class Condition protected () extends js.Object {
+class Condition extends js.Object {
   def this(actionManager: ActionManager) = this()
-  var _actionManager: ActionManager = js.native
-  var _evaluationId: Double = js.native
-  var _currentResult: Boolean = js.native
   def isValid(): Boolean = js.native
-  def _getProperty(propertyPath: String): String = js.native
-  def _getEffectiveTarget(target: js.Any, propertyPath: String): js.Dynamic = js.native
   def serialize(): js.Dynamic = js.native
-  def _serialize(serializedCondition: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.ValueCondition")
-class ValueCondition protected () extends Condition {
+class ValueCondition extends Condition {
   def this(actionManager: ActionManager, target: js.Any, propertyPath: String, value: js.Any, operator: Double = ???) = this()
   var propertyPath: String = js.native
   var value: js.Any = js.native
   var operator: Double = js.native
-  override var _actionManager: ActionManager = js.native
   override def isValid(): Boolean = js.native
   override def serialize(): js.Dynamic = js.native
 }
@@ -882,36 +811,33 @@ object ValueCondition extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PredicateCondition")
-class PredicateCondition protected () extends Condition {
+class PredicateCondition extends Condition {
   def this(actionManager: ActionManager, predicate: js.Function0[Boolean]) = this()
   var predicate: js.Function0[Boolean] = js.native
-  override var _actionManager: ActionManager = js.native
   override def isValid(): Boolean = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.StateCondition")
-class StateCondition protected () extends Condition {
+class StateCondition extends Condition {
   def this(actionManager: ActionManager, target: js.Any, value: String) = this()
   var value: String = js.native
-  override var _actionManager: ActionManager = js.native
   override def isValid(): Boolean = js.native
   override def serialize(): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.SwitchBooleanAction")
-class SwitchBooleanAction protected () extends Action {
+class SwitchBooleanAction extends Action {
   def this(triggerOptions: js.Any, target: js.Any, propertyPath: String, condition: Condition = ???) = this()
   var propertyPath: String = js.native
-  override def _prepare(): Unit = js.native
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.SetStateAction")
-class SetStateAction protected () extends Action {
+class SetStateAction extends Action {
   def this(triggerOptions: js.Any, target: js.Any, value: String, condition: Condition = ???) = this()
   var value: String = js.native
   def execute(): Unit = js.native
@@ -920,50 +846,46 @@ class SetStateAction protected () extends Action {
 
 @js.native
 @JSGlobal("BABYLON.SetValueAction")
-class SetValueAction protected () extends Action {
+class SetValueAction extends Action {
   def this(triggerOptions: js.Any, target: js.Any, propertyPath: String, value: js.Any, condition: Condition = ???) = this()
   var propertyPath: String = js.native
   var value: js.Any = js.native
-  override def _prepare(): Unit = js.native
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.IncrementValueAction")
-class IncrementValueAction protected () extends Action {
+class IncrementValueAction extends Action {
   def this(triggerOptions: js.Any, target: js.Any, propertyPath: String, value: js.Any, condition: Condition = ???) = this()
   var propertyPath: String = js.native
   var value: js.Any = js.native
-  override def _prepare(): Unit = js.native
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.PlayAnimationAction")
-class PlayAnimationAction protected () extends Action {
+class PlayAnimationAction extends Action {
   def this(triggerOptions: js.Any, target: js.Any, from: Double, to: Double, loop: Boolean = ???, condition: Condition = ???) = this()
   var from: Double = js.native
   var to: Double = js.native
   var loop: Boolean = js.native
-  override def _prepare(): Unit = js.native
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.StopAnimationAction")
-class StopAnimationAction protected () extends Action {
+class StopAnimationAction extends Action {
   def this(triggerOptions: js.Any, target: js.Any, condition: Condition = ???) = this()
-  override def _prepare(): Unit = js.native
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.DoNothingAction")
-class DoNothingAction protected () extends Action {
+class DoNothingAction extends Action {
   def this(triggerOptions: js.Any = ???, condition: Condition = ???) = this()
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
@@ -971,17 +893,16 @@ class DoNothingAction protected () extends Action {
 
 @js.native
 @JSGlobal("BABYLON.CombineAction")
-class CombineAction protected () extends Action {
+class CombineAction extends Action {
   def this(triggerOptions: js.Any, children: js.Array[Action], condition: Condition = ???) = this()
   var children: js.Array[Action] = js.native
-  override def _prepare(): Unit = js.native
   override def execute(evt: ActionEvent): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.ExecuteCodeAction")
-class ExecuteCodeAction protected () extends Action {
+class ExecuteCodeAction extends Action {
   def this(triggerOptions: js.Any, func: js.Function1[ActionEvent, Unit], condition: Condition = ???) = this()
   var func: js.Function1[ActionEvent, Unit] = js.native
   override def execute(evt: ActionEvent): Unit = js.native
@@ -989,48 +910,44 @@ class ExecuteCodeAction protected () extends Action {
 
 @js.native
 @JSGlobal("BABYLON.SetParentAction")
-class SetParentAction protected () extends Action {
+class SetParentAction extends Action {
   def this(triggerOptions: js.Any, target: js.Any, parent: js.Any, condition: Condition = ???) = this()
-  override def _prepare(): Unit = js.native
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.PlaySoundAction")
-class PlaySoundAction protected () extends Action {
+class PlaySoundAction extends Action {
   def this(triggerOptions: js.Any, sound: Sound, condition: Condition = ???) = this()
-  override def _prepare(): Unit = js.native
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.StopSoundAction")
-class StopSoundAction protected () extends Action {
+class StopSoundAction extends Action {
   def this(triggerOptions: js.Any, sound: Sound, condition: Condition = ???) = this()
-  override def _prepare(): Unit = js.native
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.InterpolateValueAction")
-class InterpolateValueAction protected () extends Action {
+class InterpolateValueAction extends Action {
   def this(triggerOptions: js.Any, target: js.Any, propertyPath: String, value: js.Any, duration: Double = ???, condition: Condition = ???, stopOtherAnimations: Boolean = ???, onInterpolationDone: js.Function0[Unit] = ???) = this()
   var propertyPath: String = js.native
   var value: js.Any = js.native
   var duration: Double = js.native
   var stopOtherAnimations: Boolean = js.native
   var onInterpolationDone: js.Function0[Unit] = js.native
-  override def _prepare(): Unit = js.native
   def execute(): Unit = js.native
   override def serialize(parent: js.Any): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Animatable")
-class Animatable protected () extends js.Object {
+class Animatable extends js.Object {
   def this(scene: Scene, target: js.Any, fromFrame: Double = ???, toFrame: Double = ???, loopAnimation: Boolean = ???, speedRatio: Double = ???, onAnimationEnd: js.Any = ???, animations: js.Any = ???) = this()
   var target: js.Any = js.native
   var fromFrame: Double = js.native
@@ -1049,12 +966,11 @@ class Animatable protected () extends js.Object {
   def pause(): Unit = js.native
   def restart(): Unit = js.native
   def stop(animationName: String = ???): Unit = js.native
-  def _animate(delay: Double): Boolean = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.AnimationRange")
-class AnimationRange protected () extends js.Object {
+class AnimationRange extends js.Object {
   def this(name: String, from: Double, to: Double) = this()
   var name: String = js.native
   var from: Double = js.native
@@ -1064,7 +980,7 @@ class AnimationRange protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.AnimationEvent")
-class AnimationEvent protected () extends js.Object {
+class AnimationEvent extends js.Object {
   def this(frame: Double, action: js.Function0[Unit], onlyOnce: Boolean = ???) = this()
   var frame: Double = js.native
   var action: js.Function0[Unit] = js.native
@@ -1074,7 +990,7 @@ class AnimationEvent protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PathCursor")
-class PathCursor protected () extends js.Object {
+class PathCursor extends js.Object {
   def this(path: Path2) = this()
   var value: Double = js.native
   var animations: js.Array[Animation] = js.native
@@ -1087,7 +1003,7 @@ class PathCursor protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Animation")
-class Animation protected () extends js.Object {
+class Animation extends js.Object {
   def this(name: String, targetProperty: String, framePerSecond: Double, dataType: Double, loopMode: Double = ???, enableBlending: Boolean = ???) = this()
   var name: String = js.native
   var targetProperty: String = js.native
@@ -1095,7 +1011,6 @@ class Animation protected () extends js.Object {
   var dataType: Double = js.native
   var loopMode: Double = js.native
   var enableBlending: Boolean = js.native
-  var _target: js.Any = js.native
   var targetPropertyPath: js.Array[String] = js.native
   var currentFrame: Double = js.native
   var allowMatricesInterpolation: Boolean = js.native
@@ -1134,7 +1049,6 @@ class Animation protected () extends js.Object {
 @js.native
 @JSGlobal("BABYLON.Animation")
 object Animation extends js.Object {
-  def _PrepareAnimation(name: String, targetProperty: String, framePerSecond: Double, totalFrame: Double, from: js.Any, to: js.Any, loopMode: Double = ???, easingFunction: EasingFunction = ???): Animation = js.native
   def CreateAndStartAnimation(name: String, node: Node, targetProperty: String, framePerSecond: Double, totalFrame: Double, from: js.Any, to: js.Any, loopMode: Double = ???, easingFunction: EasingFunction = ???, onAnimationEnd: js.Function0[Unit] = ???): Animatable = js.native
   def CreateMergeAndStartAnimation(name: String, node: Node, targetProperty: String, framePerSecond: Double, totalFrame: Double, from: js.Any, to: js.Any, loopMode: Double = ???, easingFunction: EasingFunction = ???, onAnimationEnd: js.Function0[Unit] = ???): Animatable = js.native
   def ANIMATIONTYPE_FLOAT: Double = js.native
@@ -1181,7 +1095,7 @@ class CircleEase extends EasingFunction with IEasingFunction {
 
 @js.native
 @JSGlobal("BABYLON.BackEase")
-class BackEase protected () extends EasingFunction with IEasingFunction {
+class BackEase extends EasingFunction with IEasingFunction {
   def this(amplitude: Double = ???) = this()
   var amplitude: Double = js.native
   override def easeInCore(gradient: Double): Double = js.native
@@ -1189,7 +1103,7 @@ class BackEase protected () extends EasingFunction with IEasingFunction {
 
 @js.native
 @JSGlobal("BABYLON.BounceEase")
-class BounceEase protected () extends EasingFunction with IEasingFunction {
+class BounceEase extends EasingFunction with IEasingFunction {
   def this(bounces: Double = ???, bounciness: Double = ???) = this()
   var bounces: Double = js.native
   var bounciness: Double = js.native
@@ -1204,7 +1118,7 @@ class CubicEase extends EasingFunction with IEasingFunction {
 
 @js.native
 @JSGlobal("BABYLON.ElasticEase")
-class ElasticEase protected () extends EasingFunction with IEasingFunction {
+class ElasticEase extends EasingFunction with IEasingFunction {
   def this(oscillations: Double = ???, springiness: Double = ???) = this()
   var oscillations: Double = js.native
   var springiness: Double = js.native
@@ -1213,7 +1127,7 @@ class ElasticEase protected () extends EasingFunction with IEasingFunction {
 
 @js.native
 @JSGlobal("BABYLON.ExponentialEase")
-class ExponentialEase protected () extends EasingFunction with IEasingFunction {
+class ExponentialEase extends EasingFunction with IEasingFunction {
   def this(exponent: Double = ???) = this()
   var exponent: Double = js.native
   override def easeInCore(gradient: Double): Double = js.native
@@ -1221,7 +1135,7 @@ class ExponentialEase protected () extends EasingFunction with IEasingFunction {
 
 @js.native
 @JSGlobal("BABYLON.PowerEase")
-class PowerEase protected () extends EasingFunction with IEasingFunction {
+class PowerEase extends EasingFunction with IEasingFunction {
   def this(power: Double = ???) = this()
   var power: Double = js.native
   override def easeInCore(gradient: Double): Double = js.native
@@ -1253,7 +1167,7 @@ class SineEase extends EasingFunction with IEasingFunction {
 
 @js.native
 @JSGlobal("BABYLON.BezierCurveEase")
-class BezierCurveEase protected () extends EasingFunction with IEasingFunction {
+class BezierCurveEase extends EasingFunction with IEasingFunction {
   def this(x1: Double = ???, y1: Double = ???, x2: Double = ???, y2: Double = ???) = this()
   var x1: Double = js.native
   var y1: Double = js.native
@@ -1264,7 +1178,7 @@ class BezierCurveEase protected () extends EasingFunction with IEasingFunction {
 
 @js.native
 @JSGlobal("BABYLON.Analyser")
-class Analyser protected () extends js.Object {
+class Analyser extends js.Object {
   def this(scene: Scene) = this()
   var SMOOTHING: Double = js.native
   var FFT_SIZE: Double = js.native
@@ -1300,7 +1214,7 @@ class AudioEngine extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Sound")
-class Sound protected () extends js.Object {
+class Sound extends js.Object {
   def this(name: String, urlOrArrayBuffer: js.Any, scene: Scene, readyToPlayCallback: js.Function0[Unit] = ???, options: js.Any = ???) = this()
   var name: String = js.native
   var autoplay: Boolean = js.native
@@ -1348,7 +1262,7 @@ object Sound extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.SoundTrack")
-class SoundTrack protected () extends js.Object {
+class SoundTrack extends js.Object {
   def this(scene: Scene, options: js.Any = ???) = this()
   var id: Double = js.native
   var soundCollection: js.Array[Sound] = js.native
@@ -1363,13 +1277,12 @@ class SoundTrack protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Bone")
-class Bone protected () extends Node {
+class Bone extends Node {
   def this(name: String, skeleton: Skeleton, parentBone: Bone = ???, matrix: Matrix = ???, restPose: Matrix = ???) = this()
-  override var name: String = js.native
+
   var children: js.Array[Bone] = js.native
-  override var animations: js.Array[Animation] = js.native
+
   var length: Double = js.native
-  var _matrix: Matrix = js.native
   def getSkeleton(): Skeleton = js.native
   def getParent(): Bone = js.native
   def setParent(parent: Bone, updateDifferenceMatrix: Boolean = ???): Unit = js.native
@@ -1385,7 +1298,6 @@ class Bone protected () extends Node {
   var rotationQuaternion: Quaternion = js.native
   var scaling: Vector3 = js.native
   def updateMatrix(matrix: Matrix, updateDifferenceMatrix: Boolean = ???): Unit = js.native
-  def _updateDifferenceMatrix(rootMatrix: Matrix = ???): Unit = js.native
   def markAsDirty(): Unit = js.native
   def copyAnimationRange(source: Bone, rangeName: String, frameOffset: Double, rescaleAsRequired: Boolean = ???, skelDimensionsRatio: Vector3 = ???): Boolean = js.native
   def translate(vec: Vector3, space: Space = ???, mesh: AbstractMesh = ???): Unit = js.native
@@ -1422,7 +1334,7 @@ class Bone protected () extends Node {
 
 @js.native
 @JSGlobal("BABYLON.BoneIKController")
-class BoneIKController protected () extends js.Object {
+class BoneIKController extends js.Object {
   def this(mesh: AbstractMesh, bone: Bone, options: js.Any = ???) = this()
   var targetMesh: AbstractMesh = js.native
   var poleTargetMesh: AbstractMesh = js.native
@@ -1439,7 +1351,7 @@ class BoneIKController protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.BoneLookController")
-class BoneLookController protected () extends js.Object {
+class BoneLookController extends js.Object {
   def this(mesh: AbstractMesh, bone: Bone, target: Vector3, options: js.Any = ???) = this()
   var target: Vector3 = js.native
   var mesh: AbstractMesh = js.native
@@ -1459,7 +1371,7 @@ class BoneLookController protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Skeleton")
-class Skeleton protected () extends js.Object {
+class Skeleton extends js.Object {
   def this(name: String, id: String, scene: Scene) = this()
   var name: String = js.native
   var id: String = js.native
@@ -1478,10 +1390,6 @@ class Skeleton protected () extends js.Object {
   def copyAnimationRange(source: Skeleton, name: String, rescaleAsRequired: Boolean = ???): Boolean = js.native
   def returnToRest(): Unit = js.native
   def beginAnimation(name: String, loop: Boolean = ???, speedRatio: Double = ???, onAnimationEnd: js.Function0[Unit] = ???): Animatable = js.native
-  def _markAsDirty(): Unit = js.native
-  def _registerMeshWithPoseMatrix(mesh: AbstractMesh): Unit = js.native
-  def _unregisterMeshWithPoseMatrix(mesh: AbstractMesh): Unit = js.native
-  def _computeTransformMatrices(targetMatrix: Float32Array, initialSkinMatrix: Matrix): Unit = js.native
   def prepare(): Unit = js.native
   def getAnimatables(): js.Array[IAnimatable] = js.native
   def clone(name: String, id: String): Skeleton = js.native
@@ -1500,7 +1408,7 @@ object Skeleton extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.ArcRotateCamera")
-class ArcRotateCamera protected () extends TargetCamera {
+class ArcRotateCamera extends TargetCamera {
   def this(name: String, alpha: Double, beta: Double, radius: Double, target: Vector3, scene: Scene) = this()
   var alpha: Double = js.native
   var beta: Double = js.native
@@ -1532,11 +1440,7 @@ class ArcRotateCamera protected () extends TargetCamera {
   var zoomOnFactor: Double = js.native
   var targetScreenOffset: Vector2 = js.native
   var allowUpsideDown: Boolean = js.native
-  override var _viewMatrix: Matrix = js.native
-  var _useCtrlForPanning: Boolean = js.native
-  var _panningMouseButton: Double = js.native
-  override var inputs: ArcRotateCameraInputsManager = js.native
-  override var _reset: js.Function0[Unit] = js.native
+
   var panningAxis: Vector3 = js.native
   protected var _localDirection: Vector3 = js.native
   protected var _transformedDirection: Vector3 = js.native
@@ -1552,30 +1456,21 @@ class ArcRotateCamera protected () extends TargetCamera {
   protected var _previousRadius: Double = js.native
   protected var _collisionTriggered: Boolean = js.native
   protected var _targetBoundingCenter: Vector3 = js.native
-  override def _initCache(): Unit = js.native
-  override def _updateCache(ignoreParentClass: Boolean = ???): Unit = js.native
-  def _getTargetPosition(): Vector3 = js.native
-  override def _isSynchronizedViewMatrix(): Boolean = js.native
-  def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???, useCtrlForPanning: Boolean = ???, panningMouseButton: Double = ???): Unit = js.native
   override def detachControl(element: HTMLElement): Unit = js.native
-  override def _checkInputs(): Unit = js.native
-  def _checkLimits(): Unit = js.native
   def rebuildAnglesAndRadius(): Unit = js.native
   def setPosition(position: Vector3): Unit = js.native
   def setTarget(target: AbstractMesh | Vector3, toBoundingCenter: Boolean = ???, allowSamePosition: Boolean = ???): Unit = js.native
-  override def _getViewMatrix(): Matrix = js.native
   protected var _onCollisionPositionChange: js.Function3[Double, Vector3, AbstractMesh, Unit] = js.native
   def zoomOn(meshes: js.Array[AbstractMesh] = ???, doNotUpdateMaxZ: Boolean = ???): Unit = js.native
   def focusOn(meshesOrMinMaxVectorAndDistance: js.Any, doNotUpdateMaxZ: Boolean = ???): Unit = js.native
   override def createRigCamera(name: String, cameraIndex: Double): Camera = js.native
-  override def _updateRigCameras(): Unit = js.native
   override def dispose(): Unit = js.native
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.ArcRotateCameraInputsManager")
-class ArcRotateCameraInputsManager protected () extends CameraInputsManager[ArcRotateCamera] {
+class ArcRotateCameraInputsManager extends CameraInputsManager[ArcRotateCamera] {
   def this(camera: ArcRotateCamera) = this()
   def addMouseWheel(): ArcRotateCameraInputsManager = js.native
   def addPointers(): ArcRotateCameraInputsManager = js.native
@@ -1586,9 +1481,7 @@ class ArcRotateCameraInputsManager protected () extends CameraInputsManager[ArcR
 
 @js.native
 @JSGlobal("BABYLON.Camera")
-//class Camera protected () extends Node {
-    class Camera extends Node {
-
+class Camera extends Node {
   def this(name: String, position: Vector3, scene: Scene) = this()
   var inputs: CameraInputsManager[Camera] = js.native
   var position: Vector3 = js.native
@@ -1609,37 +1502,22 @@ class ArcRotateCameraInputsManager protected () extends CameraInputsManager[ArcR
   var cameraRigMode: Double = js.native
   var interaxialDistance: Double = js.native
   var isStereoscopicSideBySide: Boolean = js.native
-  var _cameraRigParams: js.Any = js.native
-  var _rigCameras: js.Array[Camera] = js.native
-  var _rigPostProcess: PostProcess = js.native
   protected var _webvrViewMatrix: Matrix = js.native
   var customRenderTargets: js.Array[RenderTargetTexture] = js.native
-  var _projectionMatrix: Matrix = js.native
-  var _postProcesses: js.Array[PostProcess] = js.native
-  var _activeMeshes: SmartArray[Mesh] = js.native
   override def getClassName(): String = js.native
   def toString(fullDetails: Boolean = ???): String = js.native
   def globalPosition: Vector3 = js.native
   def getActiveMeshes(): SmartArray[Mesh] = js.native
   def isActiveMesh(mesh: Mesh): Boolean = js.native
-  override def _initCache(): Unit = js.native
-  override def _updateCache(ignoreParentClass: Boolean = ???): Unit = js.native
-  def _updateFromScene(): Unit = js.native
-  override def _isSynchronized(): Boolean = js.native
-  def _isSynchronizedViewMatrix(): Boolean = js.native
-  def _isSynchronizedProjectionMatrix(): Boolean = js.native
   def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   def detachControl(element: HTMLElement): Unit = js.native
   def update(): Unit = js.native
-  def _checkInputs(): Unit = js.native
   def rigCameras: js.Array[Camera] = js.native
   def rigPostProcess: PostProcess = js.native
   def attachPostProcess(postProcess: PostProcess, insertAt: Double = ???): Double = js.native
   def detachPostProcess(postProcess: PostProcess, atIndices: js.Any = ???): js.Array[Double] = js.native
   override def getWorldMatrix(): Matrix = js.native
-  def _getViewMatrix(): Matrix = js.native
   def getViewMatrix(force: Boolean = ???): Matrix = js.native
-  def _computeViewMatrix(force: Boolean = ???): Matrix = js.native
   def freezeProjectionMatrix(projection: Matrix = ???): Unit = js.native
   def unfreezeProjectionMatrix(): Unit = js.native
   def getProjectionMatrix(force: Boolean = ???): Matrix = js.native
@@ -1653,14 +1531,8 @@ class ArcRotateCameraInputsManager protected () extends CameraInputsManager[ArcR
   def getLeftTarget(): Vector3 = js.native
   def getRightTarget(): Vector3 = js.native
   def setCameraRigMode(mode: Double, rigParams: js.Any): Unit = js.native
-  def _updateCameraRotationMatrix(): Unit = js.native
-  def _updateWebVRCameraRotationMatrix(): Unit = js.native
-  def _getWebVRProjectionMatrix(): Matrix = js.native
-  def _getWebVRViewMatrix(): Matrix = js.native
   def setCameraRigParameter(name: String, value: js.Any): Unit = js.native
   def createRigCamera(name: String, cameraIndex: Double): Camera = js.native
-  def _updateRigCameras(): Unit = js.native
-  def _setupInputs(): Unit = js.native
   def serialize(): js.Dynamic = js.native
   def clone(name: String): Camera = js.native
   def getDirection(localAxis: Vector3): Vector3 = js.native
@@ -1715,7 +1587,7 @@ trait CameraInputsMap[TCamera <: Camera] extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.CameraInputsManager")
-class CameraInputsManager[TCamera <: Camera] protected () extends js.Object {
+class CameraInputsManager[TCamera <: Camera] extends js.Object {
   def this(camera: TCamera) = this()
   var attached: CameraInputsMap[TCamera] = js.native
   var attachedElement: HTMLElement = js.native
@@ -1736,69 +1608,60 @@ class CameraInputsManager[TCamera <: Camera] protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DeviceOrientationCamera")
-class DeviceOrientationCamera protected () extends FreeCamera {
+class DeviceOrientationCamera extends FreeCamera {
   def this(name: String, position: Vector3, scene: Scene) = this()
   override def getClassName(): String = js.native
-  override def _checkInputs(): Unit = js.native
   def resetToCurrentRotation(axis: Axis = ???): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.FollowCamera")
-class FollowCamera protected () extends TargetCamera {
+class FollowCamera extends TargetCamera {
   def this(name: String, position: Vector3, scene: Scene, lockedTarget: AbstractMesh = ???) = this()
   var radius: Double = js.native
   var rotationOffset: Double = js.native
   var heightOffset: Double = js.native
   var cameraAcceleration: Double = js.native
   var maxCameraSpeed: Double = js.native
-  override var lockedTarget: AbstractMesh = js.native
-  override def _checkInputs(): Unit = js.native
+
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.ArcFollowCamera")
-class ArcFollowCamera protected () extends TargetCamera {
+class ArcFollowCamera extends TargetCamera {
   def this(name: String, alpha: Double, beta: Double, radius: Double, target: AbstractMesh, scene: Scene) = this()
   var alpha: Double = js.native
   var beta: Double = js.native
   var radius: Double = js.native
   var target: AbstractMesh = js.native
-  override def _checkInputs(): Unit = js.native
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.FreeCamera")
-class FreeCamera protected () extends TargetCamera {
+class FreeCamera extends TargetCamera {
   def this(name: String, position: Vector3, scene: Scene) = this()
   var ellipsoid: Vector3 = js.native
   var checkCollisions: Boolean = js.native
   var applyGravity: Boolean = js.native
-  override var inputs: FreeCameraInputsManager = js.native
+
   var angularSensibility: Double = js.native
   var keysUp: js.Array[Double] = js.native
   var keysDown: js.Array[Double] = js.native
   var keysLeft: js.Array[Double] = js.native
   var keysRight: js.Array[Double] = js.native
   var onCollide: js.Function1[AbstractMesh, Unit] = js.native
-  var _localDirection: Vector3 = js.native
-  var _transformedDirection: Vector3 = js.native
   override def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   override def detachControl(element: HTMLElement): Unit = js.native
   var collisionMask: Double = js.native
-  def _collideWithWorld(velocity: Vector3): Unit = js.native
-  override def _checkInputs(): Unit = js.native
-  override def _decideIfNeedsToMove(): Boolean = js.native
-  override def _updatePosition(): Unit = js.native
   override def dispose(): Unit = js.native
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.FreeCameraInputsManager")
-class FreeCameraInputsManager protected () extends CameraInputsManager[FreeCamera] {
+class FreeCameraInputsManager extends CameraInputsManager[FreeCamera] {
   def this(camera: FreeCamera) = this()
   def addKeyboard(): FreeCameraInputsManager = js.native
   def addMouse(touchEnabled: Boolean = ???): FreeCameraInputsManager = js.native
@@ -1810,72 +1673,72 @@ class FreeCameraInputsManager protected () extends CameraInputsManager[FreeCamer
 
 @js.native
 @JSGlobal("BABYLON.GamepadCamera")
-class GamepadCamera protected () extends UniversalCamera {
+class GamepadCamera extends UniversalCamera {
   def this(name: String, position: Vector3, scene: Scene) = this()
-  override var gamepadAngularSensibility: Double = js.native
-  override var gamepadMoveSensibility: Double = js.native
+
+
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.AnaglyphFreeCamera")
-class AnaglyphFreeCamera protected () extends FreeCamera {
+class AnaglyphFreeCamera extends FreeCamera {
   def this(name: String, position: Vector3, interaxialDistance: Double, scene: Scene) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.AnaglyphArcRotateCamera")
-class AnaglyphArcRotateCamera protected () extends ArcRotateCamera {
+class AnaglyphArcRotateCamera extends ArcRotateCamera {
   def this(name: String, alpha: Double, beta: Double, radius: Double, target: js.Any, interaxialDistance: Double, scene: Scene) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.AnaglyphGamepadCamera")
-class AnaglyphGamepadCamera protected () extends GamepadCamera {
+class AnaglyphGamepadCamera extends GamepadCamera {
   def this(name: String, position: Vector3, interaxialDistance: Double, scene: Scene) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.AnaglyphUniversalCamera")
-class AnaglyphUniversalCamera protected () extends UniversalCamera {
+class AnaglyphUniversalCamera extends UniversalCamera {
   def this(name: String, position: Vector3, interaxialDistance: Double, scene: Scene) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.StereoscopicFreeCamera")
-class StereoscopicFreeCamera protected () extends FreeCamera {
+class StereoscopicFreeCamera extends FreeCamera {
   def this(name: String, position: Vector3, interaxialDistance: Double, isStereoscopicSideBySide: Boolean, scene: Scene) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.StereoscopicArcRotateCamera")
-class StereoscopicArcRotateCamera protected () extends ArcRotateCamera {
+class StereoscopicArcRotateCamera extends ArcRotateCamera {
   def this(name: String, alpha: Double, beta: Double, radius: Double, target: js.Any, interaxialDistance: Double, isStereoscopicSideBySide: Boolean, scene: Scene) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.StereoscopicGamepadCamera")
-class StereoscopicGamepadCamera protected () extends GamepadCamera {
+class StereoscopicGamepadCamera extends GamepadCamera {
   def this(name: String, position: Vector3, interaxialDistance: Double, isStereoscopicSideBySide: Boolean, scene: Scene) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.StereoscopicUniversalCamera")
-class StereoscopicUniversalCamera protected () extends UniversalCamera {
+class StereoscopicUniversalCamera extends UniversalCamera {
   def this(name: String, position: Vector3, interaxialDistance: Double, isStereoscopicSideBySide: Boolean, scene: Scene) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.TargetCamera")
-class TargetCamera protected () extends Camera {
+class TargetCamera extends Camera {
   def this(name: String, position: Vector3, scene: Scene) = this()
   var cameraDirection: Vector3 = js.native
   var cameraRotation: Vector2 = js.native
@@ -1884,47 +1747,25 @@ class TargetCamera protected () extends Camera {
   var speed: Double = js.native
   var noRotationConstraint: Boolean = js.native
   var lockedTarget: js.Any = js.native
-  var _currentTarget: Vector3 = js.native
-  var _viewMatrix: Matrix = js.native
-  var _camMatrix: Matrix = js.native
-  var _cameraTransformMatrix: Matrix = js.native
-  var _cameraRotationMatrix: Matrix = js.native
-  var _referencePoint: Vector3 = js.native
-  var _transformedReferencePoint: Vector3 = js.native
-  var _lookAtTemp: Matrix = js.native
-  var _tempMatrix: Matrix = js.native
-  var _reset: js.Function0[Unit] = js.native
   def getFrontPosition(distance: Double): Vector3 = js.native
-  def _getLockedTargetPosition(): Vector3 = js.native
-  override def _initCache(): Unit = js.native
-  override def _updateCache(ignoreParentClass: Boolean = ???): Unit = js.native
-  override def _isSynchronizedViewMatrix(): Boolean = js.native
-  def _computeLocalCameraSpeed(): Double = js.native
   def setTarget(target: Vector3): Unit = js.native
   def getTarget(): Vector3 = js.native
-  def _decideIfNeedsToMove(): Boolean = js.native
-  def _updatePosition(): Unit = js.native
-  override def _checkInputs(): Unit = js.native
-  override def _updateCameraRotationMatrix(): Unit = js.native
-  override def _getViewMatrix(): Matrix = js.native
   override def createRigCamera(name: String, cameraIndex: Double): Camera = js.native
-  override def _updateRigCameras(): Unit = js.native
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.TouchCamera")
-class TouchCamera protected () extends FreeCamera {
+class TouchCamera extends FreeCamera {
   def this(name: String, position: Vector3, scene: Scene) = this()
   var touchAngularSensibility: Double = js.native
   var touchMoveSensibility: Double = js.native
   override def getClassName(): String = js.native
-  override def _setupInputs(): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.UniversalCamera")
-class UniversalCamera protected () extends TouchCamera {
+class UniversalCamera extends TouchCamera {
   def this(name: String, position: Vector3, scene: Scene) = this()
   var gamepadAngularSensibility: Double = js.native
   var gamepadMoveSensibility: Double = js.native
@@ -1933,7 +1774,7 @@ class UniversalCamera protected () extends TouchCamera {
 
 @js.native
 @JSGlobal("BABYLON.VirtualJoysticksCamera")
-class VirtualJoysticksCamera protected () extends FreeCamera {
+class VirtualJoysticksCamera extends FreeCamera {
   def this(name: String, position: Vector3, scene: Scene) = this()
   override def getClassName(): String = js.native
 }
@@ -1957,12 +1798,6 @@ class Collider extends js.Object {
   var intersectionPoint: Vector3 = js.native
   var collidedMesh: AbstractMesh = js.native
   var collisionMask: Double = js.native
-  def _initialize(source: Vector3, dir: Vector3, e: Double): Unit = js.native
-  def _checkPointInTriangle(point: Vector3, pa: Vector3, pb: Vector3, pc: Vector3, n: Vector3): Boolean = js.native
-  def _canDoCollision(sphereCenter: Vector3, sphereRadius: Double, vecMin: Vector3, vecMax: Vector3): Boolean = js.native
-  def _testTriangle(faceIndex: Double, trianglePlaneArray: js.Array[Plane], p1: Vector3, p2: Vector3, p3: Vector3, hasMaterial: Boolean): Unit = js.native
-  def _collide(trianglePlaneArray: js.Array[Plane], pts: js.Array[Vector3], indices: IndicesArray, indexStart: Double, indexEnd: Double, decal: Double, hasMaterial: Boolean): Unit = js.native
-  def _getResponse(pos: Vector3, vel: Vector3): Unit = js.native
 }
 
 @js.native
@@ -2095,12 +1930,12 @@ class CollisionCoordinatorWorker extends ICollisionCoordinator {
   override def getNewPosition(position: Vector3, velocity: Vector3, collider: Collider, maximumRetry: Double, excludedMesh: AbstractMesh, onNewPosition: js.Function3[Double, Vector3, AbstractMesh, Unit], collisionIndex: Double): Unit = js.native
   override def init(scene: Scene): Unit = js.native
   override def destroy(): Unit = js.native
-  override def onMeshAdded(mesh: AbstractMesh): Unit = js.native
+
   var onMeshUpdated: js.Function1[AbstractMesh, Unit] = js.native
-  override def onMeshRemoved(mesh: AbstractMesh): Unit = js.native
-  override def onGeometryAdded(geometry: Geometry): Unit = js.native
+
+
   var onGeometryUpdated: js.Function1[Geometry, Unit] = js.native
-  override def onGeometryDeleted(geometry: Geometry): Unit = js.native
+
 }
 
 @js.native
@@ -2116,12 +1951,12 @@ class CollisionCoordinatorLegacy extends ICollisionCoordinator {
   override def getNewPosition(position: Vector3, velocity: Vector3, collider: Collider, maximumRetry: Double, excludedMesh: AbstractMesh, onNewPosition: js.Function3[Double, Vector3, AbstractMesh, Unit], collisionIndex: Double): Unit = js.native
   override def init(scene: Scene): Unit = js.native
   override def destroy(): Unit = js.native
-  override def onMeshAdded(mesh: AbstractMesh): Unit = js.native
-  override def onMeshUpdated(mesh: AbstractMesh): Unit = js.native
-  override def onMeshRemoved(mesh: AbstractMesh): Unit = js.native
-  override def onGeometryAdded(geometry: Geometry): Unit = js.native
-  override def onGeometryUpdated(geometry: Geometry): Unit = js.native
-  override def onGeometryDeleted(geometry: Geometry): Unit = js.native
+
+
+
+
+
+
 }
 
 @js.native
@@ -2139,7 +1974,7 @@ class CollisionCache extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.CollideWorker")
-class CollideWorker protected () extends js.Object {
+class CollideWorker extends js.Object {
   def this(collider: Collider, _collisionCache: CollisionCache, finalPosition: Vector3) = this()
   var collider: Collider = js.native
   def collideWithWorld(position: Vector3, velocity: Vector3, maximumRetry: Double, excludedMeshUniqueId: Double = ???): Unit = js.native
@@ -2162,7 +1997,7 @@ class CollisionDetectorTransferable extends ICollisionDetector {
 
 @js.native
 @JSGlobal("BABYLON.IntersectionInfo")
-class IntersectionInfo protected () extends js.Object {
+class IntersectionInfo extends js.Object {
   def this(bu: Double, bv: Double, distance: Double) = this()
   var bu: Double = js.native
   var bv: Double = js.native
@@ -2191,7 +2026,7 @@ package Debug {
 
 @js.native
 @JSGlobal("BABYLON.Debug.AxesViewer")
-class AxesViewer protected () extends js.Object {
+class AxesViewer extends js.Object {
   def this(scene: Scene, scaleLines: Double = ???) = this()
   var scene: Scene = js.native
   var scaleLines: Double = js.native
@@ -2201,7 +2036,7 @@ class AxesViewer protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Debug.BoneAxesViewer")
-class BoneAxesViewer protected () extends Debug.AxesViewer {
+class BoneAxesViewer extends Debug.AxesViewer {
   def this(scene: Scene, bone: Bone, mesh: Mesh, scaleLines: Double = ???) = this()
   var mesh: Mesh = js.native
   var bone: Bone = js.native
@@ -2215,14 +2050,13 @@ class BoneAxesViewer protected () extends Debug.AxesViewer {
 
 @js.native
 @JSGlobal("BABYLON.Debug.PhysicsViewer")
-class PhysicsViewer protected () extends js.Object {
+class PhysicsViewer extends js.Object {
   def this(scene: Scene) = this()
   protected var _impostors: js.Array[PhysicsImpostor] = js.native
   protected var _meshes: js.Array[AbstractMesh] = js.native
   protected var _scene: Scene = js.native
   protected var _numMeshes: Double = js.native
   protected var _physicsEnginePlugin: IPhysicsEnginePlugin = js.native
-  def _updateDebugMeshes(): Unit = js.native
   def showImpostor(impostor: PhysicsImpostor): Unit = js.native
   def hideImpostor(impostor: PhysicsImpostor): Unit = js.native
   def dispose(): Unit = js.native
@@ -2230,7 +2064,7 @@ class PhysicsViewer protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Debug.SkeletonViewer")
-class SkeletonViewer protected () extends js.Object {
+class SkeletonViewer extends js.Object {
   def this(skeleton: Skeleton, mesh: AbstractMesh, scene: Scene, autoUpdateBonesMatrices: Boolean = ???, renderingGroupId: Double = ???) = this()
   var skeleton: Skeleton = js.native
   var mesh: AbstractMesh = js.native
@@ -2246,7 +2080,7 @@ class SkeletonViewer protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DebugLayer")
-class DebugLayer protected () extends js.Object {
+class DebugLayer extends js.Object {
   def this(scene: Scene) = this()
   def isVisible(): Boolean = js.native
   def hide(): Unit = js.native
@@ -2261,7 +2095,7 @@ object DebugLayer extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.RayHelper")
-class RayHelper protected () extends js.Object {
+class RayHelper extends js.Object {
   def this(ray: Ray) = this()
   var ray: Ray = js.native
   def show(scene: Scene, color: Color3): Unit = js.native
@@ -2279,7 +2113,7 @@ object RayHelper extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.BoundingBox")
-class BoundingBox protected () extends ICullable {
+class BoundingBox extends ICullable {
   def this(minimum: Vector3, maximum: Vector3) = this()
   var minimum: Vector3 = js.native
   var maximum: Vector3 = js.native
@@ -2294,7 +2128,6 @@ class BoundingBox protected () extends ICullable {
   var maximumWorld: Vector3 = js.native
   def getWorldMatrix(): Matrix = js.native
   def setWorldMatrix(matrix: Matrix): BoundingBox = js.native
-  def _update(world: Matrix): Unit = js.native
   override def isInFrustum(frustumPlanes: js.Array[Plane]): Boolean = js.native
   override def isCompletelyInFrustum(frustumPlanes: js.Array[Plane]): Boolean = js.native
   def intersectsPoint(point: Vector3): Boolean = js.native
@@ -2319,7 +2152,7 @@ trait ICullable extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.BoundingInfo")
-class BoundingInfo protected () extends ICullable {
+class BoundingInfo extends ICullable {
   def this(minimum: Vector3, maximum: Vector3) = this()
   var minimum: Vector3 = js.native
   var maximum: Vector3 = js.native
@@ -2329,14 +2162,13 @@ class BoundingInfo protected () extends ICullable {
   def update(world: Matrix): Unit = js.native
   override def isInFrustum(frustumPlanes: js.Array[Plane]): Boolean = js.native
   override def isCompletelyInFrustum(frustumPlanes: js.Array[Plane]): Boolean = js.native
-  def _checkCollision(collider: Collider): Boolean = js.native
   def intersectsPoint(point: Vector3): Boolean = js.native
   def intersects(boundingInfo: BoundingInfo, precise: Boolean): Boolean = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.BoundingSphere")
-class BoundingSphere protected () extends js.Object {
+class BoundingSphere extends js.Object {
   def this(minimum: Vector3, maximum: Vector3) = this()
   var minimum: Vector3 = js.native
   var maximum: Vector3 = js.native
@@ -2344,7 +2176,6 @@ class BoundingSphere protected () extends js.Object {
   var radius: Double = js.native
   var centerWorld: Vector3 = js.native
   var radiusWorld: Double = js.native
-  def _update(world: Matrix): Unit = js.native
   def isInFrustum(frustumPlanes: js.Array[Plane]): Boolean = js.native
   def intersectsPoint(point: Vector3): Boolean = js.native
 }
@@ -2357,7 +2188,7 @@ object BoundingSphere extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Ray")
-class Ray protected () extends js.Object {
+class Ray extends js.Object {
   def this(origin: Vector3, direction: Vector3, length: Double = ???) = this()
   var origin: Vector3 = js.native
   var direction: Vector3 = js.native
@@ -2394,7 +2225,7 @@ trait IHighlightLayerOptions extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.HighlightLayer")
-class HighlightLayer protected () extends js.Object {
+class HighlightLayer extends js.Object {
   def this(name: String, scene: Scene, options: IHighlightLayerOptions = ???) = this()
   var name: String = js.native
   var innerGlow: Boolean = js.native
@@ -2429,7 +2260,7 @@ object HighlightLayer extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Layer")
-class Layer protected () extends js.Object {
+class Layer extends js.Object {
   def this(name: String, imgUrl: String, scene: Scene, isBackground: Boolean = ???, color: Color4 = ???) = this()
   var name: String = js.native
   var texture: Texture = js.native
@@ -2452,7 +2283,7 @@ class Layer protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.LensFlare")
-class LensFlare protected () extends js.Object {
+class LensFlare extends js.Object {
   def this(size: Double, position: Double, color: js.Any, imgUrl: String, system: LensFlareSystem) = this()
   var size: Double = js.native
   var position: Double = js.native
@@ -2464,7 +2295,7 @@ class LensFlare protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.LensFlareSystem")
-class LensFlareSystem protected () extends js.Object {
+class LensFlareSystem extends js.Object {
   def this(name: String, emitter: js.Any, scene: Scene) = this()
   var name: String = js.native
   var lensFlares: js.Array[LensFlare] = js.native
@@ -2479,7 +2310,6 @@ class LensFlareSystem protected () extends js.Object {
   def setEmitter(newEmitter: js.Any): Unit = js.native
   def getEmitterPosition(): Vector3 = js.native
   def computeEffectivePosition(globalViewport: Viewport): Boolean = js.native
-  def _isVisible(): Boolean = js.native
   def render(): Boolean = js.native
   def dispose(): Unit = js.native
   def serialize(): js.Dynamic = js.native
@@ -2493,40 +2323,34 @@ object LensFlareSystem extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DirectionalLight")
-class DirectionalLight protected () extends ShadowLight {
+class DirectionalLight extends ShadowLight {
   def this(name: String, direction: Vector3, scene: Scene) = this()
   var shadowFrustumSize: Double = js.native
   var shadowOrthoScale: Double = js.native
   var autoUpdateExtends: Boolean = js.native
   override def getClassName(): String = js.native
   override def getTypeID(): Double = js.native
-  def _setDefaultShadowProjectionMatrix(matrix: Matrix, viewMatrix: Matrix, renderList: js.Array[AbstractMesh]): Unit = js.native
-  def _setDefaultFixedFrustumShadowProjectionMatrix(matrix: Matrix, viewMatrix: Matrix): Unit = js.native
-  def _setDefaultAutoExtendShadowProjectionMatrix(matrix: Matrix, viewMatrix: Matrix, renderList: js.Array[AbstractMesh]): Unit = js.native
-  override def _buildUniformLayout(): Unit = js.native
-  override def transferToEffect(effect: Effect, lightIndex: String): DirectionalLight = js.native
+
   override def getDepthMinZ(activeCamera: Camera): Double = js.native
   override def getDepthMaxZ(activeCamera: Camera): Double = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.HemisphericLight")
-class HemisphericLight protected () extends Light {
+class HemisphericLight extends Light {
   def this(name: String, direction: Vector3, scene: Scene) = this()
   var groundColor: Color3 = js.native
   var direction: Vector3 = js.native
-  override def _buildUniformLayout(): Unit = js.native
   override def getClassName(): String = js.native
   def setDirectionToTarget(target: Vector3): Vector3 = js.native
   override def getShadowGenerator(): ShadowGenerator = js.native
-  override def transferToEffect(effect: Effect, lightIndex: String): HemisphericLight = js.native
-  override def _getWorldMatrix(): Matrix = js.native
+
   override def getTypeID(): Double = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Light")
-class Light protected () extends Node {
+class Light extends Node {
   def this(name: String, scene: Scene) = this()
   var diffuse: Color3 = js.native
   var specular: Color3 = js.native
@@ -2541,18 +2365,12 @@ class Light protected () extends Node {
   var excludeWithLayerMask: Double = js.native
   var includeOnlyWithLayerMask: Double = js.native
   var lightmapMode: Double = js.native
-  var _shadowGenerator: IShadowGenerator = js.native
-  var _excludedMeshesIds: js.Array[String] = js.native
-  var _includedOnlyMeshesIds: js.Array[String] = js.native
-  var _uniformBuffer: UniformBuffer = js.native
-  def _buildUniformLayout(): Unit = js.native
   override def getClassName(): String = js.native
   def toString(fullDetails: Boolean = ???): String = js.native
   override def setEnabled(value: Boolean): Unit = js.native
   def getShadowGenerator(): IShadowGenerator = js.native
   def getAbsolutePosition(): Vector3 = js.native
   def transferToEffect(effect: Effect, lightIndex: String): Unit = js.native
-  def _getWorldMatrix(): Matrix = js.native
   def canAffectMesh(mesh: AbstractMesh): Boolean = js.native
   override def getWorldMatrix(): Matrix = js.native
   override def dispose(): Unit = js.native
@@ -2560,7 +2378,6 @@ class Light protected () extends Node {
   def getScaledIntensity(): Double = js.native
   def clone(name: String): Light = js.native
   def serialize(): js.Dynamic = js.native
-  def _markMeshesAsLightDirty(): Unit = js.native
 }
 
 @js.native
@@ -2585,27 +2402,25 @@ object Light extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PointLight")
-class PointLight protected () extends ShadowLight {
+class PointLight extends ShadowLight {
   def this(name: String, position: Vector3, scene: Scene) = this()
   var shadowAngle: Double = js.native
-  override var direction: Vector3 = js.native
+
   override def getClassName(): String = js.native
   override def getTypeID(): Double = js.native
   override def needCube(): Boolean = js.native
   override def getShadowDirection(faceIndex: Double = ???): Vector3 = js.native
-  override def _setDefaultShadowProjectionMatrix(matrix: Matrix, viewMatrix: Matrix, renderList: js.Array[AbstractMesh]): Unit = js.native
-  override def _buildUniformLayout(): Unit = js.native
-  override def transferToEffect(effect: Effect, lightIndex: String): PointLight = js.native
+
 }
 
 @js.native
 trait IShadowLight extends Light {
-  override var id: String = js.native
+
   var position: Vector3 = js.native
   var direction: Vector3 = js.native
   var transformedPosition: Vector3 = js.native
   var transformedDirection: Vector3 = js.native
-  override var name: String = js.native
+
   var shadowMinZ: Double = js.native
   var shadowMaxZ: Double = js.native
   def computeTransformedInformation(): Boolean = js.native
@@ -2624,15 +2439,14 @@ trait IShadowLight extends Light {
 @js.native
 @JSGlobal("BABYLON.ShadowLight")
 abstract class ShadowLight extends Light with IShadowLight {
-  def _setDefaultShadowProjectionMatrix(matrix: Matrix, viewMatrix: Matrix, renderList: js.Array[AbstractMesh]): Unit
-  override var position: Vector3 = js.native
+
   protected var _direction: Vector3 = js.native
-  override var direction: Vector3 = js.native
-  override var shadowMinZ: Double = js.native
-  override var shadowMaxZ: Double = js.native
-  override var customProjectionMatrixBuilder: js.Function3[Matrix, js.Array[AbstractMesh], Matrix, Unit] = js.native
-  override var transformedPosition: Vector3 = js.native
-  override var transformedDirection: Vector3 = js.native
+
+
+
+
+
+
   override def computeTransformedInformation(): Boolean = js.native
   override def getDepthScale(): Double = js.native
   override def getShadowDirection(faceIndex: Double = ???): Vector3 = js.native
@@ -2642,7 +2456,6 @@ abstract class ShadowLight extends Light with IShadowLight {
   override def needCube(): Boolean = js.native
   override def needProjectionMatrixCompute(): Boolean = js.native
   override def forceProjectionMatrixCompute(): Unit = js.native
-  override def _getWorldMatrix(): Matrix = js.native
   override def getDepthMinZ(activeCamera: Camera): Double = js.native
   override def getDepthMaxZ(activeCamera: Camera): Double = js.native
   override def setShadowProjectionMatrix(matrix: Matrix, viewMatrix: Matrix, renderList: js.Array[AbstractMesh]): IShadowLight = js.native
@@ -2650,16 +2463,14 @@ abstract class ShadowLight extends Light with IShadowLight {
 
 @js.native
 @JSGlobal("BABYLON.SpotLight")
-class SpotLight protected () extends ShadowLight {
+class SpotLight extends ShadowLight {
   def this(name: String, position: Vector3, direction: Vector3, angle: Double, exponent: Double, scene: Scene) = this()
   var angle: Double = js.native
   var shadowAngleScale: Double = js.native
   var exponent: Double = js.native
   override def getClassName(): String = js.native
   override def getTypeID(): Double = js.native
-  def _setDefaultShadowProjectionMatrix(matrix: Matrix, viewMatrix: Matrix, renderList: js.Array[AbstractMesh]): Unit = js.native
-  override def _buildUniformLayout(): Unit = js.native
-  override def transferToEffect(effect: Effect, lightIndex: String): SpotLight = js.native
+
 }
 
 @js.native
@@ -2718,7 +2529,7 @@ class EffectCreationOptions extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Effect")
-class Effect protected () extends js.Object {
+class Effect extends js.Object {
   def this(baseName: js.Any, attributesNamesOrOptions: js.Array[String] | EffectCreationOptions, uniformsNamesOrEngine: js.Array[String] | Engine, samplers: js.Array[String] = ???, engine: Engine = ???, defines: String = ???, fallbacks: EffectFallbacks = ???, onCompiled: js.Function1[Effect, Unit] = ???, onError: js.Function2[Effect, String, Unit] = ???, indexParameters: js.Any = ???) = this()
   var name: js.Any = js.native
   var defines: String = js.native
@@ -2729,7 +2540,6 @@ class Effect protected () extends js.Object {
   var onCompileObservable: Observable[Effect] = js.native
   var onErrorObservable: Observable[Effect] = js.native
   var onBindObservable: Observable[Effect] = js.native
-  var _key: String = js.native
   def key: String = js.native
   def isReady(): Boolean = js.native
   def getEngine(): Engine = js.native
@@ -2745,17 +2555,10 @@ class Effect protected () extends js.Object {
   def getVertexShaderSource(): String = js.native
   def getFragmentShaderSource(): String = js.native
   def executeWhenCompiled(func: js.Function1[Effect, Unit]): Unit = js.native
-  def _loadVertexShader(vertex: js.Any, callback: js.Function1[js.Any, Unit]): Unit = js.native
-  def _loadFragmentShader(fragment: js.Any, callback: js.Function1[js.Any, Unit]): Unit = js.native
   def isSupported: Boolean = js.native
-  def _bindTexture(channel: String, texture: WebGLTexture): Unit = js.native
   def setTexture(channel: String, texture: BaseTexture): Unit = js.native
   def setTextureArray(channel: String, textures: js.Array[BaseTexture]): Unit = js.native
   def setTextureFromPostProcess(channel: String, postProcess: PostProcess): Unit = js.native
-  def _cacheMatrix(uniformName: String, matrix: Matrix): Boolean = js.native
-  def _cacheFloat2(uniformName: String, x: Double, y: Double): Boolean = js.native
-  def _cacheFloat3(uniformName: String, x: Double, y: Double, z: Double): Boolean = js.native
-  def _cacheFloat4(uniformName: String, x: Double, y: Double, z: Double, w: Double): Boolean = js.native
   def bindUniformBuffer(buffer: WebGLBuffer, name: String): Unit = js.native
   def bindUniformBlock(blockName: String, index: Double): Unit = js.native
   def setIntArray(uniformName: String, array: Int32Array): Effect = js.native
@@ -2834,7 +2637,6 @@ class ImageProcessingConfiguration extends js.Object {
   var colorGradingEnabled: Boolean = js.native
   var colorGradingWithGreenDepth: Boolean = js.native
   var colorGradingBGR: Boolean = js.native
-  var _exposure: Double = js.native
   var exposure: Double = js.native
   var toneMappingEnabled: Boolean = js.native
   protected var _contrast: Double = js.native
@@ -2843,13 +2645,12 @@ class ImageProcessingConfiguration extends js.Object {
   var vignetteCentreX: Double = js.native
   var vignetteCentreY: Double = js.native
   var vignetteWeight: Double = js.native
-//  var vignetteColor: BABYLON.Color4 = js.native
+  var vignetteColor: Color4 = js.native
   var vignetteCameraFov: Double = js.native
   var vignetteBlendMode: Double = js.native
   var vignetteEnabled: Boolean = js.native
   var applyByPostProcess: Boolean = js.native
   var onUpdateParameters: Observable[ImageProcessingConfiguration] = js.native
-  def _updateParameters(): Unit = js.native
   def prepareDefines(defines: IImageProcessingConfigurationDefines): Unit = js.native
   def isReady(): Boolean = js.native
   def bind(effect: Effect, aspectRatio: Double = ???): Unit = js.native
@@ -2870,17 +2671,6 @@ object ImageProcessingConfiguration extends js.Object {
 @js.native
 @JSGlobal("BABYLON.MaterialDefines")
 class MaterialDefines extends js.Object {
-  var _renderId: Double = js.native
-  var _areLightsDirty: Boolean = js.native
-  var _areAttributesDirty: Boolean = js.native
-  var _areTexturesDirty: Boolean = js.native
-  var _areFresnelDirty: Boolean = js.native
-  var _areMiscDirty: Boolean = js.native
-  var _areImageProcessingDirty: Boolean = js.native
-  var _normals: Boolean = js.native
-  var _uvs: Boolean = js.native
-  var _needNormals: Boolean = js.native
-  var _needUVs: Boolean = js.native
   def isDirty: Boolean = js.native
   def markAsProcessed(): Unit = js.native
   def markAsUnprocessed(): Unit = js.native
@@ -2900,7 +2690,7 @@ class MaterialDefines extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Material")
-class Material protected () extends js.Object {
+class Material extends js.Object {
   def this(name: String, scene: Scene, doNotAdd: Boolean = ???) = this()
   var id: String = js.native
   var name: String = js.native
@@ -2929,8 +2719,6 @@ class Material protected () extends js.Object {
   var wireframe: Boolean = js.native
   var pointsCloud: Boolean = js.native
   var fillMode: Double = js.native
-  var _effect: Effect = js.native
-  var _wasPreviouslyReady: Boolean = js.native
   protected var _uniformBuffer: UniformBuffer = js.native
   def toString(fullDetails: Boolean = ???): String = js.native
   def getClassName(): String = js.native
@@ -2945,14 +2733,12 @@ class Material protected () extends js.Object {
   def needAlphaTesting(): Boolean = js.native
   def getAlphaTestTexture(): BaseTexture = js.native
   def markDirty(): Unit = js.native
-  def _preBind(effect: Effect = ???): Unit = js.native
   def bind(world: Matrix, mesh: Mesh = ???): Unit = js.native
   def bindForSubMesh(world: Matrix, mesh: Mesh, subMesh: SubMesh): Unit = js.native
   def bindOnlyWorldMatrix(world: Matrix): Unit = js.native
   def bindSceneUniformBuffer(effect: Effect, sceneUbo: UniformBuffer): Unit = js.native
   def bindView(effect: Effect): Unit = js.native
   def bindViewProjection(effect: Effect): Unit = js.native
-  def _afterBind(mesh: Mesh): Unit = js.native
   def unbind(): Unit = js.native
   def getActiveTextures(): js.Array[BaseTexture] = js.native
   def hasTexture(texture: BaseTexture): Boolean = js.native
@@ -2960,13 +2746,6 @@ class Material protected () extends js.Object {
   def getBindedMeshes(): js.Array[AbstractMesh] = js.native
   def forceCompilation(mesh: AbstractMesh, onCompiled: js.Function1[Material, Unit], options: js.Any = ???): Unit = js.native
   def markAsDirty(flag: Double): Unit = js.native
-  def _markAllSubMeshesAsDirty(func: js.Function1[MaterialDefines, Unit]): Unit = js.native
-  def _markAllSubMeshesAsImageProcessingDirty(): Unit = js.native
-  def _markAllSubMeshesAsTexturesDirty(): Unit = js.native
-  def _markAllSubMeshesAsFresnelDirty(): Unit = js.native
-  def _markAllSubMeshesAsLightsDirty(): Unit = js.native
-  def _markAllSubMeshesAsAttributesDirty(): Unit = js.native
-  def _markAllSubMeshesAsMiscDirty(): Unit = js.native
   def dispose(forceDisposeEffect: Boolean = ???, forceDisposeTextures: Boolean = ???): Unit = js.native
   def serialize(): js.Dynamic = js.native
 }
@@ -3019,33 +2798,30 @@ object MaterialHelper extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.MultiMaterial")
-class MultiMaterial protected () extends Material {
+class MultiMaterial extends Material {
   def this(name: String, scene: Scene) = this()
   var subMaterials: js.Array[Material] = js.native
   def getSubMaterial(index: js.Any): Material = js.native
   override def getActiveTextures(): js.Array[BaseTexture] = js.native
   override def getClassName(): String = js.native
-  def isReady(mesh: AbstractMesh = ???): Boolean = js.native
   def clone(name: String, cloneChildren: Boolean = ???): MultiMaterial = js.native
   override def serialize(): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.PushMaterial")
-class PushMaterial protected () extends Material {
+class PushMaterial extends Material {
   def this(name: String, scene: Scene) = this()
   protected var _activeEffect: Effect = js.native
   override def getEffect(): Effect = js.native
   override def isReady(mesh: AbstractMesh = ???, useInstances: Boolean = ???): Boolean = js.native
   override def bindOnlyWorldMatrix(world: Matrix): Unit = js.native
   override def bind(world: Matrix, mesh: Mesh = ???): Unit = js.native
-  def _afterBind(mesh: Mesh, effect: Effect = ???): Unit = js.native
-  def _mustRebind(scene: Scene, effect: Effect, visibility: Double = ???): Boolean = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.ShaderMaterial")
-class ShaderMaterial protected () extends Material {
+class ShaderMaterial extends Material {
   def this(name: String, scene: Scene, shaderPath: js.Any, options: js.Any) = this()
   override def getClassName(): String = js.native
   override def needAlphaBlending(): Boolean = js.native
@@ -3153,24 +2929,24 @@ class StandardMaterialDefines extends MaterialDefines with IImageProcessingConfi
   var MORPHTARGETS_TANGENT: Boolean = js.native
   var NUM_MORPH_INFLUENCERS: Double = js.native
   var USERIGHTHANDEDSYSTEM: Boolean = js.native
-  override var IMAGEPROCESSING: Boolean = js.native
-  override var VIGNETTE: Boolean = js.native
-  override var VIGNETTEBLENDMODEMULTIPLY: Boolean = js.native
-  override var VIGNETTEBLENDMODEOPAQUE: Boolean = js.native
-  override var TONEMAPPING: Boolean = js.native
-  override var CONTRAST: Boolean = js.native
-  override var COLORCURVES: Boolean = js.native
-  override var COLORGRADING: Boolean = js.native
-  override var SAMPLER3DGREENDEPTH: Boolean = js.native
-  override var SAMPLER3DBGRMAP: Boolean = js.native
-  override var IMAGEPROCESSINGPOSTPROCESS: Boolean = js.native
-  override var EXPOSURE: Boolean = js.native
+
+
+
+
+
+
+
+
+
+
+
+
   def setReflectionMode(modeToEnable: String): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.StandardMaterial")
-class StandardMaterial protected () extends PushMaterial {
+class StandardMaterial extends PushMaterial {
   def this(name: String, scene: Scene) = this()
   var diffuseTexture: BaseTexture = js.native
   var ambientTexture: BaseTexture = js.native
@@ -3212,7 +2988,6 @@ class StandardMaterial protected () extends PushMaterial {
   var twoSidedLighting: Boolean = js.native
   protected var _imageProcessingConfiguration: ImageProcessingConfiguration = js.native
   var imageProcessingConfiguration: ImageProcessingConfiguration = js.native
-  def _attachImageProcessingConfiguration(configuration: ImageProcessingConfiguration): Unit = js.native
   var cameraColorCurvesEnabled: Boolean = js.native
   var cameraColorGradingEnabled: Boolean = js.native
   var cameraToneMappingEnabled: Boolean = js.native
@@ -3228,9 +3003,7 @@ class StandardMaterial protected () extends PushMaterial {
   var useLogarithmicDepth: Boolean = js.native
   override def needAlphaBlending(): Boolean = js.native
   override def needAlphaTesting(): Boolean = js.native
-  def _shouldUseAlphaFromDiffuseTexture(): Boolean = js.native
   override def getAlphaTestTexture(): BaseTexture = js.native
-  def isReadyForSubMesh(mesh: AbstractMesh, subMesh: SubMesh, useInstances: Boolean = ???): Boolean = js.native
   def buildUniformLayout(): Unit = js.native
   override def unbind(): Unit = js.native
   override def bindForSubMesh(world: Matrix, mesh: Mesh, subMesh: SubMesh): Unit = js.native
@@ -3246,33 +3019,22 @@ class StandardMaterial protected () extends PushMaterial {
 @JSGlobal("BABYLON.StandardMaterial")
 object StandardMaterial extends js.Object {
   def Parse(source: js.Any, scene: Scene, rootUrl: String): StandardMaterial = js.native
-  var _DiffuseTextureEnabled: Boolean = js.native
   var DiffuseTextureEnabled: Boolean = js.native
-  var _AmbientTextureEnabled: Boolean = js.native
   var AmbientTextureEnabled: Boolean = js.native
-  var _OpacityTextureEnabled: Boolean = js.native
   var OpacityTextureEnabled: Boolean = js.native
-  var _ReflectionTextureEnabled: Boolean = js.native
   var ReflectionTextureEnabled: Boolean = js.native
-  var _EmissiveTextureEnabled: Boolean = js.native
   var EmissiveTextureEnabled: Boolean = js.native
-  var _SpecularTextureEnabled: Boolean = js.native
   var SpecularTextureEnabled: Boolean = js.native
-  var _BumpTextureEnabled: Boolean = js.native
   var BumpTextureEnabled: Boolean = js.native
-  var _LightmapTextureEnabled: Boolean = js.native
   var LightmapTextureEnabled: Boolean = js.native
-  var _RefractionTextureEnabled: Boolean = js.native
   var RefractionTextureEnabled: Boolean = js.native
-  var _ColorGradingTextureEnabled: Boolean = js.native
   var ColorGradingTextureEnabled: Boolean = js.native
-  var _FresnelEnabled: Boolean = js.native
   var FresnelEnabled: Boolean = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.UniformBuffer")
-class UniformBuffer protected () extends js.Object {
+class UniformBuffer extends js.Object {
   def this(engine: Engine, data: js.Array[Double] = ???, dynamic: Boolean = ???) = this()
   var updateMatrix3x3: js.Function2[String, Float32Array, Unit] = js.native
   var updateMatrix2x2: js.Function2[String, Float32Array, Unit] = js.native
@@ -3318,12 +3080,12 @@ trait ILoadingScreen extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DefaultLoadingScreen")
-class DefaultLoadingScreen protected () extends ILoadingScreen {
+class DefaultLoadingScreen extends ILoadingScreen {
   def this(_renderingCanvas: HTMLCanvasElement, _loadingText: String = ???, _loadingDivBackgroundColor: String = ???) = this()
-  override var displayLoadingUI = js.native
-  override var hideLoadingUI = js.native
-  override var loadingUIText: String = js.native
-  override var loadingUIBackgroundColor: String = js.native
+
+
+
+
 }
 
 @js.native
@@ -3414,7 +3176,7 @@ object Scalar extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Color3")
-class Color3 protected () extends js.Object {
+class Color3 extends js.Object {
   def this(r: Double = ???, g: Double = ???, b: Double = ???) = this()
   var r: Double = js.native
   var g: Double = js.native
@@ -3451,7 +3213,7 @@ class Color3 protected () extends js.Object {
 @JSGlobal("BABYLON.Color3")
 object Color3 extends js.Object {
   def FromHexString(hex: String): Color3 = js.native
-//  def FromArray(array: mutable.ArrayLike[Double], offset: Double = ???): Color3 = js.native
+  def FromArray(array: js.Array[Double], offset: Double = ???): Color3 = js.native
   def FromInts(r: Double, g: Double, b: Double): Color3 = js.native
   def Lerp(start: Color3, end: Color3, amount: Double): Color3 = js.native
   def Red(): Color3 = js.native
@@ -3468,7 +3230,7 @@ object Color3 extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Color4")
-class Color4 protected () extends js.Object {
+class Color4 extends js.Object {
   def this(r: Double, g: Double, b: Double, a: Double) = this()
   var r: Double = js.native
   var g: Double = js.native
@@ -3500,14 +3262,14 @@ object Color4 extends js.Object {
   def FromHexString(hex: String): Color4 = js.native
   def Lerp(left: Color4, right: Color4, amount: Double): Color4 = js.native
   def LerpToRef(left: Color4, right: Color4, amount: Double, result: Color4): Unit = js.native
-//  def FromArray(array: mutable.ArrayLike[Double], offset: Double = ???): Color4 = js.native
+  def FromArray(array: js.Array[Double], offset: Double = ???): Color4 = js.native
   def FromInts(r: Double, g: Double, b: Double, a: Double): Color4 = js.native
   def CheckColors4(colors: js.Array[Double], count: Double): js.Array[Double] = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Vector2")
-class Vector2 protected () extends js.Object {
+class Vector2 extends js.Object {
   def this(x: Double, y: Double) = this()
   var x: Double = js.native
   var y: Double = js.native
@@ -3548,8 +3310,8 @@ class Vector2 protected () extends js.Object {
 object Vector2 extends js.Object {
   def Zero(): Vector2 = js.native
   def One(): Vector2 = js.native
-//  def FromArray(array: mutable.ArrayLike[Double], offset: Double = ???): Vector2 = js.native
-//  def FromArrayToRef(array: mutable.ArrayLike[Double], offset: Double, result: Vector2): Unit = js.native
+  def FromArray(array: js.Array[Double], offset: Double = ???): Vector2 = js.native
+  def FromArrayToRef(array: js.Array[Double], offset: Double, result: Vector2): Unit = js.native
   def CatmullRom(value1: Vector2, value2: Vector2, value3: Vector2, value4: Vector2, amount: Double): Vector2 = js.native
   def Clamp(value: Vector2, min: Vector2, max: Vector2): Vector2 = js.native
   def Hermite(value1: Vector2, tangent1: Vector2, value2: Vector2, tangent2: Vector2, amount: Double): Vector2 = js.native
@@ -3569,7 +3331,7 @@ object Vector2 extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Vector3")
-class Vector3 protected () extends js.Object {
+class Vector3 extends js.Object {
   def this(x: Double, y: Double, z: Double) = this()
   var x: Double = js.native
   var y: Double = js.native
@@ -3616,9 +3378,9 @@ class Vector3 protected () extends js.Object {
 @JSGlobal("BABYLON.Vector3")
 object Vector3 extends js.Object {
   def GetClipFactor(vector0: Vector3, vector1: Vector3, axis: Vector3, size: js.Any): Double = js.native
-//def FromArray(array: mutable.ArrayLike[Double], offset: Double = ???): Vector3 = js.native
+  def FromArray(array: js.Array[Double], offset: Double = ???): Vector3 = js.native
   def FromFloatArray(array: Float32Array, offset: Double = ???): Vector3 = js.native
-//  def FromArrayToRef(array: mutable.ArrayLike[Double], offset: Double, result: Vector3): Unit = js.native
+  def FromArrayToRef(array: js.Array[Double], offset: Double, result: Vector3): Unit = js.native
   def FromFloatArrayToRef(array: Float32Array, offset: Double, result: Vector3): Unit = js.native
   def FromFloatsToRef(x: Double, y: Double, z: Double, result: Vector3): Unit = js.native
   def Zero(): Vector3 = js.native
@@ -3657,7 +3419,7 @@ object Vector3 extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Vector4")
-class Vector4 protected () extends js.Object {
+class Vector4 extends js.Object {
   def this(x: Double, y: Double, z: Double, w: Double) = this()
   var x: Double = js.native
   var y: Double = js.native
@@ -3704,8 +3466,8 @@ class Vector4 protected () extends js.Object {
 @js.native
 @JSGlobal("BABYLON.Vector4")
 object Vector4 extends js.Object {
-//  def FromArray(array: mutable.ArrayLike[Double], offset: Double = ???): Vector4 = js.native
-//  def FromArrayToRef(array: mutable.ArrayLike[Double], offset: Double, result: Vector4): Unit = js.native
+  def FromArray(array: js.Array[Double], offset: Double = ???): Vector4 = js.native
+  def FromArrayToRef(array: js.Array[Double], offset: Double, result: Vector4): Unit = js.native
   def FromFloatArrayToRef(array: Float32Array, offset: Double, result: Vector4): Unit = js.native
   def FromFloatsToRef(x: Double, y: Double, z: Double, w: Double, result: Vector4): Unit = js.native
   def Zero(): Vector4 = js.native
@@ -3730,10 +3492,10 @@ trait ISize extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Size")
-class Size protected () extends ISize {
+class Size extends ISize {
   def this(width: Double, height: Double) = this()
-  override var width: Double = js.native
-  override var height: Double = js.native
+
+
   override def toString(): String = js.native
   def getClassName(): String = js.native
   def getHashCode(): Double = js.native
@@ -3757,7 +3519,7 @@ object Size extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Quaternion")
-class Quaternion protected () extends js.Object {
+class Quaternion extends js.Object {
   def this(x: Double = ???, y: Double = ???, z: Double = ???, w: Double = ???) = this()
   var x: Double = js.native
   var y: Double = js.native
@@ -3800,7 +3562,7 @@ object Quaternion extends js.Object {
   def IsIdentity(quaternion: Quaternion): Boolean = js.native
   def RotationAxis(axis: Vector3, angle: Double): Quaternion = js.native
   def RotationAxisToRef(axis: Vector3, angle: Double, result: Quaternion): Quaternion = js.native
-//  def FromArray(array: mutable.ArrayLike[Double], offset: Double = ???): Quaternion = js.native
+  def FromArray(array: js.Array[Double], offset: Double = ???): Quaternion = js.native
   def RotationYawPitchRoll(yaw: Double, pitch: Double, roll: Double): Quaternion = js.native
   def RotationYawPitchRollToRef(yaw: Double, pitch: Double, roll: Double, result: Quaternion): Unit = js.native
   def RotationAlphaBetaGamma(alpha: Double, beta: Double, gamma: Double): Quaternion = js.native
@@ -3817,7 +3579,6 @@ object Quaternion extends js.Object {
 class Matrix extends js.Object {
   var updateFlag: Double = js.native
   var m: Float32Array = js.native
-  def _markAsUpdated(): Unit = js.native
   def isIdentity(considerAsTextureMatrix: Boolean = ???): Boolean = js.native
   def determinant(): Double = js.native
   def toArray(): Float32Array = js.native
@@ -3853,8 +3614,8 @@ class Matrix extends js.Object {
 @js.native
 @JSGlobal("BABYLON.Matrix")
 object Matrix extends js.Object {
-//  def FromArray(array: mutable.ArrayLike[Double], offset: Double = ???): Matrix = js.native
-//  def FromArrayToRef(array: mutable.ArrayLike[Double], offset: Double, result: Matrix): Unit = js.native
+  def FromArray(array: js.Array[Double], offset: Double = ???): Matrix = js.native
+  def FromArrayToRef(array: js.Array[Double], offset: Double, result: Matrix): Unit = js.native
   def FromFloat32ArrayToRefScaled(array: Float32Array, offset: Double, scale: Double, result: Matrix): Unit = js.native
   def FromValuesToRef(initialM11: Double, initialM12: Double, initialM13: Double, initialM14: Double, initialM21: Double, initialM22: Double, initialM23: Double, initialM24: Double, initialM31: Double, initialM32: Double, initialM33: Double, initialM34: Double, initialM41: Double, initialM42: Double, initialM43: Double, initialM44: Double, result: Matrix): Unit = js.native
   def FromValues(initialM11: Double, initialM12: Double, initialM13: Double, initialM14: Double, initialM21: Double, initialM22: Double, initialM23: Double, initialM24: Double, initialM31: Double, initialM32: Double, initialM33: Double, initialM34: Double, initialM41: Double, initialM42: Double, initialM43: Double, initialM44: Double): Matrix = js.native
@@ -3908,7 +3669,7 @@ object Matrix extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Plane")
-class Plane protected () extends js.Object {
+class Plane extends js.Object {
   def this(a: Double, b: Double, c: Double, d: Double) = this()
   var normal: Vector3 = js.native
   var d: Double = js.native
@@ -3927,7 +3688,7 @@ class Plane protected () extends js.Object {
 @js.native
 @JSGlobal("BABYLON.Plane")
 object Plane extends js.Object {
-//  def FromArray(array: mutable.ArrayLike[Double]): Plane = js.native
+  def FromArray(array: js.Array[Double]): Plane = js.native
   def FromPoints(point1: js.Any, point2: js.Any, point3: js.Any): Plane = js.native
   def FromPositionAndNormal(origin: Vector3, normal: Vector3): Plane = js.native
   def SignedDistanceToPlaneFromPositionAndNormal(origin: Vector3, normal: Vector3, point: Vector3): Double = js.native
@@ -3935,7 +3696,7 @@ object Plane extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Viewport")
-class Viewport protected () extends js.Object {
+class Viewport extends js.Object {
   def this(x: Double, y: Double, width: Double, height: Double) = this()
   var x: Double = js.native
   var y: Double = js.native
@@ -4010,7 +3771,7 @@ object Orientation extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Angle")
-class Angle protected () extends js.Object {
+class Angle extends js.Object {
   def this(radians: Double) = this()
   var degrees: js.Function0[Double] = js.native
   var radians: js.Function0[Double] = js.native
@@ -4026,7 +3787,7 @@ object Angle extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Arc2")
-class Arc2 protected () extends js.Object {
+class Arc2 extends js.Object {
   def this(startPoint: Vector2, midPoint: Vector2, endPoint: Vector2) = this()
   var startPoint: Vector2 = js.native
   var midPoint: Vector2 = js.native
@@ -4040,7 +3801,7 @@ class Arc2 protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Path2")
-class Path2 protected () extends js.Object {
+class Path2 extends js.Object {
   def this(x: Double, y: Double) = this()
   var closed: Boolean = js.native
   def addLineTo(x: Double, y: Double): Path2 = js.native
@@ -4059,7 +3820,7 @@ object Path2 extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Path3D")
-class Path3D protected () extends js.Object {
+class Path3D extends js.Object {
   def this(path: js.Array[Vector3], firstNormal: Vector3 = ???, raw: Boolean = ???) = this()
   var path: js.Array[Vector3] = js.native
   def getCurve(): js.Array[Vector3] = js.native
@@ -4072,7 +3833,7 @@ class Path3D protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Curve3")
-class Curve3 protected () extends js.Object {
+class Curve3 extends js.Object {
   def this(points: js.Array[Vector3]) = this()
   def getPoints(): js.Array[Vector3] = js.native
   def length(): Double = js.native
@@ -4090,7 +3851,7 @@ object Curve3 extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PositionNormalVertex")
-class PositionNormalVertex protected () extends js.Object {
+class PositionNormalVertex extends js.Object {
   def this(position: Vector3 = ???, normal: Vector3 = ???) = this()
   var position: Vector3 = js.native
   var normal: Vector3 = js.native
@@ -4099,7 +3860,7 @@ class PositionNormalVertex protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PositionNormalTextureVertex")
-class PositionNormalTextureVertex protected () extends js.Object {
+class PositionNormalTextureVertex extends js.Object {
   def this(position: Vector3 = ???, normal: Vector3 = ???, uv: Vector2 = ???) = this()
   var position: Vector3 = js.native
   var normal: Vector3 = js.native
@@ -4171,7 +3932,7 @@ object SphericalHarmonics extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.AbstractMesh")
-class AbstractMesh protected () extends Node with IDisposable with ICullable with IGetSetVerticesData {
+class AbstractMesh extends Node with ICullable with IGetSetVerticesData {
   def this(name: String, scene: Scene) = this()
   def facetNb: Double = js.native
   var partitioningSubdivisions: Double = js.native
@@ -4214,38 +3975,17 @@ class AbstractMesh protected () extends Node with IDisposable with ICullable wit
   var layerMask: Double = js.native
   var alwaysSelectAsActiveMesh: Boolean = js.native
   var actionManager: ActionManager = js.native
-//  var physicsImpostor: BABYLON.PhysicsImpostor = js.native
+  var physicsImpostor: PhysicsImpostor = js.native
   var ellipsoid: Vector3 = js.native
   var ellipsoidOffset: Vector3 = js.native
   var collisionMask: Double = js.native
   var collisionGroup: Double = js.native
   var edgesWidth: Double = js.native
   var edgesColor: Color4 = js.native
-  var _edgesRenderer: EdgesRenderer = js.native
-  var _worldMatrix: Matrix = js.native
-  var _masterMesh: AbstractMesh = js.native
-  var _boundingInfo: BoundingInfo = js.native
-  var _isDisposed: Boolean = js.native
-  var _renderId: Double = js.native
   var subMeshes: js.Array[SubMesh] = js.native
-  var _submeshesOctree: Octree[SubMesh] = js.native
-  var _intersectionsInProgress: js.Array[AbstractMesh] = js.native
-  var _unIndexed: Boolean = js.native
-  var _poseMatrix: Matrix = js.native
-  var _lightSources: js.Array[Light] = js.native
-  def _positions: js.Array[Vector3] = js.native
-  var _waitingActions: js.Any = js.native
-  var _waitingFreezeWorldMatrix: Boolean = js.native
-  var _bonesTransformMatrices: Float32Array = js.native
   var skeleton: Skeleton = js.native
   override def getClassName(): String = js.native
   def toString(fullDetails: Boolean = ???): String = js.native
-  def _resyncLightSources(): Unit = js.native
-  def _resyncLighSource(light: Light): Unit = js.native
-  def _removeLightSource(light: Light): Unit = js.native
-  def _markSubMeshesAsLightDirty(): Unit = js.native
-  def _markSubMeshesAsAttributesDirty(): Unit = js.native
-  def _markSubMeshesAsMiscDirty(): Unit = js.native
   var rotation: Vector3 = js.native
   var scaling: Vector3 = js.native
   var rotationQuaternion: Quaternion = js.native
@@ -4258,16 +3998,12 @@ class AbstractMesh protected () extends Node with IDisposable with ICullable wit
   def getTotalVertices(): Double = js.native
   def getIndices(): IndicesArray = js.native
   def getVerticesData(kind: String): js.Array[Double] | Float32Array = js.native
-  def setVerticesData(kind: String, data: js.Array[Double] | Float32Array, updatable: Boolean = ???, stride: Double = ???): Mesh = js.native
-  override def updateVerticesData(kind: String, data: js.Array[Double] | Float32Array, updateExtends: Boolean = ???, makeItUnique: Boolean = ???): Mesh = js.native
+
   def setIndices(indices: IndicesArray, totalVertices: Double = ???): Mesh = js.native
   override def isVerticesDataPresent(kind: String): Boolean = js.native
   def getBoundingInfo(): BoundingInfo = js.native
   def setBoundingInfo(boundingInfo: BoundingInfo): AbstractMesh = js.native
   def useBones: Boolean = js.native
-  def _preActivate(): Unit = js.native
-  def _preActivateForIntermediateRendering(renderId: Double): Unit = js.native
-  def _activate(renderId: Double): Unit = js.native
   override def getWorldMatrix(): Matrix = js.native
   def worldMatrixFromCache: Matrix = js.native
   def absolutePosition: Vector3 = js.native
@@ -4286,11 +4022,7 @@ class AbstractMesh protected () extends Node with IDisposable with ICullable wit
   def calcRotatePOV(flipBack: Double, twirlClockwise: Double, tiltRight: Double): Vector3 = js.native
   def setPivotMatrix(matrix: Matrix): AbstractMesh = js.native
   def getPivotMatrix(): Matrix = js.native
-  override def _isSynchronized(): Boolean = js.native
-  override def _initCache(): Unit = js.native
   def markAsDirty(property: String): AbstractMesh = js.native
-  def _updateBoundingInfo(): AbstractMesh = js.native
-  def _updateSubMeshesBoundingInfo(matrix: Matrix): AbstractMesh = js.native
   def computeWorldMatrix(force: Boolean = ???): Matrix = js.native
   def registerAfterWorldMatrixUpdate(func: js.Function1[AbstractMesh, Unit]): AbstractMesh = js.native
   def unregisterAfterWorldMatrixUpdate(func: js.Function1[AbstractMesh, Unit]): AbstractMesh = js.native
@@ -4312,10 +4044,6 @@ class AbstractMesh protected () extends Node with IDisposable with ICullable wit
   var checkCollisions: Boolean = js.native
   def moveWithCollisions(velocity: Vector3): AbstractMesh = js.native
   def createOrUpdateSubmeshesOctree(maxCapacity: Double = ???, maxDepth: Double = ???): Octree[SubMesh] = js.native
-  def _collideForSubMesh(subMesh: SubMesh, transformMatrix: Matrix, collider: Collider): AbstractMesh = js.native
-  def _processCollisionsForSubMeshes(collider: Collider, transformMatrix: Matrix): AbstractMesh = js.native
-  def _checkCollision(collider: Collider): AbstractMesh = js.native
-  def _generatePointsArray(): Boolean = js.native
   def intersects(ray: Ray, fastCheck: Boolean = ???): PickingInfo = js.native
   def clone(name: String, newParent: Node = ???, doNotCloneChildren: Boolean = ???): AbstractMesh = js.native
   def releaseSubMeshes(): AbstractMesh = js.native
@@ -4358,7 +4086,7 @@ object AbstractMesh extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Buffer")
-class Buffer protected () extends js.Object {
+class Buffer extends js.Object {
   def this(engine: js.Any, data: js.Array[Double] | Float32Array, updatable: Boolean, stride: Double, postponeInternalCreation: Boolean = ???, instanced: Boolean = ???) = this()
   def createVertexBuffer(kind: String, offset: Double, size: Double, stride: Double = ???): VertexBuffer = js.native
   def isUpdatable(): Boolean = js.native
@@ -4403,17 +4131,12 @@ object CSG extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Geometry")
-class Geometry protected () extends IGetSetVerticesData {
+class Geometry extends IGetSetVerticesData {
   def this(id: String, scene: Scene, vertexData: VertexData = ???, updatable: Boolean = ???, mesh: Mesh = ???) = this()
   var id: String = js.native
   var delayLoadState: Double = js.native
   var delayLoadingFile: String = js.native
   var onGeometryUpdated: js.Function2[Geometry, String, Unit] = js.native
-  var _delayInfo: js.Any = js.native
-  var _boundingInfo: BoundingInfo = js.native
-  var _delayLoadingFunction: js.Function2[js.Any, Geometry, Unit] = js.native
-  var _softwareSkinningRenderId: Double = js.native
-  var _positions: js.Array[Vector3] = js.native
   var boundingBias: Vector2 = js.native
   def extend: js.Any = js.native
   def getScene(): Scene = js.native
@@ -4425,8 +4148,6 @@ class Geometry protected () extends IGetSetVerticesData {
   def removeVerticesData(kind: String): Unit = js.native
   def setVerticesBuffer(buffer: VertexBuffer): Unit = js.native
   def updateVerticesDataDirectly(kind: String, data: Float32Array, offset: Double): Unit = js.native
-  def updateVerticesData(kind: String, data: js.Array[Double] | Float32Array, updateExtends: Boolean = ???): Unit = js.native
-  def _bind(effect: Effect, indexToBind: WebGLBuffer = ???): Unit = js.native
   def getTotalVertices(): Double = js.native
   override def getVerticesData(kind: String, copyWhenShared: Boolean = ???, forceCopy: Boolean = ???): js.Array[Double] | Float32Array = js.native
   def getVertexBuffer(kind: String): VertexBuffer = js.native
@@ -4437,13 +4158,10 @@ class Geometry protected () extends IGetSetVerticesData {
   def getTotalIndices(): Double = js.native
   override def getIndices(copyWhenShared: Boolean = ???): IndicesArray = js.native
   def getIndexBuffer(): WebGLBuffer = js.native
-  def _releaseVertexArrayObject(effect: Effect): Unit = js.native
   def releaseForMesh(mesh: Mesh, shouldDispose: Boolean = ???): Unit = js.native
   def applyToMesh(mesh: Mesh): Unit = js.native
   def load(scene: Scene, onLoaded: js.Function0[Unit] = ???): Unit = js.native
   def toLeftHanded(): Unit = js.native
-  def _resetPointsArrayCache(): Unit = js.native
-  def _generatePointsArray(): Boolean = js.native
   def isDisposed(): Boolean = js.native
   def dispose(): Unit = js.native
   def copy(id: String): Geometry = js.native
@@ -4460,44 +4178,40 @@ object Geometry extends js.Object {
   def Parse(parsedVertexData: js.Any, scene: Scene, rootUrl: String): Geometry = js.native
 }
 
-package GeometryP {
+package GeometryPACKAGE {
 
 package Primitives {
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives._Primitive")
-class _Primitive protected () extends Geometry {
+class _Primitive extends Geometry {
   def this(id: String, scene: Scene, _canBeRegenerated: Boolean = ???, mesh: Mesh = ???) = this()
   def canBeRegenerated(): Boolean = js.native
   def regenerate(): Unit = js.native
   def asNewGeometry(id: String): Geometry = js.native
   override def setAllVerticesData(vertexData: VertexData, updatable: Boolean = ???): Unit = js.native
-  override def setVerticesData(kind: String, data: js.Array[Double] | Float32Array, updatable: Boolean = ???): Unit = js.native
-  def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
   override def serialize(): js.Dynamic = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Ribbon")
-class Ribbon protected () extends _Primitive {
+class Ribbon extends _Primitive {
   def this(id: String, scene: Scene, pathArray: js.Array[js.Array[Vector3]], closeArray: Boolean, closePath: Boolean, offset: Double, canBeRegenerated: Boolean = ???, mesh: Mesh = ???, side: Double = ???) = this()
   var pathArray: js.Array[js.Array[Vector3]] = js.native
   var closeArray: Boolean = js.native
   var closePath: Boolean = js.native
   var offset: Double = js.native
   var side: Double = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Box")
-class Box protected () extends _Primitive {
+class Box extends _Primitive {
   def this(id: String, scene: Scene, size: Double, canBeRegenerated: Boolean = ???, mesh: Mesh = ???, side: Double = ???) = this()
   var size: Double = js.native
   var side: Double = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
   override def serialize(): js.Dynamic = js.native
 }
@@ -4510,12 +4224,11 @@ object Box extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Sphere")
-class Sphere protected () extends _Primitive {
+class Sphere extends _Primitive {
   def this(id: String, scene: Scene, segments: Double, diameter: Double, canBeRegenerated: Boolean = ???, mesh: Mesh = ???, side: Double = ???) = this()
   var segments: Double = js.native
   var diameter: Double = js.native
   var side: Double = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
   override def serialize(): js.Dynamic = js.native
 }
@@ -4523,23 +4236,22 @@ class Sphere protected () extends _Primitive {
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Sphere")
 object Sphere extends js.Object {
-//  def Parse(parsedSphere: js.Any, scene: Scene): Geometry.Primitives.Sphere = js.native
+  def Parse(parsedSphere: js.Any, scene: Scene): GeometryPACKAGE.Primitives.Sphere = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Disc")
-class Disc protected () extends _Primitive {
+class Disc extends _Primitive {
   def this(id: String, scene: Scene, radius: Double, tessellation: Double, canBeRegenerated: Boolean = ???, mesh: Mesh = ???, side: Double = ???) = this()
   var radius: Double = js.native
   var tessellation: Double = js.native
   var side: Double = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Cylinder")
-class Cylinder protected () extends _Primitive {
+class Cylinder extends _Primitive {
   def this(id: String, scene: Scene, height: Double, diameterTop: Double, diameterBottom: Double, tessellation: Double, subdivisions: Double = ???, canBeRegenerated: Boolean = ???, mesh: Mesh = ???, side: Double = ???) = this()
   var height: Double = js.native
   var diameterTop: Double = js.native
@@ -4547,7 +4259,6 @@ class Cylinder protected () extends _Primitive {
   var tessellation: Double = js.native
   var subdivisions: Double = js.native
   var side: Double = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
   override def serialize(): js.Dynamic = js.native
 }
@@ -4555,18 +4266,17 @@ class Cylinder protected () extends _Primitive {
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Cylinder")
 object Cylinder extends js.Object {
-//  def Parse(parsedCylinder: js.Any, scene: Scene): Geometry.Primitives.Cylinder = js.native
+  def Parse(parsedCylinder: js.Any, scene: Scene): GeometryPACKAGE.Primitives.Cylinder = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Torus")
-class Torus protected () extends _Primitive {
+class Torus extends _Primitive {
   def this(id: String, scene: Scene, diameter: Double, thickness: Double, tessellation: Double, canBeRegenerated: Boolean = ???, mesh: Mesh = ???, side: Double = ???) = this()
   var diameter: Double = js.native
   var thickness: Double = js.native
   var tessellation: Double = js.native
   var side: Double = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
   override def serialize(): js.Dynamic = js.native
 }
@@ -4574,17 +4284,16 @@ class Torus protected () extends _Primitive {
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Torus")
 object Torus extends js.Object {
-//  def Parse(parsedTorus: js.Any, scene: Scene): Geometry.Primitives.Torus = js.native
+  def Parse(parsedTorus: js.Any, scene: Scene): GeometryPACKAGE.Primitives.Torus = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Ground")
-class Ground protected () extends _Primitive {
+class Ground extends _Primitive {
   def this(id: String, scene: Scene, width: Double, height: Double, subdivisions: Double, canBeRegenerated: Boolean = ???, mesh: Mesh = ???) = this()
   var width: Double = js.native
   var height: Double = js.native
   var subdivisions: Double = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
   override def serialize(): js.Dynamic = js.native
 }
@@ -4592,12 +4301,12 @@ class Ground protected () extends _Primitive {
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Ground")
 object Ground extends js.Object {
-//  def Parse(parsedGround: js.Any, scene: Scene): Geometry.Primitives.Ground = js.native
+  def Parse(parsedGround: js.Any, scene: Scene): GeometryPACKAGE.Primitives.Ground = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.TiledGround")
-class TiledGround protected () extends _Primitive {
+class TiledGround extends _Primitive {
   def this(id: String, scene: Scene, xmin: Double, zmin: Double, xmax: Double, zmax: Double, subdivisions: js.Any, precision: js.Any, canBeRegenerated: Boolean = ???, mesh: Mesh = ???) = this()
   var xmin: Double = js.native
   var zmin: Double = js.native
@@ -4605,17 +4314,15 @@ class TiledGround protected () extends _Primitive {
   var zmax: Double = js.native
   var subdivisions: js.Any = js.native
   var precision: js.Any = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Plane")
-class Plane protected () extends _Primitive {
+class Plane extends _Primitive {
   def this(id: String, scene: Scene, size: Double, canBeRegenerated: Boolean = ???, mesh: Mesh = ???, side: Double = ???) = this()
   var size: Double = js.native
   var side: Double = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
   override def serialize(): js.Dynamic = js.native
 }
@@ -4623,12 +4330,12 @@ class Plane protected () extends _Primitive {
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.Plane")
 object Plane extends js.Object {
-//  def Parse(parsedPlane: js.Any, scene: Scene): Geometry.Primitives.Plane = js.native
+  def Parse(parsedPlane: js.Any, scene: Scene): GeometryPACKAGE.Primitives.Plane = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.TorusKnot")
-class TorusKnot protected () extends _Primitive {
+class TorusKnot extends _Primitive {
   def this(id: String, scene: Scene, radius: Double, tube: Double, radialSegments: Double, tubularSegments: Double, p: Double, q: Double, canBeRegenerated: Boolean = ???, mesh: Mesh = ???, side: Double = ???) = this()
   var radius: Double = js.native
   var tube: Double = js.native
@@ -4637,7 +4344,6 @@ class TorusKnot protected () extends _Primitive {
   var p: Double = js.native
   var q: Double = js.native
   var side: Double = js.native
-  override def _regenerateVertexData(): VertexData = js.native
   override def copy(id: String): Geometry = js.native
   override def serialize(): js.Dynamic = js.native
 }
@@ -4645,7 +4351,7 @@ class TorusKnot protected () extends _Primitive {
 @js.native
 @JSGlobal("BABYLON.Geometry.Primitives.TorusKnot")
 object TorusKnot extends js.Object {
-//  def Parse(parsedTorusKnot: js.Any, scene: Scene): Geometry.Primitives.TorusKnot = js.native
+  def Parse(parsedTorusKnot: js.Any, scene: Scene): GeometryPACKAGE.Primitives.TorusKnot = js.native
 }
 
 }
@@ -4654,17 +4360,9 @@ object TorusKnot extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.GroundMesh")
-class GroundMesh protected () extends Mesh {
+class GroundMesh extends Mesh {
   def this(name: String, scene: Scene) = this()
   var generateOctree: Boolean = js.native
-  var _subdivisionsX: Double = js.native
-  var _subdivisionsY: Double = js.native
-  var _width: Double = js.native
-  var _height: Double = js.native
-  var _minX: Double = js.native
-  var _maxX: Double = js.native
-  var _minZ: Double = js.native
-  var _maxZ: Double = js.native
   override def getClassName(): String = js.native
   def subdivisions: Double = js.native
   def subdivisionsX: Double = js.native
@@ -4685,49 +4383,38 @@ object GroundMesh extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.InstancedMesh")
-class InstancedMesh protected () extends AbstractMesh {
+class InstancedMesh extends AbstractMesh {
   def this(name: String, source: Mesh) = this()
   override def getClassName(): String = js.native
-  override var receiveShadows: Boolean = js.native
-  override var material: Material = js.native
-  override var visibility: Double = js.native
-  override var skeleton: Skeleton = js.native
-  override var renderingGroupId: Double = js.native
+
+
+
+
+
   override def getTotalVertices(): Double = js.native
   def sourceMesh: Mesh = js.native
-  def getVerticesData(kind: String, copyWhenShared: Boolean = ???): js.Array[Double] | Float32Array = js.native
-  override def setVerticesData(kind: String, data: js.Array[Double] | Float32Array, updatable: Boolean = ???, stride: Double = ???): Mesh = js.native
-  override def updateVerticesData(kind: String, data: js.Array[Double] | Float32Array, updateExtends: Boolean = ???, makeItUnique: Boolean = ???): Mesh = js.native
+
   override def setIndices(indices: IndicesArray, totalVertices: Double = ???): Mesh = js.native
   override def isVerticesDataPresent(kind: String): Boolean = js.native
   override def getIndices(): IndicesArray = js.native
-  override def _positions: js.Array[Vector3] = js.native
   def refreshBoundingInfo(): InstancedMesh = js.native
-  override def _preActivate(): InstancedMesh = js.native
-  override def _activate(renderId: Double): InstancedMesh = js.native
   override def getLOD(camera: Camera): AbstractMesh = js.native
-  def _syncSubMeshes(): InstancedMesh = js.native
-  override def _generatePointsArray(): Boolean = js.native
-  override def clone(name: String, newParent: Node, doNotCloneChildren: Boolean = ???): InstancedMesh = js.native
   override def dispose(doNotRecurse: Boolean = ???): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.LinesMesh")
-class LinesMesh protected () extends Mesh {
+class LinesMesh extends Mesh {
   def this(name: String, scene: Scene, parent: Node = ???, source: LinesMesh = ???, doNotCloneChildren: Boolean = ???, useVertexColor: Boolean = ???) = this()
   var useVertexColor: Boolean = js.native
   var color: Color3 = js.native
   var alpha: Double = js.native
   var intersectionThreshold: Double = js.native
   override def getClassName(): String = js.native
-  override var material: Material = js.native
-  override var checkCollisions: Boolean = js.native
+
+
   override def createInstance(name: String): InstancedMesh = js.native
-  override def _bind(subMesh: SubMesh, effect: Effect, fillMode: Double): LinesMesh = js.native
-  override def _draw(subMesh: SubMesh, fillMode: Double, instancesCount: Double = ???): LinesMesh = js.native
   override def dispose(doNotRecurse: Boolean = ???): Unit = js.native
-  override def clone(name: String, newParent: Node = ???, doNotCloneChildren: Boolean = ???): LinesMesh = js.native
 }
 
 @js.native
@@ -4740,7 +4427,7 @@ class _InstancesBatch extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Mesh")
-class Mesh protected () extends AbstractMesh with IGetSetVerticesData {
+class Mesh extends AbstractMesh with IGetSetVerticesData {
   def this(name: String, scene: Scene, parent: Node = ???, source: Mesh = ???, doNotCloneChildren: Boolean = ???, clonePhysicsImpostor: Boolean = ???) = this()
   var onBeforeRenderObservable: Observable[Mesh] = js.native
   var onAfterRenderObservable: Observable[Mesh] = js.native
@@ -4749,15 +4436,9 @@ class Mesh protected () extends AbstractMesh with IGetSetVerticesData {
   var delayLoadState: Double = js.native
   var instances: js.Array[InstancedMesh] = js.native
   var delayLoadingFile: String = js.native
-  var _binaryInfo: js.Any = js.native
   var onLODLevelSelection: js.Function3[Double, Mesh, Mesh, Unit] = js.native
   var morphTargetManager: MorphTargetManager = js.native
-  var _geometry: Geometry = js.native
-  var _delayInfo: js.Any = js.native
-  var _delayLoadingFunction: js.Function2[js.Any, Mesh, Unit] = js.native
-  var _visibleInstances: js.Any = js.native
-  var _shouldGenerateFlatShading: Boolean = js.native
-//  def source: BABYLON.Mesh = js.native
+  def source: Mesh = js.native
   override def getClassName(): String = js.native
   override def toString(fullDetails: Boolean = ???): String = js.native
   def hasLODLevels: Boolean = js.native
@@ -4781,42 +4462,27 @@ class Mesh protected () extends AbstractMesh with IGetSetVerticesData {
   def freezeNormals(): Mesh = js.native
   def unfreezeNormals(): Mesh = js.native
   var overridenInstanceCount: Double = js.native
-  override def _preActivate(): Mesh = js.native
-  override def _preActivateForIntermediateRendering(renderId: Double): Mesh = js.native
-  def _registerInstanceForRenderId(instance: InstancedMesh, renderId: Double): Mesh = js.native
   def refreshBoundingInfo(): Mesh = js.native
-  def _createGlobalSubMesh(): SubMesh = js.native
   def subdivide(count: Double): Unit = js.native
-  override def setVerticesData(kind: String, data: js.Array[Double] | Float32Array, updatable: Boolean = ???, stride: Double = ???): Mesh = js.native
   def markVerticesDataAsUpdatable(kind: String, updatable: Boolean = ???): Unit = js.native
   def setVerticesBuffer(buffer: VertexBuffer): Mesh = js.native
-  override def updateVerticesData(kind: String, data: js.Array[Double] | Float32Array, updateExtends: Boolean = ???, makeItUnique: Boolean = ???): Mesh = js.native
+
   def updateMeshPositions(positionFunction: js.Any, computeNormals: Boolean = ???): Mesh = js.native
   def makeGeometryUnique(): Mesh = js.native
   override def setIndices(indices: IndicesArray, totalVertices: Double = ???): Mesh = js.native
   def toLeftHanded(): Mesh = js.native
-  def _bind(subMesh: SubMesh, effect: Effect, fillMode: Double): Mesh = js.native
-  def _draw(subMesh: SubMesh, fillMode: Double, instancesCount: Double = ???): Mesh = js.native
   def registerBeforeRender(func: js.Function1[AbstractMesh, Unit]): Mesh = js.native
   def unregisterBeforeRender(func: js.Function1[AbstractMesh, Unit]): Mesh = js.native
   def registerAfterRender(func: js.Function1[AbstractMesh, Unit]): Mesh = js.native
   def unregisterAfterRender(func: js.Function1[AbstractMesh, Unit]): Mesh = js.native
-  def _getInstancesRenderList(subMeshId: Double): _InstancesBatch = js.native
-  def _renderWithInstances(subMesh: SubMesh, fillMode: Double, batch: _InstancesBatch, effect: Effect, engine: Engine): Mesh = js.native
-  def _processRendering(subMesh: SubMesh, effect: Effect, fillMode: Double, batch: _InstancesBatch, hardwareInstancedRendering: Boolean, onBeforeDraw: js.Function3[Boolean, Matrix, Material, Unit], effectiveMaterial: Material = ???): Mesh = js.native
   def render(subMesh: SubMesh, enableAlphaMode: Boolean): Mesh = js.native
   def getEmittedParticleSystems(): js.Array[ParticleSystem] = js.native
   def getHierarchyEmittedParticleSystems(): js.Array[ParticleSystem] = js.native
-  def _checkDelayState(): Mesh = js.native
   override def isInFrustum(frustumPlanes: js.Array[Plane]): Boolean = js.native
   def setMaterialByID(id: String): Mesh = js.native
   def getAnimatables(): js.Array[IAnimatable] = js.native
   def bakeTransformIntoVertices(transform: Matrix): Mesh = js.native
   def bakeCurrentTransformIntoVertices(): Mesh = js.native
-  override def _positions: js.Array[Vector3] = js.native
-  def _resetPointsArrayCache(): Mesh = js.native
-  override def _generatePointsArray(): Boolean = js.native
-  def clone(name: String, newParent: Node = ???, doNotCloneChildren: Boolean = ???, clonePhysicsImpostor: Boolean = ???): Mesh = js.native
   override def dispose(doNotRecurse: Boolean = ???): Unit = js.native
   def applyDisplacementMap(url: String, minHeight: Double, maxHeight: Double, onSuccess: js.Function1[Mesh, Unit] = ???, uvOffset: Vector2 = ???, uvScale: Vector2 = ???): Mesh = js.native
   def applyDisplacementMapFromBuffer(buffer: Uint8Array, heightMapWidth: Double, heightMapHeight: Double, minHeight: Double, maxHeight: Double, uvOffset: Vector2 = ???, uvScale: Vector2 = ???): Mesh = js.native
@@ -4828,7 +4494,6 @@ class Mesh protected () extends AbstractMesh with IGetSetVerticesData {
   def simplify(settings: js.Array[ISimplificationSettings], parallelProcessing: Boolean = ???, simplificationType: SimplificationType = ???, successCallback: js.Function2[Mesh, Double, Unit] = ???): Mesh = js.native
   def optimizeIndices(successCallback: js.Function1[Mesh, Unit] = ???): Mesh = js.native
   def serialize(serializationObject: js.Any): Unit = js.native
-  def _syncGeometryWithMorphTargetManager(): Unit = js.native
   def setPositionsForCPUSkinning(): Float32Array = js.native
   def setNormalsForCPUSkinning(): Float32Array = js.native
   def applySkeleton(skeleton: Skeleton): Mesh = js.native
@@ -4837,14 +4502,6 @@ class Mesh protected () extends AbstractMesh with IGetSetVerticesData {
 @js.native
 @JSGlobal("BABYLON.Mesh")
 object Mesh extends js.Object {
-  var _FRONTSIDE: Double = js.native
-  var _BACKSIDE: Double = js.native
-  var _DOUBLESIDE: Double = js.native
-  var _DEFAULTSIDE: Double = js.native
-  var _NO_CAP: Double = js.native
-  var _CAP_START: Double = js.native
-  var _CAP_END: Double = js.native
-  var _CAP_ALL: Double = js.native
   def FRONTSIDE: Double = js.native
   def BACKSIDE: Double = js.native
   def DOUBLESIDE: Double = js.native
@@ -4886,7 +4543,6 @@ trait IGetSetVerticesData extends js.Object {
   def isVerticesDataPresent(kind: String): Boolean = js.native
   def getVerticesData(kind: String, copyWhenShared: Boolean = ???, forceCopy: Boolean = ???): js.Array[Double] | Float32Array = js.native
   def getIndices(copyWhenShared: Boolean = ???): IndicesArray = js.native
-  def setVerticesData(kind: String, data: js.Array[Double] | Float32Array, updatable: Boolean = ???): Unit = js.native
   def updateVerticesData(kind: String, data: js.Array[Double] | Float32Array, updateExtends: Boolean = ???, makeItUnique: Boolean = ???): Unit = js.native
   def setIndices(indices: IndicesArray): Unit = js.native
 }
@@ -4979,9 +4635,11 @@ object MeshBuilder extends js.Object {
 
 package Internals {
 
-@js.native
+  import scala.scalajs.js.annotation.JSName
+
+  @js.native
 @JSGlobal("BABYLON.Internals.MeshLODLevel")
-class MeshLODLevel protected () extends js.Object {
+class MeshLODLevel extends js.Object {
   def this(distance: Double, mesh: Mesh) = this()
   var distance: Double = js.native
   var mesh: Mesh = js.native
@@ -5072,7 +4730,7 @@ object DDSTools extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Internals.KhronosTextureContainer")
-class KhronosTextureContainer protected () extends js.Object {
+class KhronosTextureContainer extends js.Object {
   def this(arrayBuffer: js.Any, facesExpected: Double, threeDExpected: Boolean = ???, textureArrayExpected: Boolean = ???) = this()
   var arrayBuffer: js.Any = js.native
   var glType: Double = js.native
@@ -5112,17 +4770,11 @@ class TGATools extends js.Object {
 object TGATools extends js.Object {
   def GetTGAHeader(data: Uint8Array): js.Dynamic = js.native
   def UploadContent(gl: WebGLRenderingContext, data: Uint8Array): Unit = js.native
-  def _getImageData8bits(header: js.Any, palettes: Uint8Array, pixel_data: Uint8Array, y_start: Double, y_step: Double, y_end: Double, x_start: Double, x_step: Double, x_end: Double): Uint8Array = js.native
-  def _getImageData16bits(header: js.Any, palettes: Uint8Array, pixel_data: Uint8Array, y_start: Double, y_step: Double, y_end: Double, x_start: Double, x_step: Double, x_end: Double): Uint8Array = js.native
-  def _getImageData24bits(header: js.Any, palettes: Uint8Array, pixel_data: Uint8Array, y_start: Double, y_step: Double, y_end: Double, x_start: Double, x_step: Double, x_end: Double): Uint8Array = js.native
-  def _getImageData32bits(header: js.Any, palettes: Uint8Array, pixel_data: Uint8Array, y_start: Double, y_step: Double, y_end: Double, x_start: Double, x_step: Double, x_end: Double): Uint8Array = js.native
-  def _getImageDataGrey8bits(header: js.Any, palettes: Uint8Array, pixel_data: Uint8Array, y_start: Double, y_step: Double, y_end: Double, x_start: Double, x_step: Double, x_end: Double): Uint8Array = js.native
-  def _getImageDataGrey16bits(header: js.Any, palettes: Uint8Array, pixel_data: Uint8Array, y_start: Double, y_step: Double, y_end: Double, x_start: Double, x_step: Double, x_end: Double): Uint8Array = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Internals.PBRBaseSimpleMaterial")
-abstract class PBRBaseSimpleMaterial protected () extends PBRBaseMaterial {
+abstract class PBRBaseSimpleMaterial extends PBRBaseMaterial {
   def this(name: String, scene: Scene) = this()
   var maxSimultaneousLights: Double = js.native
   var disableLighting: Boolean = js.native
@@ -5138,7 +4790,6 @@ abstract class PBRBaseSimpleMaterial protected () extends PBRBaseMaterial {
   protected var _transparencyMode: Double = js.native
   var transparencyMode: Double = js.native
   var doubleSided: Boolean = js.native
-  override def _shouldUseAlphaFromAlbedoTexture(): Boolean = js.native
   override def needAlphaBlending(): Boolean = js.native
   override def needAlphaTesting(): Boolean = js.native
 }
@@ -5216,11 +4867,11 @@ trait ISimplificationSettings extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.SimplificationSettings")
-class SimplificationSettings protected () extends ISimplificationSettings {
+class SimplificationSettings extends ISimplificationSettings {
   def this(quality: Double, distance: Double, optimizeMesh: Boolean = ???) = this()
-  override var quality: Double = js.native
-  override var distance: Double = js.native
-  override var optimizeMesh: Boolean = js.native
+
+
+
 }
 
 @js.native
@@ -5255,7 +4906,7 @@ object SimplificationType extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DecimationTriangle")
-class DecimationTriangle protected () extends js.Object {
+class DecimationTriangle extends js.Object {
   def this(vertices: js.Array[DecimationVertex]) = this()
   var vertices: js.Array[DecimationVertex] = js.native
   var normal: Vector3 = js.native
@@ -5269,7 +4920,7 @@ class DecimationTriangle protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DecimationVertex")
-class DecimationVertex protected () extends js.Object {
+class DecimationVertex extends js.Object {
   def this(position: Vector3, id: js.Any) = this()
   var position: Vector3 = js.native
   var id: js.Any = js.native
@@ -5283,7 +4934,7 @@ class DecimationVertex protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.QuadraticMatrix")
-class QuadraticMatrix protected () extends js.Object {
+class QuadraticMatrix extends js.Object {
   def this(data: js.Array[Double] = ???) = this()
   var data: js.Array[Double] = js.native
   def det(a11: js.Any, a12: js.Any, a13: js.Any, a21: js.Any, a22: js.Any, a23: js.Any, a31: js.Any, a32: js.Any, a33: js.Any): Double = js.native
@@ -5301,7 +4952,7 @@ object QuadraticMatrix extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Reference")
-class Reference protected () extends js.Object {
+class Reference extends js.Object {
   def this(vertexId: Double, triangleId: Double) = this()
   var vertexId: Double = js.native
   var triangleId: Double = js.native
@@ -5309,7 +4960,7 @@ class Reference protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.QuadraticErrorSimplification")
-class QuadraticErrorSimplification protected () extends ISimplifier {
+class QuadraticErrorSimplification extends ISimplifier {
   def this(_mesh: Mesh) = this()
   var syncIterations: Double = js.native
   var aggressiveness: Double = js.native
@@ -5334,7 +4985,7 @@ object Polygon extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PolygonMeshBuilder")
-class PolygonMeshBuilder protected () extends js.Object {
+class PolygonMeshBuilder extends js.Object {
   def this(name: String, contours: Path2, scene: Scene) = this()
   def this(name: String, contours: js.Array[Vector2], scene: Scene) = this()
   def addHole(hole: js.Array[Vector2]): PolygonMeshBuilder = js.native
@@ -5344,15 +4995,13 @@ class PolygonMeshBuilder protected () extends js.Object {
 @js.native
 @JSGlobal("BABYLON.BaseSubMesh")
 class BaseSubMesh extends js.Object {
-  var _materialDefines: MaterialDefines = js.native
-  var _materialEffect: Effect = js.native
   def effect: Effect = js.native
   def setEffect(effect: Effect, defines: MaterialDefines = ???): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.SubMesh")
-class SubMesh protected () extends BaseSubMesh with ICullable {
+class SubMesh extends BaseSubMesh with ICullable {
   def this(materialIndex: Double, verticesStart: Double, verticesCount: Double, indexStart: js.Any, indexCount: Double, mesh: AbstractMesh, renderingMesh: Mesh = ???, createBoundingBox: Boolean = ???) = this()
   var materialIndex: Double = js.native
   var verticesStart: Double = js.native
@@ -5360,13 +5009,6 @@ class SubMesh protected () extends BaseSubMesh with ICullable {
   var indexStart: js.Any = js.native
   var indexCount: Double = js.native
   var linesIndexCount: Double = js.native
-  var _lastColliderWorldVertices: js.Array[Vector3] = js.native
-  var _trianglePlanes: js.Array[Plane] = js.native
-  var _lastColliderTransformMatrix: Matrix = js.native
-  var _renderId: Double = js.native
-  var _alphaIndex: Double = js.native
-  var _distanceToCamera: Double = js.native
-  var _id: Double = js.native
   def IsGlobal: Boolean = js.native
   def getBoundingInfo(): BoundingInfo = js.native
   def setBoundingInfo(boundingInfo: BoundingInfo): SubMesh = js.native
@@ -5374,7 +5016,6 @@ class SubMesh protected () extends BaseSubMesh with ICullable {
   def getRenderingMesh(): Mesh = js.native
   def getMaterial(): Material = js.native
   def refreshBoundingInfo(): SubMesh = js.native
-  def _checkCollision(collider: Collider): Boolean = js.native
   def updateBoundingInfo(world: Matrix): SubMesh = js.native
   override def isInFrustum(frustumPlanes: js.Array[Plane]): Boolean = js.native
   override def isCompletelyInFrustum(frustumPlanes: js.Array[Plane]): Boolean = js.native
@@ -5382,7 +5023,6 @@ class SubMesh protected () extends BaseSubMesh with ICullable {
   def getLinesIndexBuffer(indices: IndicesArray, engine: Engine): WebGLBuffer = js.native
   def canIntersects(ray: Ray): Boolean = js.native
   def intersects(ray: Ray, positions: js.Array[Vector3], indices: IndicesArray, fastCheck: Boolean = ???): IntersectionInfo = js.native
-  def clone(newMesh: AbstractMesh, newRenderingMesh: Mesh = ???): SubMesh = js.native
   def dispose(): Unit = js.native
 }
 
@@ -5394,7 +5034,7 @@ object SubMesh extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.VertexBuffer")
-class VertexBuffer protected () extends js.Object {
+class VertexBuffer extends js.Object {
   def this(engine: js.Any, data: js.Array[Double] | Float32Array | Buffer, kind: String, updatable: Boolean, postponeInternalCreation: Boolean = ???, stride: Double = ???, instanced: Boolean = ???, offset: Double = ???, size: Double = ???) = this()
   def getKind(): String = js.native
   def isUpdatable(): Boolean = js.native
@@ -5432,7 +5072,7 @@ object VertexBuffer extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.MorphTarget")
-class MorphTarget protected () extends js.Object {
+class MorphTarget extends js.Object {
   def this(name: String, influence: Double = ???) = this()
   var name: String = js.native
   var animations: js.Array[Animation] = js.native
@@ -5458,7 +5098,7 @@ object MorphTarget extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.MorphTargetManager")
-class MorphTargetManager protected () extends js.Object {
+class MorphTargetManager extends js.Object {
   def this(scene: Scene = ???) = this()
   def uniqueId: Double = js.native
   def vertexCount: Double = js.native
@@ -5497,10 +5137,10 @@ class Particle extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.ParticleSystem")
-class ParticleSystem protected () extends IDisposable with IAnimatable {
+class ParticleSystem extends IDisposable with IAnimatable {
   def this(name: String, capacity: Double, scene: Scene, customEffect: Effect = ???) = this()
   var name: String = js.native
-  override var animations: js.Array[Animation] = js.native
+
   var id: String = js.native
   var renderingGroupId: Double = js.native
   var emitter: js.Any = js.native
@@ -5543,7 +5183,6 @@ class ParticleSystem protected () extends IDisposable with IAnimatable {
   def isStarted(): Boolean = js.native
   def start(): Unit = js.native
   def stop(): Unit = js.native
-  def _appendParticleVertex(index: Double, particle: Particle, offsetX: Double, offsetY: Double): Unit = js.native
   def animate(): Unit = js.native
   def render(): Double = js.native
   override def dispose(): Unit = js.native
@@ -5561,7 +5200,7 @@ object ParticleSystem extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.SolidParticle")
-class SolidParticle protected () extends js.Object {
+class SolidParticle extends js.Object {
   def this(particleIndex: Double, positionIndex: Double, model: ModelShape, shapeId: Double, idxInShape: Double, sps: SolidParticleSystem, modelBoundingInfo: BoundingInfo = ???) = this()
   var idx: Double = js.native
   var color: Color4 = js.native
@@ -5573,13 +5212,8 @@ class SolidParticle protected () extends js.Object {
   var velocity: Vector3 = js.native
   var alive: Boolean = js.native
   var isVisible: Boolean = js.native
-  var _pos: Double = js.native
-  var _model: ModelShape = js.native
   var shapeId: Double = js.native
   var idxInShape: Double = js.native
-  var _modelBoundingInfo: BoundingInfo = js.native
-  var _boundingInfo: BoundingInfo = js.native
-  var _sps: SolidParticleSystem = js.native
   var scale: Vector3 = js.native
   var quaternion: Quaternion = js.native
   def intersectsMesh(target: Mesh | SolidParticle): Boolean = js.native
@@ -5587,18 +5221,14 @@ class SolidParticle protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.ModelShape")
-class ModelShape protected () extends js.Object {
+class ModelShape extends js.Object {
   def this(id: Double, shape: js.Array[Vector3], shapeUV: js.Array[Double], posFunction: js.Function3[SolidParticle, Double, Double, Unit], vtxFunction: js.Function3[SolidParticle, Vector3, Double, Unit]) = this()
   var shapeID: Double = js.native
-  var _shape: js.Array[Vector3] = js.native
-  var _shapeUV: js.Array[Double] = js.native
-  var _positionFunction: js.Function3[SolidParticle, Double, Double, Unit] = js.native
-  var _vertexFunction: js.Function3[SolidParticle, Vector3, Double, Unit] = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.SolidParticleSystem")
-class SolidParticleSystem protected () extends IDisposable {
+class SolidParticleSystem extends IDisposable {
   def this(name: String, scene: Scene, options: js.Any = ???) = this()
   var particles: js.Array[SolidParticle] = js.native
   var nbParticles: Double = js.native
@@ -5609,8 +5239,6 @@ class SolidParticleSystem protected () extends IDisposable {
   var mesh: Mesh = js.native
   var vars: js.Any = js.native
   var pickedParticles: js.Array[js.Any] = js.native
-  var _bSphereOnly: Boolean = js.native
-  var _bSphereRadiusFactor: Double = js.native
   def buildMesh(): Mesh = js.native
   def digest(mesh: Mesh, options: js.Any = ???): SolidParticleSystem = js.native
   def addShape(mesh: Mesh, nb: Double, options: js.Any = ???): Double = js.native
@@ -5643,7 +5271,7 @@ trait PhysicsImpostorJoint extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PhysicsEngine")
-class PhysicsEngine protected () extends js.Object {
+class PhysicsEngine extends js.Object {
   def this(gravity: Vector3 = ???, _physicsPlugin: IPhysicsEnginePlugin = ???) = this()
   var gravity: Vector3 = js.native
   def setGravity(gravity: Vector3): Unit = js.native
@@ -5654,7 +5282,6 @@ class PhysicsEngine protected () extends js.Object {
   def removeImpostor(impostor: PhysicsImpostor): Unit = js.native
   def addJoint(mainImpostor: PhysicsImpostor, connectedImpostor: PhysicsImpostor, joint: PhysicsJoint): Unit = js.native
   def removeJoint(mainImpostor: PhysicsImpostor, connectedImpostor: PhysicsImpostor, joint: PhysicsJoint): Unit = js.native
-  def _step(delta: Double): Unit = js.native
   def getPhysicsPlugin(): IPhysicsEnginePlugin = js.native
   def getImpostorForPhysicsObject(`object`: IPhysicsEnabledObject): PhysicsImpostor = js.native
   def getImpostorWithPhysicsBody(body: js.Any): PhysicsImpostor = js.native
@@ -5729,7 +5356,7 @@ trait IPhysicsEnabledObject extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PhysicsImpostor")
-class PhysicsImpostor protected () extends js.Object {
+class PhysicsImpostor extends js.Object {
   def this(`object`: IPhysicsEnabledObject, `type`: Double, _options: PhysicsImpostorParameters = ???, _scene: Scene = ???) = this()
   var `object`: IPhysicsEnabledObject = js.native
   var `type`: Double = js.native
@@ -5738,7 +5365,6 @@ class PhysicsImpostor protected () extends js.Object {
   var friction: Double = js.native
   var restitution: Double = js.native
   var uniqueId: Double = js.native
-  def _init(): Unit = js.native
   def isBodyInitRequired(): Boolean = js.native
   def setScalingUpdated(updated: Boolean): Unit = js.native
   def forceUpdate(): Unit = js.native
@@ -5763,7 +5389,7 @@ class PhysicsImpostor protected () extends js.Object {
   def unregisterOnPhysicsCollide(collideAgainst: PhysicsImpostor | js.Array[PhysicsImpostor], func: js.Function2[PhysicsImpostor, PhysicsImpostor | js.Array[PhysicsImpostor], Unit]): Unit = js.native
   var beforeStep: js.Function0[Unit] = js.native
   var afterStep: js.Function0[Unit] = js.native
-//  var onCollideEvent: js.Function2[BABYLON.PhysicsImpostor, BABYLON.PhysicsImpostor, Unit] = js.native
+  var onCollideEvent: js.Function2[PhysicsImpostor, PhysicsImpostor, Unit] = js.native
   var onCollide: js.Function1[js.Any, Unit] = js.native
   def applyForce(force: Vector3, contactPoint: Vector3): Unit = js.native
   def applyImpulse(force: Vector3, contactPoint: Vector3): Unit = js.native
@@ -5808,7 +5434,7 @@ trait PhysicsJointData extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PhysicsJoint")
-class PhysicsJoint protected () extends js.Object {
+class PhysicsJoint extends js.Object {
   def this(`type`: Double, jointData: PhysicsJointData) = this()
   var `type`: Double = js.native
   var jointData: PhysicsJointData = js.native
@@ -5836,14 +5462,14 @@ object PhysicsJoint extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DistanceJoint")
-class DistanceJoint protected () extends PhysicsJoint {
+class DistanceJoint extends PhysicsJoint {
   def this(jointData: DistanceJointData) = this()
   def updateDistance(maxDistance: Double, minDistance: Double = ???): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.MotorEnabledJoint")
-class MotorEnabledJoint protected () extends PhysicsJoint with IMotorEnabledJoint {
+class MotorEnabledJoint extends PhysicsJoint with IMotorEnabledJoint {
   def this(`type`: Double, jointData: PhysicsJointData) = this()
   def setMotor(force: Double = ???, maxForce: Double = ???): Unit = js.native
   def setLimit(upperLimit: Double, lowerLimit: Double = ???): Unit = js.native
@@ -5851,25 +5477,21 @@ class MotorEnabledJoint protected () extends PhysicsJoint with IMotorEnabledJoin
 
 @js.native
 @JSGlobal("BABYLON.HingeJoint")
-class HingeJoint protected () extends MotorEnabledJoint {
+class HingeJoint extends MotorEnabledJoint {
   def this(jointData: PhysicsJointData) = this()
-  override def setMotor(force: Double = ???, maxForce: Double = ???): Unit = js.native
-  override def setLimit(upperLimit: Double, lowerLimit: Double = ???): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.Hinge2Joint")
-class Hinge2Joint protected () extends MotorEnabledJoint {
+class Hinge2Joint extends MotorEnabledJoint {
   def this(jointData: PhysicsJointData) = this()
-  override def setMotor(force: Double = ???, maxForce: Double = ???, motorIndex: Double = ???): Unit = js.native
-  override def setLimit(upperLimit: Double, lowerLimit: Double = ???, motorIndex: Double = ???): Unit = js.native
+
+
 }
 
 @js.native
 trait IMotorEnabledJoint extends js.Object {
-  var physicsJoint: js.Any = js.native
-  def setMotor(force: Double = ???, maxForce: Double = ???, motorIndex: Double = ???): js.Dynamic = js.native
-  def setLimit(upperLimit: Double, lowerLimit: Double = ???, motorIndex: Double = ???): js.Dynamic = js.native
+
 }
 
 @js.native
@@ -5886,20 +5508,20 @@ trait SpringJointData extends PhysicsJointData {
 
 @js.native
 @JSGlobal("BABYLON.AnaglyphPostProcess")
-class AnaglyphPostProcess protected () extends PostProcess {
+class AnaglyphPostProcess extends PostProcess {
   def this(name: String, options: Double | PostProcessOptions, rigCameras: js.Array[Camera], samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???) = this()
 }
 
 @js.native
 @JSGlobal("BABYLON.BlackAndWhitePostProcess")
-class BlackAndWhitePostProcess protected () extends PostProcess {
+class BlackAndWhitePostProcess extends PostProcess {
   def this(name: String, options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???) = this()
   var degree: Double = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.BlurPostProcess")
-class BlurPostProcess protected () extends PostProcess {
+class BlurPostProcess extends PostProcess {
   def this(name: String, direction: Vector2, kernel: Double, options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???, textureType: Double = ???) = this()
   var direction: Vector2 = js.native
   protected var _kernel: Double = js.native
@@ -5907,21 +5529,17 @@ class BlurPostProcess protected () extends PostProcess {
   protected var _packedFloat: Boolean = js.native
   var kernel: Double = js.native
   var packedFloat: Boolean = js.native
-  def _updateParameters(): Unit = js.native
-  def _nearestBestKernel(idealKernel: Double): Double = js.native
-  def _gaussianWeight(x: Double): Double = js.native
-  def _glslFloat(x: Double, decimalFigures: Double = ???): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.ColorCorrectionPostProcess")
-class ColorCorrectionPostProcess protected () extends PostProcess {
+class ColorCorrectionPostProcess extends PostProcess {
   def this(name: String, colorTableUrl: String, options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???) = this()
 }
 
 @js.native
 @JSGlobal("BABYLON.ConvolutionPostProcess")
-class ConvolutionPostProcess protected () extends PostProcess {
+class ConvolutionPostProcess extends PostProcess {
   def this(name: String, kernel: js.Array[Double], options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???) = this()
   var kernel: js.Array[Double] = js.native
 }
@@ -5939,20 +5557,20 @@ object ConvolutionPostProcess extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DisplayPassPostProcess")
-class DisplayPassPostProcess protected () extends PostProcess {
+class DisplayPassPostProcess extends PostProcess {
   def this(name: String, options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???) = this()
 }
 
 @js.native
 @JSGlobal("BABYLON.FilterPostProcess")
-class FilterPostProcess protected () extends PostProcess {
+class FilterPostProcess extends PostProcess {
   def this(name: String, kernelMatrix: Matrix, options: Double | PostProcessOptions, camera: Camera = ???, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???) = this()
   var kernelMatrix: Matrix = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.FxaaPostProcess")
-class FxaaPostProcess protected () extends PostProcess {
+class FxaaPostProcess extends PostProcess {
   def this(name: String, options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???, textureType: Double = ???) = this()
   var texelWidth: Double = js.native
   var texelHeight: Double = js.native
@@ -5960,17 +5578,16 @@ class FxaaPostProcess protected () extends PostProcess {
 
 @js.native
 @JSGlobal("BABYLON.HighlightsPostProcess")
-class HighlightsPostProcess protected () extends PostProcess {
+class HighlightsPostProcess extends PostProcess {
   def this(name: String, options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???, textureType: Double = ???) = this()
 }
 
 @js.native
 @JSGlobal("BABYLON.ImageProcessingPostProcess")
-class ImageProcessingPostProcess protected () extends PostProcess {
+class ImageProcessingPostProcess extends PostProcess {
   def this(name: String, options: Double | PostProcessOptions, camera: Camera = ???, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???, textureType: Double = ???) = this()
   protected var _imageProcessingConfiguration: ImageProcessingConfiguration = js.native
   var imageProcessingConfiguration: ImageProcessingConfiguration = js.native
-  def _attachImageProcessingConfiguration(configuration: ImageProcessingConfiguration): Unit = js.native
   var colorCurves: ColorCurves = js.native
   var colorCurvesEnabled: Boolean = js.native
   var colorGradingTexture: BaseTexture = js.native
@@ -5987,19 +5604,18 @@ class ImageProcessingPostProcess protected () extends PostProcess {
   var vignetteBlendMode: Double = js.native
   var vignetteEnabled: Boolean = js.native
   var fromLinearSpace: Boolean = js.native
-  def _updateParameters(): Unit = js.native
   override def dispose(camera: Camera = ???): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.PassPostProcess")
-class PassPostProcess protected () extends PostProcess {
+class PassPostProcess extends PostProcess {
   def this(name: String, options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???, textureType: Double = ???) = this()
 }
 
 @js.native
 @JSGlobal("BABYLON.PostProcess")
-class PostProcess protected () extends js.Object {
+class PostProcess extends js.Object {
   def this(name: String, fragmentUrl: String, parameters: js.Array[String], samplers: js.Array[String], options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???, defines: String = ???, textureType: Double = ???, vertexUrl: String = ???, indexParameters: js.Any = ???, blockCompilation: Boolean = ???) = this()
   var name: String = js.native
   var width: Double = js.native
@@ -6013,8 +5629,6 @@ class PostProcess protected () extends js.Object {
   var scaleMode: Double = js.native
   var alwaysForcePOT: Boolean = js.native
   var samples: Double = js.native
-  var _textures: SmartArray[WebGLTexture] = js.native
-  var _currentRenderTextureInd: Double = js.native
   protected var _indexParameters: js.Any = js.native
   var onActivateObservable: Observable[Camera] = js.native
   var onActivate: js.Function1[Camera, Unit] = js.native
@@ -6045,17 +5659,15 @@ class PostProcess protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PostProcessManager")
-class PostProcessManager protected () extends js.Object {
+class PostProcessManager extends js.Object {
   def this(scene: Scene) = this()
-  def _prepareFrame(sourceTexture: WebGLTexture = ???, postProcesses: js.Array[PostProcess] = ???): Boolean = js.native
   def directRender(postProcesses: js.Array[PostProcess], targetTexture: WebGLTexture = ???): Unit = js.native
-  def _finalizeFrame(doNotPresent: Boolean = ???, targetTexture: WebGLTexture = ???, faceIndex: Double = ???, postProcesses: js.Array[PostProcess] = ???): Unit = js.native
   def dispose(): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.RefractionPostProcess")
-class RefractionPostProcess protected () extends PostProcess {
+class RefractionPostProcess extends PostProcess {
   def this(name: String, refractionTextureUrl: String, color: Color3, depth: Double, colorLevel: Double, options: Double | PostProcessOptions, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???) = this()
   var color: Color3 = js.native
   var depth: Double = js.native
@@ -6065,7 +5677,7 @@ class RefractionPostProcess protected () extends PostProcess {
 
 @js.native
 @JSGlobal("BABYLON.StereoscopicInterlacePostProcess")
-class StereoscopicInterlacePostProcess protected () extends PostProcess {
+class StereoscopicInterlacePostProcess extends PostProcess {
   def this(name: String, rigCameras: js.Array[Camera], isStereoscopicHoriz: Boolean, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???) = this()
 }
 
@@ -6086,14 +5698,14 @@ object TonemappingOperator extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.TonemapPostProcess")
-class TonemapPostProcess protected () extends PostProcess {
+class TonemapPostProcess extends PostProcess {
   def this(name: String, _operator: TonemappingOperator, exposureAdjustment: Double, camera: Camera, samplingMode: Double = ???, engine: Engine = ???, textureFormat: Double = ???) = this()
   var exposureAdjustment: Double = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.VolumetricLightScatteringPostProcess")
-class VolumetricLightScatteringPostProcess protected () extends PostProcess {
+class VolumetricLightScatteringPostProcess extends PostProcess {
   def this(name: String, ratio: js.Any, camera: Camera, mesh: Mesh = ???, samples: Double = ???, samplingMode: Double = ???, engine: Engine = ???, reusable: Boolean = ???, scene: Scene = ???) = this()
   var attachedNode: js.Any = js.native
   var customMeshPosition: Vector3 = js.native
@@ -6121,14 +5733,13 @@ object VolumetricLightScatteringPostProcess extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.VRDistortionCorrectionPostProcess")
-class VRDistortionCorrectionPostProcess protected () extends PostProcess {
+class VRDistortionCorrectionPostProcess extends PostProcess {
   def this(name: String, camera: Camera, isRightEye: Boolean, vrMetrics: VRCameraMetrics) = this()
-  override var aspectRatio: Double = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.ReflectionProbe")
-class ReflectionProbe protected () extends js.Object {
+class ReflectionProbe extends js.Object {
   def this(name: String, size: Double, scene: Scene, generateMipMaps: Boolean = ???) = this()
   var name: String = js.native
   var invertYAxis: Boolean = js.native
@@ -6145,7 +5756,7 @@ class ReflectionProbe protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.BoundingBoxRenderer")
-class BoundingBoxRenderer protected () extends js.Object {
+class BoundingBoxRenderer extends js.Object {
   def this(scene: Scene) = this()
   var frontColor: Color3 = js.native
   var backColor: Color3 = js.native
@@ -6158,7 +5769,7 @@ class BoundingBoxRenderer protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DepthRenderer")
-class DepthRenderer protected () extends js.Object {
+class DepthRenderer extends js.Object {
   def this(scene: Scene, `type`: Double = ???) = this()
   def isReady(subMesh: SubMesh, useInstances: Boolean): Boolean = js.native
   def getDepthMap(): RenderTargetTexture = js.native
@@ -6167,18 +5778,17 @@ class DepthRenderer protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.EdgesRenderer")
-class EdgesRenderer protected () extends js.Object {
+class EdgesRenderer extends js.Object {
   def this(source: AbstractMesh, epsilon: Double = ???, checkVerticesInsteadOfIndices: Boolean = ???) = this()
   var edgesWidthScalerForOrthographic: Double = js.native
   var edgesWidthScalerForPerspective: Double = js.native
   def dispose(): Unit = js.native
-  def _generateEdgesLines(): Unit = js.native
   def render(): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.GeometryBufferRenderer")
-class GeometryBufferRenderer protected () extends js.Object {
+class GeometryBufferRenderer extends js.Object {
   def this(scene: Scene, ratio: Double = ???) = this()
   var renderList: js.Array[Mesh] = js.native
   def isSupported: Boolean = js.native
@@ -6190,7 +5800,7 @@ class GeometryBufferRenderer protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.OutlineRenderer")
-class OutlineRenderer protected () extends js.Object {
+class OutlineRenderer extends js.Object {
   def this(scene: Scene) = this()
   var zOffset: Double = js.native
   def render(subMesh: SubMesh, batch: _InstancesBatch, useOverlay: Boolean = ???): Unit = js.native
@@ -6199,7 +5809,7 @@ class OutlineRenderer protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.RenderingGroup")
-class RenderingGroup protected () extends js.Object {
+class RenderingGroup extends js.Object {
   def this(index: Double, scene: Scene, opaqueSortCompareFn: js.Function2[SubMesh, SubMesh, Double] = ???, alphaTestSortCompareFn: js.Function2[SubMesh, SubMesh, Double] = ???, transparentSortCompareFn: js.Function2[SubMesh, SubMesh, Double] = ???) = this()
   var index: Double = js.native
   var onBeforeTransparentRendering: js.Function0[Unit] = js.native
@@ -6224,7 +5834,7 @@ object RenderingGroup extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.RenderingManager")
-class RenderingManager protected () extends js.Object {
+class RenderingManager extends js.Object {
   def this(scene: Scene) = this()
   def render(customRenderFunction: js.Function3[SmartArray[SubMesh], SmartArray[SubMesh], SmartArray[SubMesh], Unit], activeMeshes: js.Array[AbstractMesh], renderParticles: Boolean, renderSprites: Boolean): Unit = js.native
   def reset(): Unit = js.native
@@ -6246,7 +5856,7 @@ object RenderingManager extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Sprite")
-class Sprite protected () extends js.Object {
+class Sprite extends js.Object {
   def this(name: String, manager: SpriteManager) = this()
   var name: String = js.native
   var position: Vector3 = js.native
@@ -6264,13 +5874,12 @@ class Sprite protected () extends js.Object {
   var size: Double = js.native
   def playAnimation(from: Double, to: Double, loop: Boolean, delay: Double, onAnimationEnd: js.Function0[Unit]): Unit = js.native
   def stopAnimation(): Unit = js.native
-  def _animate(deltaTime: Double): Unit = js.native
   def dispose(): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.SpriteManager")
-class SpriteManager protected () extends js.Object {
+class SpriteManager extends js.Object {
   def this(name: String, imgUrl: String, capacity: Double, cellSize: js.Any, scene: Scene, epsilon: Double = ???, samplingMode: Double = ???) = this()
   var name: String = js.native
   var sprites: js.Array[Sprite] = js.native
@@ -6298,7 +5907,7 @@ trait IAssetTask extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.MeshAssetTask")
-class MeshAssetTask protected () extends IAssetTask {
+class MeshAssetTask extends IAssetTask {
   def this(name: String, meshesNames: js.Any, rootUrl: String, sceneFilename: String) = this()
   var name: String = js.native
   var meshesNames: js.Any = js.native
@@ -6307,92 +5916,93 @@ class MeshAssetTask protected () extends IAssetTask {
   var loadedMeshes: js.Array[AbstractMesh] = js.native
   var loadedParticleSystems: js.Array[ParticleSystem] = js.native
   var loadedSkeletons: js.Array[Skeleton] = js.native
-  override var onSuccess: js.Function1[IAssetTask, Unit] = js.native
-  override var onError: js.Function1[IAssetTask, Unit] = js.native
-  override var isCompleted: Boolean = js.native
-  override def run(scene: Scene, onSuccess: js.Function0[Unit], onError: js.Function0[Unit]): Unit = js.native
+
+
+
+
 }
 
 @js.native
 @JSGlobal("BABYLON.TextFileAssetTask")
-class TextFileAssetTask protected () extends IAssetTask {
+class TextFileAssetTask extends IAssetTask {
   def this(name: String, url: String) = this()
   var name: String = js.native
   var url: String = js.native
-  override var onSuccess: js.Function1[IAssetTask, Unit] = js.native
-  override var onError: js.Function1[IAssetTask, Unit] = js.native
-  override var isCompleted: Boolean = js.native
+
+
+
   var text: String = js.native
-  override def run(scene: Scene, onSuccess: js.Function0[Unit], onError: js.Function0[Unit]): Unit = js.native
+
 }
 
 @js.native
 @JSGlobal("BABYLON.BinaryFileAssetTask")
-class BinaryFileAssetTask protected () extends IAssetTask {
+class BinaryFileAssetTask extends IAssetTask {
   def this(name: String, url: String) = this()
   var name: String = js.native
   var url: String = js.native
-  override var onSuccess: js.Function1[IAssetTask, Unit] = js.native
-  override var onError: js.Function1[IAssetTask, Unit] = js.native
-  override var isCompleted: Boolean = js.native
+
+
+
   var data: ArrayBuffer = js.native
-  override def run(scene: Scene, onSuccess: js.Function0[Unit], onError: js.Function0[Unit]): Unit = js.native
+
 }
 
 @js.native
 @JSGlobal("BABYLON.ImageAssetTask")
-class ImageAssetTask protected () extends IAssetTask {
+class ImageAssetTask extends IAssetTask {
   def this(name: String, url: String) = this()
   var name: String = js.native
   var url: String = js.native
-  override var onSuccess: js.Function1[IAssetTask, Unit] = js.native
-  override var onError: js.Function1[IAssetTask, Unit] = js.native
-  override var isCompleted: Boolean = js.native
+
+
+
   var image: HTMLImageElement = js.native
-  override def run(scene: Scene, onSuccess: js.Function0[Unit], onError: js.Function0[Unit]): Unit = js.native
+
 }
 
 @js.native
 trait ITextureAssetTask extends IAssetTask {
-  override var onSuccess: js.Function1[ITextureAssetTask, Unit] = js.native
-  override var onError: js.Function1[ITextureAssetTask, Unit] = js.native
+
+
   var texture: Texture = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.TextureAssetTask")
-class TextureAssetTask protected () extends ITextureAssetTask {
+class TextureAssetTask extends ITextureAssetTask {
   def this(name: String, url: String, noMipmap: Boolean = ???, invertY: Boolean = ???, samplingMode: Double = ???) = this()
   var name: String = js.native
   var url: String = js.native
   var noMipmap: Boolean = js.native
   var invertY: Boolean = js.native
   var samplingMode: Double = js.native
-  override var onSuccess: js.Function1[ITextureAssetTask, Unit] = js.native
-  override var onError: js.Function1[ITextureAssetTask, Unit] = js.native
-  override var isCompleted: Boolean = js.native
-  override def run(scene: Scene, onSuccess: js.Function0[Unit], onError: js.Function0[Unit]): Unit = js.native
+
+
+
+
+
 }
 
 @js.native
 @JSGlobal("BABYLON.CubeTextureAssetTask")
-class CubeTextureAssetTask protected () extends IAssetTask {
+class CubeTextureAssetTask extends IAssetTask {
   def this(name: String, url: String, extensions: js.Array[String] = ???, noMipmap: Boolean = ???, files: js.Array[String] = ???) = this()
   var name: String = js.native
   var url: String = js.native
   var extensions: js.Array[String] = js.native
   var noMipmap: Boolean = js.native
   var files: js.Array[String] = js.native
-  override var onSuccess: js.Function1[IAssetTask, Unit] = js.native
-  override var onError: js.Function1[IAssetTask, Unit] = js.native
-  override var isCompleted: Boolean = js.native
+
+
+
   var texture: CubeTexture = js.native
-  override def run(scene: Scene, onSuccess: js.Function0[Unit], onError: js.Function0[Unit]): Unit = js.native
+
 }
 
 @js.native
 @JSGlobal("BABYLON.HDRCubeTextureAssetTask")
-class HDRCubeTextureAssetTask protected () extends IAssetTask {
+class HDRCubeTextureAssetTask extends IAssetTask {
   def this(name: String, url: String, size: Double = ???, noMipmap: Boolean = ???, generateHarmonics: Boolean = ???, useInGammaSpace: Boolean = ???, usePMREMGenerator: Boolean = ???) = this()
   var name: String = js.native
   var url: String = js.native
@@ -6401,16 +6011,16 @@ class HDRCubeTextureAssetTask protected () extends IAssetTask {
   var generateHarmonics: Boolean = js.native
   var useInGammaSpace: Boolean = js.native
   var usePMREMGenerator: Boolean = js.native
-  override var onSuccess: js.Function1[IAssetTask, Unit] = js.native
-  override var onError: js.Function1[IAssetTask, Unit] = js.native
-  override var isCompleted: Boolean = js.native
+
+
+
   var texture: HDRCubeTexture = js.native
-  override def run(scene: Scene, onSuccess: js.Function0[Unit], onError: js.Function0[Unit]): Unit = js.native
+
 }
 
 @js.native
 @JSGlobal("BABYLON.AssetsManager")
-class AssetsManager protected () extends js.Object {
+class AssetsManager extends js.Object {
   def this(scene: Scene) = this()
   protected var tasks: js.Array[IAssetTask] = js.native
   protected var waitingTasksCount: Double = js.native
@@ -6431,7 +6041,7 @@ class AssetsManager protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Database")
-class Database protected () extends js.Object {
+class Database extends js.Object {
   def this(urlToScene: String, callbackManifestChecked: js.Function1[Boolean, Any]) = this()
   def checkManifestFile(): Unit = js.native
   def openAsync(successCallback: js.Any, errorCallback: js.Any): Unit = js.native
@@ -6468,7 +6078,7 @@ class DynamicFloatArrayElementInfo extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DynamicFloatArray")
-class DynamicFloatArray protected () extends js.Object {
+class DynamicFloatArray extends js.Object {
   def this(stride: Double, initialElementCount: Double) = this()
   def allocElement(): DynamicFloatArrayElementInfo = js.native
   def freeElement(elInfo: DynamicFloatArrayElementInfo): Unit = js.native
@@ -6517,19 +6127,18 @@ object PoseEnabledControllerHelper extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PoseEnabledController")
-class PoseEnabledController protected () extends Gamepad with PoseControlled {
+class PoseEnabledController extends Gamepad with PoseControlled {
   def this(vrGamepad: js.Any) = this()
   var vrGamepad: js.Any = js.native
-  override var devicePosition: Vector3 = js.native
-  override var deviceRotationQuaternion: Quaternion = js.native
-  override var deviceScaleFactor: Double = js.native
-  override var position: Vector3 = js.native
-  override var rotationQuaternion: Quaternion = js.native
+
+
+
+
+
   var controllerType: PoseEnabledControllerType = js.native
-  override var rawPose: DevicePose = js.native
-  var _mesh: AbstractMesh = js.native
+
   override def update(): Unit = js.native
-  override def updateFromDevice(poseData: DevicePose): Unit = js.native
+
   def attachToMesh(mesh: AbstractMesh): Unit = js.native
   def attachToPoseControlledCamera(camera: TargetCamera): Unit = js.native
   def detachMesh(): Unit = js.native
@@ -6547,7 +6156,7 @@ trait GamepadButtonChanges extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.WebVRController")
-abstract class WebVRController protected () extends PoseEnabledController {
+abstract class WebVRController extends PoseEnabledController {
   def this(vrGamepad: js.Any) = this()
   var onTriggerStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
   var onMainButtonStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
@@ -6565,32 +6174,37 @@ abstract class WebVRController protected () extends PoseEnabledController {
 
 @js.native
 @JSGlobal("BABYLON.OculusTouchController")
-class OculusTouchController protected () extends WebVRController {
+class OculusTouchController extends WebVRController {
   def this(vrGamepad: js.Any) = this()
   var onSecondaryTriggerStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
   var onThumbRestChangedObservable: Observable[ExtendedGamepadButton] = js.native
-  def initControllerMesh(scene: Scene, meshLoaded: js.Function1[AbstractMesh, Unit] = ???): Unit = js.native
+
   def onAButtonStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
   def onBButtonStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
   def onXButtonStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
   def onYButtonStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
-  def handleButtonChange(buttonIdx: Double, state: ExtendedGamepadButton, changes: GamepadButtonChanges): Unit = js.native
+
+  def handleButtonChange(buttonIdx: Double,value: ExtendedGamepadButton,changes: GamepadButtonChanges): scala.scalajs.js.Dynamic = ???
+  def initControllerMesh(scene: Scene,meshLoaded: scala.scalajs.js.Function1[AbstractMesh,Unit]): scala.scalajs.js.Dynamic = ???
 }
 
 @js.native
 @JSGlobal("BABYLON.ViveController")
-class ViveController protected () extends WebVRController {
+class ViveController extends WebVRController {
   def this(vrGamepad: js.Any) = this()
-  def initControllerMesh(scene: Scene, meshLoaded: js.Function1[AbstractMesh, Unit] = ???): Unit = js.native
+
   def onLeftButtonStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
   def onRightButtonStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
   def onMenuButtonStateChangedObservable: Observable[ExtendedGamepadButton] = js.native
-  def handleButtonChange(buttonIdx: Double, state: ExtendedGamepadButton, changes: GamepadButtonChanges): Unit = js.native
+
+  def handleButtonChange(buttonIdx: Double,value: ExtendedGamepadButton,changes: GamepadButtonChanges): scala.scalajs.js.Dynamic = ???
+  def initControllerMesh(scene: Scene,meshLoaded: scala.scalajs.js.Function1[AbstractMesh,Unit]): scala.scalajs.js.Dynamic = ???
+
 }
 
 @js.native
 @JSGlobal("BABYLON.FilesInput")
-class FilesInput protected () extends js.Object {
+class FilesInput extends js.Object {
   def this(p_engine: Engine, p_scene: Scene, p_canvas: HTMLCanvasElement, p_sceneLoadedCallback: js.Any, p_progressCallback: js.Any, p_additionnalRenderLoopLogicCallback: js.Any, p_textureLoadingCallback: js.Any, p_startingProcessingFilesCallback: js.Any) = this()
   def monitorElementForDragNDrop(p_elementToMonitor: HTMLElement): Unit = js.native
   def loadFiles(event: js.Any): Unit = js.native
@@ -6605,14 +6219,14 @@ object FilesInput extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Gamepads")
-class Gamepads[T <: Gamepad] protected () extends js.Object {
+class Gamepads[T <: Gamepad] extends js.Object {
   def this(ongamedpadconnected: js.Function1[T, Unit], ongamedpaddisconnected: js.Function1[T, Unit] = ???) = this()
   def dispose(): Unit = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.StickValues")
-class StickValues protected () extends js.Object {
+class StickValues extends js.Object {
   def this(x: js.Any, y: js.Any) = this()
   var x: js.Any = js.native
   var y: js.Any = js.native
@@ -6620,7 +6234,7 @@ class StickValues protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Gamepad")
-class Gamepad protected () extends js.Object {
+class Gamepad extends js.Object {
   def this(id: String, index: Double, browserGamepad: js.Any, leftStickX: Double = ???, leftStickY: Double = ???, rightStickX: Double = ???, rightStickY: Double = ???) = this()
   var id: String = js.native
   var index: Double = js.native
@@ -6644,7 +6258,7 @@ object Gamepad extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.GenericPad")
-class GenericPad protected () extends Gamepad {
+class GenericPad extends Gamepad {
   def this(id: String, index: Double, browserGamepad: js.Any) = this()
   def onbuttondown(callback: js.Function1[Double, Unit]): Unit = js.native
   def onbuttonup(callback: js.Function1[Double, Unit]): Unit = js.native
@@ -6689,7 +6303,7 @@ object Xbox360Dpad extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Xbox360Pad")
-class Xbox360Pad protected () extends Gamepad {
+class Xbox360Pad extends Gamepad {
   def this(id: String, index: Double, gamepad: js.Any, xboxOne: Boolean = ???) = this()
   def onlefttriggerchanged(callback: js.Function1[Double, Unit]): Unit = js.native
   def onrighttriggerchanged(callback: js.Function1[Double, Unit]): Unit = js.native
@@ -6718,7 +6332,7 @@ class Xbox360Pad protected () extends Gamepad {
 
 @js.native
 @JSGlobal("BABYLON.EventState")
-class EventState protected () extends js.Object {
+class EventState extends js.Object {
   def this(mask: Double, skipNextObservers: Boolean = ???) = this()
   def initalize(mask: Double, skipNextObservers: Boolean = ???): EventState = js.native
   var skipNextObservers: Boolean = js.native
@@ -6727,7 +6341,7 @@ class EventState protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Observer")
-class Observer[T] protected () extends js.Object {
+class Observer[T] extends js.Object {
   def this(callback: js.Function2[T, EventState, Unit], mask: Double) = this()
   var callback: js.Function2[T, EventState, Unit] = js.native
   var mask: Double = js.native
@@ -6736,7 +6350,6 @@ class Observer[T] protected () extends js.Object {
 @js.native
 @JSGlobal("BABYLON.Observable")
 class Observable[T] extends js.Object {
-  var _observers: js.Array[Observer[T]] = js.native
   def add(callback: js.Function2[T, EventState, Unit], mask: Double = ???, insertFirst: Boolean = ???): Observer[T] = js.native
   def remove(observer: Observer[T]): Boolean = js.native
   def removeCallback(callback: js.Function2[T, EventState, Unit]): Boolean = js.native
@@ -6749,7 +6362,7 @@ class Observable[T] extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PackedRect")
-class PackedRect protected () extends js.Object {
+class PackedRect extends js.Object {
   def this(root: RectPackingMap, parent: PackedRect, pos: Vector2, size: Size) = this()
   def pos: Vector2 = js.native
   def contentSize: Size = js.native
@@ -6769,16 +6382,15 @@ class PackedRect protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.RectPackingMap")
-class RectPackingMap protected () extends PackedRect {
+class RectPackingMap extends PackedRect {
   def this(size: Size, margin: Double = ???) = this()
   def addRect(size: Size): PackedRect = js.native
   def freeSpace: Double = js.native
-  var _margin: Double = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.SceneOptimization")
-class SceneOptimization protected () extends js.Object {
+class SceneOptimization extends js.Object {
   def this(priority: Double = ???) = this()
   var priority: Double = js.native
   @JSName("apply")
@@ -6787,76 +6399,75 @@ class SceneOptimization protected () extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.TextureOptimization")
-class TextureOptimization protected () extends SceneOptimization {
+class TextureOptimization extends SceneOptimization {
   def this(priority: Double = ???, maximumSize: Double = ???) = this()
-  override var priority: Double = js.native
+
   var maximumSize: Double = js.native
-  @JSName("apply")
-  override var apply: js.Function1[Scene, Boolean] = js.native
+  //@JSName("apply")
+
 }
 
 @js.native
 @JSGlobal("BABYLON.HardwareScalingOptimization")
-class HardwareScalingOptimization protected () extends SceneOptimization {
+class HardwareScalingOptimization extends SceneOptimization {
   def this(priority: Double = ???, maximumScale: Double = ???) = this()
-  override var priority: Double = js.native
+
   var maximumScale: Double = js.native
-  @JSName("apply")
-  override var apply: js.Function1[Scene, Boolean] = js.native
+  //@JSName("apply")
+
 }
 
 @js.native
 @JSGlobal("BABYLON.ShadowsOptimization")
 class ShadowsOptimization extends SceneOptimization {
-  @JSName("apply")
-  override var apply: js.Function1[Scene, Boolean] = js.native
+  //@JSName("apply")
+
 }
 
 @js.native
 @JSGlobal("BABYLON.PostProcessesOptimization")
 class PostProcessesOptimization extends SceneOptimization {
-  @JSName("apply")
-  override var apply: js.Function1[Scene, Boolean] = js.native
+  //@JSName("apply")
+
 }
 
 @js.native
 @JSGlobal("BABYLON.LensFlaresOptimization")
 class LensFlaresOptimization extends SceneOptimization {
-  @JSName("apply")
-  override var apply: js.Function1[Scene, Boolean] = js.native
+  //@JSName("apply")
+
 }
 
 @js.native
 @JSGlobal("BABYLON.ParticlesOptimization")
 class ParticlesOptimization extends SceneOptimization {
-  @JSName("apply")
-  override var apply: js.Function1[Scene, Boolean] = js.native
+  //@JSName("apply")
+
 }
 
 @js.native
 @JSGlobal("BABYLON.RenderTargetsOptimization")
 class RenderTargetsOptimization extends SceneOptimization {
-  @JSName("apply")
-  override var apply: js.Function1[Scene, Boolean] = js.native
+  //@JSName("apply")
+
 }
 
 @js.native
 @JSGlobal("BABYLON.MergeMeshesOptimization")
 class MergeMeshesOptimization extends SceneOptimization {
-  @JSName("apply")
-  override var apply: js.Function2[Scene, Boolean, Boolean] = js.native
+  //@JSName("apply")
+
 }
 
 @js.native
 @JSGlobal("BABYLON.MergeMeshesOptimization")
 object MergeMeshesOptimization extends js.Object {
-  var _UpdateSelectionTree: Boolean = js.native
   var UpdateSelectionTree: Boolean = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.SceneOptimizerOptions")
-class SceneOptimizerOptions protected () extends js.Object {
+class SceneOptimizerOptions extends js.Object {
   def this(targetFrameRate: Double = ???, trackerDuration: Double = ???) = this()
   var targetFrameRate: Double = js.native
   var trackerDuration: Double = js.native
@@ -6879,7 +6490,6 @@ class SceneOptimizer extends js.Object {
 @js.native
 @JSGlobal("BABYLON.SceneOptimizer")
 object SceneOptimizer extends js.Object {
-  def _CheckCurrentState(scene: Scene, options: SceneOptimizerOptions, currentPriorityLevel: Double, onSuccess: js.Function0[Unit] = ???, onFailure: js.Function0[Unit] = ???): Unit = js.native
   def OptimizeAsync(scene: Scene, options: SceneOptimizerOptions = ???, onSuccess: js.Function0[Unit] = ???, onFailure: js.Function0[Unit] = ???): Unit = js.native
 }
 
@@ -6898,7 +6508,7 @@ object SceneSerializer extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.SmartArray")
-class SmartArray[T] protected () extends js.Object {
+class SmartArray[T] extends js.Object {
   def this(capacity: Double) = this()
   var data: js.Array[T] = js.native
   var length: Double = js.native
@@ -6945,9 +6555,7 @@ object Tags extends js.Object {
   def HasTags(obj: js.Any): Boolean = js.native
   def GetTags(obj: js.Any, asString: Boolean = ???): js.Dynamic = js.native
   def AddTagsTo(obj: js.Any, tagsString: String): Unit = js.native
-  def _AddTagTo(obj: js.Any, tag: String): Unit = js.native
   def RemoveTagsFrom(obj: js.Any, tagsString: String): Unit = js.native
-  def _RemoveTagFrom(obj: js.Any, tag: String): Unit = js.native
   def MatchesQuery(obj: js.Any, tagsQuery: String): Boolean = js.native
 }
 
@@ -7038,12 +6646,6 @@ object Tools extends js.Object {
   def PerformanceUserMarkLogLevel: Double = js.native
   def PerformanceConsoleLogLevel: Double = js.native
   var PerformanceLogLevel: Double = js.native
-  def _StartPerformanceCounterDisabled(counterName: String, condition: Boolean = ???): Unit = js.native
-  def _EndPerformanceCounterDisabled(counterName: String, condition: Boolean = ???): Unit = js.native
-  def _StartUserMark(counterName: String, condition: Boolean = ???): Unit = js.native
-  def _EndUserMark(counterName: String, condition: Boolean = ???): Unit = js.native
-  def _StartPerformanceConsole(counterName: String, condition: Boolean = ???): Unit = js.native
-  def _EndPerformanceConsole(counterName: String, condition: Boolean = ???): Unit = js.native
   var StartPerformanceCounter: js.Function2[String, Boolean, Unit] = js.native
   var EndPerformanceCounter: js.Function2[String, Boolean, Unit] = js.native
   def Now: Double = js.native
@@ -7077,7 +6679,7 @@ object PerfCounter extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.AsyncLoop")
-class AsyncLoop protected () extends js.Object {
+class AsyncLoop extends js.Object {
   def this(iterations: Double, _fn: js.Function1[AsyncLoop, Unit], _successCallback: js.Function0[Unit], offset: Double = ???) = this()
   var iterations: Double = js.native
   var index: Double = js.native
@@ -7108,7 +6710,7 @@ object JoystickAxis extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.VirtualJoystick")
-class VirtualJoystick protected () extends js.Object {
+class VirtualJoystick extends js.Object {
   def this(leftJoystick: Boolean = ???) = this()
   var reverseLeftRight: Boolean = js.native
   var reverseUpDown: Boolean = js.native
@@ -7125,13 +6727,12 @@ class VirtualJoystick protected () extends js.Object {
 @js.native
 @JSGlobal("BABYLON.ArcRotateCameraGamepadInput")
 class ArcRotateCameraGamepadInput extends ICameraInput[ArcRotateCamera] {
-  override var camera: ArcRotateCamera = js.native
+
   var gamepad: Gamepad = js.native
   var gamepadRotationSensibility: Double = js.native
   var gamepadMoveSensibility: Double = js.native
-  def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   def detachControl(element: HTMLElement): Unit = js.native
-  override var checkInputs = js.native
+
   override def getTypeName(): String = js.native
   override def getSimpleName(): String = js.native
 }
@@ -7139,14 +6740,13 @@ class ArcRotateCameraGamepadInput extends ICameraInput[ArcRotateCamera] {
 @js.native
 @JSGlobal("BABYLON.ArcRotateCameraKeyboardMoveInput")
 class ArcRotateCameraKeyboardMoveInput extends ICameraInput[ArcRotateCamera] {
-  override var camera: ArcRotateCamera = js.native
+
   var keysUp: js.Array[Double] = js.native
   var keysDown: js.Array[Double] = js.native
   var keysLeft: js.Array[Double] = js.native
   var keysRight: js.Array[Double] = js.native
-  def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   def detachControl(element: HTMLElement): Unit = js.native
-  override var checkInputs = js.native
+
   override def getTypeName(): String = js.native
   override def getSimpleName(): String = js.native
 }
@@ -7154,7 +6754,7 @@ class ArcRotateCameraKeyboardMoveInput extends ICameraInput[ArcRotateCamera] {
 @js.native
 @JSGlobal("BABYLON.ArcRotateCameraMouseWheelInput")
 class ArcRotateCameraMouseWheelInput extends ICameraInput[ArcRotateCamera] {
-  override var camera: ArcRotateCamera = js.native
+
   var wheelPrecision: Double = js.native
   def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   def detachControl(element: HTMLElement): Unit = js.native
@@ -7165,7 +6765,7 @@ class ArcRotateCameraMouseWheelInput extends ICameraInput[ArcRotateCamera] {
 @js.native
 @JSGlobal("BABYLON.ArcRotateCameraPointersInput")
 class ArcRotateCameraPointersInput extends ICameraInput[ArcRotateCamera] {
-  override var camera: ArcRotateCamera = js.native
+
   var buttons: js.Array[Double] = js.native
   var angularSensibilityX: Double = js.native
   var angularSensibilityY: Double = js.native
@@ -7181,13 +6781,12 @@ class ArcRotateCameraPointersInput extends ICameraInput[ArcRotateCamera] {
 @js.native
 @JSGlobal("BABYLON.ArcRotateCameraVRDeviceOrientationInput")
 class ArcRotateCameraVRDeviceOrientationInput extends ICameraInput[ArcRotateCamera] {
-  override var camera: ArcRotateCamera = js.native
+
   var alphaCorrection: Double = js.native
   var betaCorrection: Double = js.native
   var gammaCorrection: Double = js.native
   def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
-  def _onOrientationEvent(evt: DeviceOrientationEvent): Unit = js.native
-  override var checkInputs  = js.native
+
   def detachControl(element: HTMLElement): Unit = js.native
   override def getTypeName(): String = js.native
   override def getSimpleName(): String = js.native
@@ -7196,10 +6795,10 @@ class ArcRotateCameraVRDeviceOrientationInput extends ICameraInput[ArcRotateCame
 @js.native
 @JSGlobal("BABYLON.FreeCameraDeviceOrientationInput")
 class FreeCameraDeviceOrientationInput extends ICameraInput[FreeCamera] {
-  override var camera: FreeCamera = js.native
+
   def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   def detachControl(element: HTMLElement): Unit = js.native
-  override var checkInputs = js.native
+
   override def getTypeName(): String = js.native
   override def getSimpleName(): String = js.native
 }
@@ -7207,13 +6806,13 @@ class FreeCameraDeviceOrientationInput extends ICameraInput[FreeCamera] {
 @js.native
 @JSGlobal("BABYLON.FreeCameraGamepadInput")
 class FreeCameraGamepadInput extends ICameraInput[FreeCamera] {
-  override var camera: FreeCamera = js.native
+
   var gamepad: Gamepad = js.native
   var gamepadAngularSensibility: Double = js.native
   var gamepadMoveSensibility: Double = js.native
   def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   def detachControl(element: HTMLElement): Unit = js.native
-  override var checkInputs = js.native
+
   override def getTypeName(): String = js.native
   override def getSimpleName(): String = js.native
 }
@@ -7221,25 +6820,24 @@ class FreeCameraGamepadInput extends ICameraInput[FreeCamera] {
 @js.native
 @JSGlobal("BABYLON.FreeCameraKeyboardMoveInput")
 class FreeCameraKeyboardMoveInput extends ICameraInput[FreeCamera] {
-  override var camera: FreeCamera = js.native
+
   var keysUp: js.Array[Double] = js.native
   var keysDown: js.Array[Double] = js.native
   var keysLeft: js.Array[Double] = js.native
   var keysRight: js.Array[Double] = js.native
   def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   def detachControl(element: HTMLElement): Unit = js.native
-  override var checkInputs = js.native
+
   override def getTypeName(): String = js.native
-  def _onLostFocus(e: FocusEvent): Unit = js.native
   override def getSimpleName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.FreeCameraMouseInput")
-class FreeCameraMouseInput protected () extends ICameraInput[FreeCamera] {
+class FreeCameraMouseInput extends ICameraInput[FreeCamera] {
   def this(touchEnabled: Boolean = ???) = this()
   var touchEnabled: Boolean = js.native
-  override var camera: FreeCamera = js.native
+
   var buttons: js.Array[Double] = js.native
   var angularSensibility: Double = js.native
   def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
@@ -7251,12 +6849,12 @@ class FreeCameraMouseInput protected () extends ICameraInput[FreeCamera] {
 @js.native
 @JSGlobal("BABYLON.FreeCameraTouchInput")
 class FreeCameraTouchInput extends ICameraInput[FreeCamera] {
-  override var camera: FreeCamera = js.native
+
   var touchAngularSensibility: Double = js.native
   var touchMoveSensibility: Double = js.native
   def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   def detachControl(element: HTMLElement): Unit = js.native
-  override var checkInputs = js.native
+
   override def getTypeName(): String = js.native
   override def getSimpleName(): String = js.native
 }
@@ -7264,10 +6862,10 @@ class FreeCameraTouchInput extends ICameraInput[FreeCamera] {
 @js.native
 @JSGlobal("BABYLON.FreeCameraVirtualJoystickInput")
 class FreeCameraVirtualJoystickInput extends ICameraInput[FreeCamera] {
-  override var camera: FreeCamera = js.native
+
   def getLeftJoystick(): VirtualJoystick = js.native
   def getRightJoystick(): VirtualJoystick = js.native
-  override var checkInputs = js.native
+
   def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
   def detachControl(element: HTMLElement): Unit = js.native
   override def getTypeName(): String = js.native
@@ -7306,21 +6904,21 @@ object VRCameraMetrics extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.VRDeviceOrientationFreeCamera")
-class VRDeviceOrientationFreeCamera protected () extends DeviceOrientationCamera {
+class VRDeviceOrientationFreeCamera extends DeviceOrientationCamera {
   def this(name: String, position: Vector3, scene: Scene, compensateDistortion: Boolean = ???, vrCameraMetrics: VRCameraMetrics = ???) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.VRDeviceOrientationGamepadCamera")
-class VRDeviceOrientationGamepadCamera protected () extends VRDeviceOrientationFreeCamera {
+class VRDeviceOrientationGamepadCamera extends VRDeviceOrientationFreeCamera {
   def this(name: String, position: Vector3, scene: Scene, compensateDistortion: Boolean = ???, vrCameraMetrics: VRCameraMetrics = ???) = this()
   override def getClassName(): String = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.VRDeviceOrientationArcRotateCamera")
-class VRDeviceOrientationArcRotateCamera protected () extends ArcRotateCamera {
+class VRDeviceOrientationArcRotateCamera extends ArcRotateCamera {
   def this(name: String, alpha: Double, beta: Double, radius: Double, target: Vector3, scene: Scene, compensateDistortion: Boolean = ???, vrCameraMetrics: VRCameraMetrics = ???) = this()
   override def getClassName(): String = js.native
 }
@@ -7337,8 +6935,8 @@ trait DevicePose extends js.Object {
 
 @js.native
 trait PoseControlled extends js.Object {
-  var position: Vector3 = js.native
-  var rotationQuaternion: Quaternion = js.native
+
+
   var devicePosition: Vector3 = js.native
   var deviceRotationQuaternion: Quaternion = js.native
   var rawPose: DevicePose = js.native
@@ -7357,14 +6955,13 @@ trait WebVROptions extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.WebVRFreeCamera")
-class WebVRFreeCamera protected () extends FreeCamera with PoseControlled {
+class WebVRFreeCamera extends FreeCamera with PoseControlled {
   def this(name: String, position: Vector3, scene: Scene, webVROptions: WebVROptions = ???) = this()
-  var _vrDevice: js.Any = js.native
-  override var rawPose: DevicePose = js.native
+
   protected var _descendants: js.Array[Node] = js.native
-  override var devicePosition: Vector3 = js.native
-  override var deviceRotationQuaternion: js.Any = js.native
-  override var deviceScaleFactor: Double = js.native
+
+
+
   var controllers: js.Array[WebVRController] = js.native
   var nonVRControllers: js.Array[Gamepad] = js.native
   var rigParenting: Boolean = js.native
@@ -7373,16 +6970,10 @@ class WebVRFreeCamera protected () extends FreeCamera with PoseControlled {
   def getControllerByName(name: String): WebVRController = js.native
   def leftController: WebVRController = js.native
   def rightController: WebVRController = js.native
-  def getForwardRay(length: Double = ???): Ray = js.native
-  override def _checkInputs(): Unit = js.native
-  override def updateFromDevice(poseData: DevicePose): Unit = js.native
-  override def attachControl(element: HTMLElement, noPreventDefault: Boolean = ???): Unit = js.native
+
   override def detachControl(element: HTMLElement): Unit = js.native
   override def getClassName(): String = js.native
   def resetToCurrentRotation(): Unit = js.native
-  override def _updateRigCameras(): Unit = js.native
-  override def _getWebVRViewMatrix(): Matrix = js.native
-  override def _getWebVRProjectionMatrix(): Matrix = js.native
   def initControllers(): Unit = js.native
 }
 
@@ -7393,7 +6984,7 @@ trait IOctreeContainer[T] extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Octree")
-class Octree[T] protected () extends js.Object {
+class Octree[T] extends js.Object {
   def this(creationFunc: js.Function2[T, OctreeBlock[T], Unit], maxBlockCapacity: Double = ???, maxDepth: Double = ???) = this()
   var maxDepth: Double = js.native
   var blocks: js.Array[OctreeBlock[T]] = js.native
@@ -7408,14 +6999,13 @@ class Octree[T] protected () extends js.Object {
 @js.native
 @JSGlobal("BABYLON.Octree")
 object Octree extends js.Object {
-  def _CreateBlocks[T](worldMin: Vector3, worldMax: Vector3, entries: js.Array[T], maxBlockCapacity: Double, currentDepth: Double, maxDepth: Double, target: IOctreeContainer[T], creationFunc: js.Function2[T, OctreeBlock[T], Unit]): Unit = js.native
   var CreationFuncForMeshes: js.Function2[AbstractMesh, OctreeBlock[AbstractMesh], Unit] = js.native
   var CreationFuncForSubMeshes: js.Function2[SubMesh, OctreeBlock[SubMesh], Unit] = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.OctreeBlock")
-class OctreeBlock[T] protected () extends js.Object {
+class OctreeBlock[T] extends js.Object {
   def this(minPoint: Vector3, maxPoint: Vector3, capacity: Double, depth: Double, maxDepth: Double, creationFunc: js.Function2[T, OctreeBlock[T], Unit]) = this()
   var entries: js.Array[T] = js.native
   var blocks: js.Array[OctreeBlock[T]] = js.native
@@ -7445,7 +7035,7 @@ trait IShadowGenerator extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.ShadowGenerator")
-class ShadowGenerator protected () extends IShadowGenerator {
+class ShadowGenerator extends IShadowGenerator {
   def this(mapSize: Double, light: IShadowLight, useFullFloatFirst: Boolean = ???) = this()
   var bias: Double = js.native
   var blurBoxOffset: Double = js.native
@@ -7491,7 +7081,7 @@ object ShadowGenerator extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PBRBaseMaterial")
-abstract class PBRBaseMaterial protected () extends PushMaterial {
+abstract class PBRBaseMaterial extends PushMaterial {
   def this(name: String, scene: Scene) = this()
   protected var _directIntensity: Double = js.native
   protected var _emissiveIntensity: Double = js.native
@@ -7547,14 +7137,11 @@ abstract class PBRBaseMaterial protected () extends PushMaterial {
   protected var _useAlphaFresnel: Boolean = js.native
   protected var _environmentBRDFTexture: BaseTexture = js.native
   protected var _imageProcessingConfiguration: ImageProcessingConfiguration = js.native
-  def _attachImageProcessingConfiguration(configuration: ImageProcessingConfiguration): Unit = js.native
-  override def getClassName(): String
+  def getClassName(): String
   var useLogarithmicDepth: Boolean = js.native
   override def needAlphaBlending(): Boolean = js.native
   override def needAlphaTesting(): Boolean = js.native
-  def _shouldUseAlphaFromAlbedoTexture(): Boolean = js.native
   override def getAlphaTestTexture(): BaseTexture = js.native
-  def isReadyForSubMesh(mesh: AbstractMesh, subMesh: SubMesh, useInstances: Boolean = ???): Boolean = js.native
   def buildUniformLayout(): Unit = js.native
   override def unbind(): Unit = js.native
   override def bindOnlyWorldMatrix(world: Matrix): Unit = js.native
@@ -7565,7 +7152,7 @@ abstract class PBRBaseMaterial protected () extends PushMaterial {
 
 @js.native
 @JSGlobal("BABYLON.PBRMaterial")
-class PBRMaterial protected () extends PBRBaseMaterial {
+class PBRMaterial extends PBRBaseMaterial {
   def this(name: String, scene: Scene) = this()
   var directIntensity: Double = js.native
   var emissiveIntensity: Double = js.native
@@ -7645,7 +7232,7 @@ object PBRMaterial extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PBRMetallicRoughnessMaterial")
-class PBRMetallicRoughnessMaterial protected () extends Internals.PBRBaseSimpleMaterial {
+class PBRMetallicRoughnessMaterial extends Internals.PBRBaseSimpleMaterial {
   def this(name: String, scene: Scene) = this()
   var baseColor: Color3 = js.native
   var baseTexture: BaseTexture = js.native
@@ -7667,7 +7254,7 @@ object PBRMetallicRoughnessMaterial extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.PBRSpecularGlossinessMaterial")
-class PBRSpecularGlossinessMaterial protected () extends Internals.PBRBaseSimpleMaterial {
+class PBRSpecularGlossinessMaterial extends Internals.PBRBaseSimpleMaterial {
   def this(name: String, scene: Scene) = this()
   var diffuseColor: Color3 = js.native
   var diffuseTexture: BaseTexture = js.native
@@ -7689,7 +7276,7 @@ object PBRSpecularGlossinessMaterial extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.BaseTexture")
-class BaseTexture protected () extends js.Object {
+class BaseTexture extends js.Object {
   def this(scene: Scene) = this()
   var name: String = js.native
   var hasAlpha: Boolean = js.native
@@ -7713,8 +7300,6 @@ class BaseTexture protected () extends js.Object {
   var onDisposeObservable: Observable[BaseTexture] = js.native
   var onDispose: js.Function0[Unit] = js.native
   var delayLoadState: Double = js.native
-  var _cachedAnisotropicFilteringLevel: Double = js.native
-  var _texture: WebGLTexture = js.native
   def isBlocking: Boolean = js.native
   def getScene(): Scene = js.native
   def getTextureMatrix(): Matrix = js.native
@@ -7726,8 +7311,6 @@ class BaseTexture protected () extends js.Object {
   def getBaseSize(): ISize = js.native
   def scale(ratio: Double): Unit = js.native
   def canRescale: Boolean = js.native
-  def _removeFromCache(url: String, noMipmap: Boolean): Unit = js.native
-  def _getFromCache(url: String, noMipmap: Boolean, sampling: Double = ???): WebGLTexture = js.native
   def delayLoad(): Unit = js.native
   override def clone(): BaseTexture = js.native
   def textureType: Double = js.native
@@ -7735,9 +7318,6 @@ class BaseTexture protected () extends js.Object {
   def readPixels(faceIndex: Double = ???): ArrayBufferView = js.native
   def releaseInternalTexture(): Unit = js.native
   var sphericalPolynomial: SphericalPolynomial = js.native
-  def _lodTextureHigh: BaseTexture = js.native
-  def _lodTextureMid: BaseTexture = js.native
-  def _lodTextureLow: BaseTexture = js.native
   def dispose(): Unit = js.native
   def serialize(): js.Dynamic = js.native
 }
@@ -7751,7 +7331,7 @@ object BaseTexture extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.ColorGradingTexture")
-class ColorGradingTexture protected () extends BaseTexture {
+class ColorGradingTexture extends BaseTexture {
   def this(url: String, scene: Scene) = this()
   var url: String = js.native
   override def getTextureMatrix(): Matrix = js.native
@@ -7768,10 +7348,10 @@ object ColorGradingTexture extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.CubeTexture")
-class CubeTexture protected () extends BaseTexture {
+class CubeTexture extends BaseTexture {
   def this(rootUrl: String, scene: Scene, extensions: js.Array[String] = ???, noMipmap: Boolean = ???, files: js.Array[String] = ???, onLoad: js.Function0[Unit] = ???, onError: js.Function0[Unit] = ???, format: Double = ???, prefiltered: Boolean = ???) = this()
   var url: String = js.native
-  override var coordinatesMode: Double = js.native
+
   override def delayLoad(): Unit = js.native
   override def getReflectionTextureMatrix(): Matrix = js.native
   def setReflectionTextureMatrix(value: Matrix): Unit = js.native
@@ -7788,7 +7368,7 @@ object CubeTexture extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.DynamicTexture")
-class DynamicTexture protected () extends Texture {
+class DynamicTexture extends Texture {
   def this(name: String, options: js.Any, scene: Scene, generateMipMaps: Boolean, samplingMode: Double = ???, format: Double = ???) = this()
   override def canRescale: Boolean = js.native
   override def scale(ratio: Double): Unit = js.native
@@ -7802,13 +7382,12 @@ class DynamicTexture protected () extends Texture {
 
 @js.native
 @JSGlobal("BABYLON.HDRCubeTexture")
-class HDRCubeTexture protected () extends BaseTexture {
+class HDRCubeTexture extends BaseTexture {
   def this(url: String, scene: Scene, size: Double = ???, noMipmap: Boolean = ???, generateHarmonics: Boolean = ???, useInGammaSpace: Boolean = ???, usePMREMGenerator: Boolean = ???, onLoad: js.Function0[Unit] = ???, onError: js.Function0[Unit] = ???) = this()
   var url: String = js.native
-  override var coordinatesMode: Double = js.native
+
   var isPMREM: Boolean = js.native
   protected var _isBlocking: Boolean = js.native
-  override var isBlocking: Boolean = js.native
   override def clone(): HDRCubeTexture = js.native
   override def delayLoad(): Unit = js.native
   override def getReflectionTextureMatrix(): Matrix = js.native
@@ -7826,7 +7405,7 @@ object HDRCubeTexture extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.MapTexture")
-class MapTexture protected () extends Texture {
+class MapTexture extends Texture {
   def this(name: String, scene: Scene, size: ISize, samplingMode: Double = ???, useMipMap: Boolean = ???, margin: Double = ???) = this()
   def allocateRect(size: Size): PackedRect = js.native
   def freeRect(rectInfo: PackedRect): Unit = js.native
@@ -7840,7 +7419,7 @@ class MapTexture protected () extends Texture {
 
 @js.native
 @JSGlobal("BABYLON.MirrorTexture")
-class MirrorTexture protected () extends RenderTargetTexture {
+class MirrorTexture extends RenderTargetTexture {
   def this(name: String, size: js.Any, scene: Scene, generateMipMaps: Boolean = ???, `type`: Double = ???, samplingMode: Double = ???, generateDepthBuffer: Boolean = ???) = this()
   var mirrorPlane: Plane = js.native
   var blurRatio: Double = js.native
@@ -7864,12 +7443,12 @@ trait IMultiRenderTargetOptions extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.MultiRenderTarget")
-class MultiRenderTarget protected () extends RenderTargetTexture {
+class MultiRenderTarget extends RenderTargetTexture {
   def this(name: String, size: js.Any, count: Double, scene: Scene, options: js.Any = ???) = this()
   def isSupported: Boolean = js.native
   def textures: js.Array[Texture] = js.native
   def depthTexture: Texture = js.native
-  override var samples: Double = js.native
+
   override def resize(size: js.Any): Unit = js.native
   override def dispose(): Unit = js.native
   def releaseInternalTextures(): Unit = js.native
@@ -7877,7 +7456,7 @@ class MultiRenderTarget protected () extends RenderTargetTexture {
 
 @js.native
 @JSGlobal("BABYLON.RawTexture")
-class RawTexture protected () extends Texture {
+class RawTexture extends Texture {
   def this(data: ArrayBufferView, width: Double, height: Double, format: Double, scene: Scene, generateMipMaps: Boolean = ???, invertY: Boolean = ???, samplingMode: Double = ???) = this()
   var format: Double = js.native
   def update(data: ArrayBufferView): Unit = js.native
@@ -7895,7 +7474,7 @@ object RawTexture extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.RefractionTexture")
-class RefractionTexture protected () extends RenderTargetTexture {
+class RefractionTexture extends RenderTargetTexture {
   def this(name: String, size: Double, scene: Scene, generateMipMaps: Boolean = ???) = this()
   var refractionPlane: Plane = js.native
   var depth: Double = js.native
@@ -7914,14 +7493,14 @@ trait IRenderTargetOptions extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.RenderTargetTexture")
-class RenderTargetTexture protected () extends Texture {
+class RenderTargetTexture extends Texture {
   def this(name: String, size: js.Any, scene: Scene, generateMipMaps: Boolean = ???, doNotChangeAspectRatio: Boolean = ???, `type`: Double = ???, isCube: Boolean = ???, samplingMode: Double = ???, generateDepthBuffer: Boolean = ???, generateStencilBuffer: Boolean = ???, isMulti: Boolean = ???) = this()
-  override var isCube: Boolean = js.native
+
   var renderListPredicate: js.Function1[AbstractMesh, Boolean] = js.native
   var renderList: js.Array[AbstractMesh] = js.native
   var renderParticles: Boolean = js.native
   var renderSprites: Boolean = js.native
-  override var coordinatesMode: Double = js.native
+
   var activeCamera: Camera = js.native
   var customRenderFunction: js.Function4[SmartArray[SubMesh], SmartArray[SubMesh], SmartArray[SubMesh], js.Function0[Unit], Unit] = js.native
   var useCameraPostProcesses: Boolean = js.native
@@ -7934,9 +7513,7 @@ class RenderTargetTexture protected () extends Texture {
   var onClearObservable: Observable[Engine] = js.native
   var onClear: js.Function1[Engine, Unit] = js.native
   protected var _size: Double = js.native
-  var _generateMipMaps: Boolean = js.native
   protected var _renderingManager: RenderingManager = js.native
-  var _waitingRenderList: js.Array[String] = js.native
   protected var _doNotChangeAspectRatio: Boolean = js.native
   protected var _currentRefreshId: Double = js.native
   protected var _refreshRate: Double = js.native
@@ -7950,7 +7527,6 @@ class RenderTargetTexture protected () extends Texture {
   def addPostProcess(postProcess: PostProcess): Unit = js.native
   def clearPostProcesses(dispose: Boolean = ???): Unit = js.native
   def removePostProcess(postProcess: PostProcess): Unit = js.native
-  def _shouldRender(): Boolean = js.native
   override def isReady(): Boolean = js.native
   def getRenderSize(): Double = js.native
   override def canRescale: Boolean = js.native
@@ -7969,9 +7545,6 @@ class RenderTargetTexture protected () extends Texture {
 @js.native
 @JSGlobal("BABYLON.RenderTargetTexture")
 object RenderTargetTexture extends js.Object {
-  var _REFRESHRATE_RENDER_ONCE: Double = js.native
-  var _REFRESHRATE_RENDER_ONEVERYFRAME: Double = js.native
-  var _REFRESHRATE_RENDER_ONEVERYTWOFRAMES: Double = js.native
   def REFRESHRATE_RENDER_ONCE: Double = js.native
   def REFRESHRATE_RENDER_ONEVERYFRAME: Double = js.native
   def REFRESHRATE_RENDER_ONEVERYTWOFRAMES: Double = js.native
@@ -7979,7 +7552,7 @@ object RenderTargetTexture extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.Texture")
-class Texture protected () extends BaseTexture {
+class Texture extends BaseTexture {
   def this(url: String, scene: Scene, noMipmap: Boolean = ???, invertY: Boolean = ???, samplingMode: Double = ???, onLoad: js.Function0[Unit] = ???, onError: js.Function0[Unit] = ???, buffer: js.Any = ???, deleteBuffer: Boolean = ???, format: Double = ???) = this()
   var url: String = js.native
   var uOffset: Double = js.native
@@ -7990,11 +7563,8 @@ class Texture protected () extends BaseTexture {
   var vAng: Double = js.native
   var wAng: Double = js.native
   def noMipmap: Boolean = js.native
-  var _invertY: Boolean = js.native
-  var _samplingMode: Double = js.native
   protected var _format: Double = js.native
   protected var _isBlocking: Boolean = js.native
-  override var isBlocking: Boolean = js.native
   def updateURL(url: String): Unit = js.native
   override def delayLoad(): Unit = js.native
   def updateSamplingMode(samplingMode: Double): Unit = js.native
@@ -8030,7 +7600,7 @@ object Texture extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.VideoTexture")
-class VideoTexture protected () extends Texture {
+class VideoTexture extends Texture {
   def this(name: String, urlsOrVideo: js.Array[String] | HTMLVideoElement, scene: Scene, generateMipMaps: Boolean = ???, invertY: Boolean = ???, samplingMode: Double = ???) = this()
   var video: HTMLVideoElement = js.native
   def update(): Boolean = js.native
@@ -8045,140 +7615,110 @@ object VideoTexture extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.CannonJSPlugin")
-class CannonJSPlugin protected () extends IPhysicsEnginePlugin {
+class CannonJSPlugin extends IPhysicsEnginePlugin {
   def this(_useDeltaForWorldStep: Boolean = ???, iterations: Double = ???) = this()
-  override var world: js.Any = js.native
-  override var name: String = js.native
-  override def setGravity(gravity: Vector3): Unit = js.native
-  override def setTimeStep(timeStep: Double): Unit = js.native
+
+
+
+
   override def executeStep(delta: Double, impostors: js.Array[PhysicsImpostor]): Unit = js.native
-  override def applyImpulse(impostor: PhysicsImpostor, force: Vector3, contactPoint: Vector3): Unit = js.native
-  override def applyForce(impostor: PhysicsImpostor, force: Vector3, contactPoint: Vector3): Unit = js.native
-  override def generatePhysicsBody(impostor: PhysicsImpostor): Unit = js.native
-  override def removePhysicsBody(impostor: PhysicsImpostor): Unit = js.native
-  override def generateJoint(impostorJoint: PhysicsImpostorJoint): Unit = js.native
-  override def removeJoint(impostorJoint: PhysicsImpostorJoint): Unit = js.native
-  override def setTransformationFromPhysicsBody(impostor: PhysicsImpostor): Unit = js.native
-  override def setPhysicsBodyTransformation(impostor: PhysicsImpostor, newPosition: Vector3, newRotation: Quaternion): Unit = js.native
+
+
+
+
+
+
+
+
   override def isSupported(): Boolean = js.native
-  override def setLinearVelocity(impostor: PhysicsImpostor, velocity: Vector3): Unit = js.native
-  override def setAngularVelocity(impostor: PhysicsImpostor, velocity: Vector3): Unit = js.native
+
+
   override def getLinearVelocity(impostor: PhysicsImpostor): Vector3 = js.native
   override def getAngularVelocity(impostor: PhysicsImpostor): Vector3 = js.native
-  override def setBodyMass(impostor: PhysicsImpostor, mass: Double): Unit = js.native
-  override def getBodyMass(impostor: PhysicsImpostor): Double = js.native
-  override def getBodyFriction(impostor: PhysicsImpostor): Double = js.native
-  override def setBodyFriction(impostor: PhysicsImpostor, friction: Double): Unit = js.native
-  override def getBodyRestitution(impostor: PhysicsImpostor): Double = js.native
-  override def setBodyRestitution(impostor: PhysicsImpostor, restitution: Double): Unit = js.native
-  override def sleepBody(impostor: PhysicsImpostor): Unit = js.native
-  override def wakeUpBody(impostor: PhysicsImpostor): Unit = js.native
-  override def updateDistanceJoint(joint: PhysicsJoint, maxDistance: Double, minDistance: Double = ???): Unit = js.native
-  override def setMotor(joint: IMotorEnabledJoint, speed: Double = ???, maxForce: Double = ???, motorIndex: Double = ???): Unit = js.native
-  def setLimit(joint: IMotorEnabledJoint, upperLimit: Double, lowerLimit: Double = ???): Unit = js.native
-  override def syncMeshWithImpostor(mesh: AbstractMesh, impostor: PhysicsImpostor): Unit = js.native
+
+
+
+
+
+
+
+
+
+
+
   override def getRadius(impostor: PhysicsImpostor): Double = js.native
-  override def getBoxSizeToRef(impostor: PhysicsImpostor, result: Vector3): Unit = js.native
-  override def dispose(): Unit = js.native
+
+
 }
 
 @js.native
 @JSGlobal("BABYLON.OimoJSPlugin")
-class OimoJSPlugin protected () extends IPhysicsEnginePlugin {
+class OimoJSPlugin extends IPhysicsEnginePlugin {
   def this(iterations: Double = ???) = this()
-  override var world: js.Any = js.native
-  override var name: String = js.native
-  override def setGravity(gravity: Vector3): Unit = js.native
-  override def setTimeStep(timeStep: Double): Unit = js.native
+
+
+
+
   override def executeStep(delta: Double, impostors: js.Array[PhysicsImpostor]): Unit = js.native
-  override def applyImpulse(impostor: PhysicsImpostor, force: Vector3, contactPoint: Vector3): Unit = js.native
-  override def applyForce(impostor: PhysicsImpostor, force: Vector3, contactPoint: Vector3): Unit = js.native
-  override def generatePhysicsBody(impostor: PhysicsImpostor): Unit = js.native
-  override def removePhysicsBody(impostor: PhysicsImpostor): Unit = js.native
-  override def generateJoint(impostorJoint: PhysicsImpostorJoint): Unit = js.native
-  override def removeJoint(impostorJoint: PhysicsImpostorJoint): Unit = js.native
+
+
+
+
+
+
   override def isSupported(): Boolean = js.native
-  override def setTransformationFromPhysicsBody(impostor: PhysicsImpostor): Unit = js.native
-  override def setPhysicsBodyTransformation(impostor: PhysicsImpostor, newPosition: Vector3, newRotation: Quaternion): Unit = js.native
-  override def setLinearVelocity(impostor: PhysicsImpostor, velocity: Vector3): Unit = js.native
-  override def setAngularVelocity(impostor: PhysicsImpostor, velocity: Vector3): Unit = js.native
+
+
+
+
   override def getLinearVelocity(impostor: PhysicsImpostor): Vector3 = js.native
   override def getAngularVelocity(impostor: PhysicsImpostor): Vector3 = js.native
-  override def setBodyMass(impostor: PhysicsImpostor, mass: Double): Unit = js.native
-  override def getBodyMass(impostor: PhysicsImpostor): Double = js.native
-  override def getBodyFriction(impostor: PhysicsImpostor): Double = js.native
-  override def setBodyFriction(impostor: PhysicsImpostor, friction: Double): Unit = js.native
-  override def getBodyRestitution(impostor: PhysicsImpostor): Double = js.native
-  override def setBodyRestitution(impostor: PhysicsImpostor, restitution: Double): Unit = js.native
-  override def sleepBody(impostor: PhysicsImpostor): Unit = js.native
-  override def wakeUpBody(impostor: PhysicsImpostor): Unit = js.native
-  override def updateDistanceJoint(joint: PhysicsJoint, maxDistance: Double, minDistance: Double = ???): Unit = js.native
-  override def setMotor(joint: IMotorEnabledJoint, speed: Double, maxForce: Double = ???, motorIndex: Double = ???): Unit = js.native
-  override def setLimit(joint: IMotorEnabledJoint, upperLimit: Double, lowerLimit: Double = ???, motorIndex: Double = ???): Unit = js.native
-  override def syncMeshWithImpostor(mesh: AbstractMesh, impostor: PhysicsImpostor): Unit = js.native
+
+
+
+
+
+
+
+
+
+
+
+
   override def getRadius(impostor: PhysicsImpostor): Double = js.native
-  override def getBoxSizeToRef(impostor: PhysicsImpostor, result: Vector3): Unit = js.native
-  override def dispose(): Unit = js.native
+
+
 }
 
 @js.native
 @JSGlobal("BABYLON.PostProcessRenderEffect")
-class PostProcessRenderEffect protected () extends js.Object {
+class PostProcessRenderEffect extends js.Object {
   def this(engine: Engine, name: String, getPostProcess: js.Function0[PostProcess], singleInstance: Boolean = ???) = this()
-  var _name: String = js.native
   var applyParameters: js.Function1[PostProcess, Unit] = js.native
   def isSupported: Boolean = js.native
-  def _update(): Unit = js.native
   def addPass(renderPass: PostProcessRenderPass): Unit = js.native
   def removePass(renderPass: PostProcessRenderPass): Unit = js.native
   def addRenderEffectAsPass(renderEffect: PostProcessRenderEffect): Unit = js.native
   def getPass(passName: String): Unit = js.native
   def emptyPasses(): Unit = js.native
-  def _attachCameras(cameras: Camera): js.Dynamic = js.native
-  def _attachCameras(cameras: js.Array[Camera]): js.Dynamic = js.native
-  def _detachCameras(cameras: Camera): js.Dynamic = js.native
-  def _detachCameras(cameras: js.Array[Camera]): js.Dynamic = js.native
-  def _enable(cameras: Camera): js.Dynamic = js.native
-  def _enable(cameras: js.Array[Camera]): js.Dynamic = js.native
-  def _disable(cameras: Camera): js.Dynamic = js.native
-  def _disable(cameras: js.Array[Camera]): js.Dynamic = js.native
   def getPostProcess(camera: Camera = ???): PostProcess = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.PostProcessRenderPass")
-class PostProcessRenderPass protected () extends js.Object {
+class PostProcessRenderPass extends js.Object {
   def this(scene: Scene, name: String, size: Double, renderList: js.Array[Mesh], beforeRender: js.Function0[Unit], afterRender: js.Function0[Unit]) = this()
-  var _name: String = js.native
-  def _incRefCount(): Double = js.native
-  def _decRefCount(): Double = js.native
-  def _update(): Unit = js.native
   def setRenderList(renderList: js.Array[Mesh]): Unit = js.native
   def getRenderTexture(): RenderTargetTexture = js.native
 }
 
 @js.native
 @JSGlobal("BABYLON.PostProcessRenderPipeline")
-class PostProcessRenderPipeline protected () extends js.Object {
+class PostProcessRenderPipeline extends js.Object {
   def this(engine: Engine, name: String) = this()
   protected var _cameras: js.Array[Camera] = js.native
-  var _name: String = js.native
   def isSupported: Boolean = js.native
   def addEffect(renderEffect: PostProcessRenderEffect): Unit = js.native
-  def _enableEffect(renderEffectName: String, cameras: Camera): js.Dynamic = js.native
-  def _enableEffect(renderEffectName: String, cameras: js.Array[Camera]): js.Dynamic = js.native
-  def _disableEffect(renderEffectName: String, cameras: Camera): js.Dynamic = js.native
-  def _disableEffect(renderEffectName: String, cameras: js.Array[Camera]): js.Dynamic = js.native
-  def _attachCameras(cameras: Camera, unique: Boolean): js.Dynamic = js.native
-  def _attachCameras(cameras: js.Array[Camera], unique: Boolean): js.Dynamic = js.native
-  def _detachCameras(cameras: Camera): js.Dynamic = js.native
-  def _detachCameras(cameras: js.Array[Camera]): js.Dynamic = js.native
-  def _enableDisplayOnlyPass(passName: js.Any, cameras: Camera): js.Dynamic = js.native
-  def _enableDisplayOnlyPass(passName: js.Any, cameras: js.Array[Camera]): js.Dynamic = js.native
-  def _disableDisplayOnlyPass(cameras: Camera): js.Dynamic = js.native
-  def _disableDisplayOnlyPass(cameras: js.Array[Camera]): js.Dynamic = js.native
-  def _update(): Unit = js.native
-  def _reset(): Unit = js.native
   def dispose(): Unit = js.native
 }
 
@@ -8186,7 +7726,6 @@ class PostProcessRenderPipeline protected () extends js.Object {
 @JSGlobal("BABYLON.PostProcessRenderPipelineManager")
 class PostProcessRenderPipelineManager extends js.Object {
   def addPipeline(renderPipeline: PostProcessRenderPipeline): Unit = js.native
-  def attachCamerasToRenderPipeline(renderPipelineName: String, cameras: Camera, unique: Boolean = ???): js.Dynamic = js.native
   def attachCamerasToRenderPipeline(renderPipelineName: String, cameras: js.Array[Camera], unique: Boolean = ???): js.Dynamic = js.native
   def detachCamerasFromRenderPipeline(renderPipelineName: String, cameras: Camera): js.Dynamic = js.native
   def detachCamerasFromRenderPipeline(renderPipelineName: String, cameras: js.Array[Camera]): js.Dynamic = js.native
@@ -8203,7 +7742,7 @@ class PostProcessRenderPipelineManager extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.CustomProceduralTexture")
-class CustomProceduralTexture protected () extends ProceduralTexture {
+class CustomProceduralTexture extends ProceduralTexture {
   def this(name: String, texturePath: js.Any, size: Double, scene: Scene, fallbackTexture: Texture = ???, generateMipMaps: Boolean = ???) = this()
   override def isReady(): Boolean = js.native
   override def render(useCameraPostProcess: Boolean = ???): Unit = js.native
@@ -8214,19 +7753,16 @@ class CustomProceduralTexture protected () extends ProceduralTexture {
 
 @js.native
 @JSGlobal("BABYLON.ProceduralTexture")
-class ProceduralTexture protected () extends Texture {
+class ProceduralTexture extends Texture {
   def this(name: String, size: js.Any, fragment: js.Any, scene: Scene, fallbackTexture: Texture = ???, generateMipMaps: Boolean = ???, isCube: Boolean = ???) = this()
-  override var isCube: Boolean = js.native
-  var _generateMipMaps: Boolean = js.native
+
   var isEnabled: Boolean = js.native
   var onGenerated: js.Function0[Unit] = js.native
-  var _textures: js.Array[Texture] = js.native
   def reset(): Unit = js.native
   override def isReady(): Boolean = js.native
   def resetRefreshCounter(): Unit = js.native
   def setFragment(fragment: js.Any): Unit = js.native
   var refreshRate: Double = js.native
-  def _shouldRender(): Boolean = js.native
   def getRenderSize(): Double = js.native
   def resize(size: js.Any, generateMipMaps: js.Any): Unit = js.native
   def setTexture(name: String, texture: Texture): ProceduralTexture = js.native
@@ -8244,7 +7780,7 @@ class ProceduralTexture protected () extends Texture {
 
 @js.native
 @JSGlobal("BABYLON.DefaultRenderingPipeline")
-class DefaultRenderingPipeline protected () extends PostProcessRenderPipeline with IDisposable with IAnimatable {
+class DefaultRenderingPipeline extends PostProcessRenderPipeline with IDisposable with IAnimatable {
   def this(name: String, hdr: Boolean, scene: Scene, cameras: js.Array[Camera] = ???) = this()
   def PassPostProcessId: String = js.native
   def HighLightsPostProcessId: String = js.native
@@ -8262,7 +7798,7 @@ class DefaultRenderingPipeline protected () extends PostProcessRenderPipeline wi
   var fxaa: FxaaPostProcess = js.native
   var imageProcessing: ImageProcessingPostProcess = js.native
   var finalMerge: PassPostProcess = js.native
-  override var animations: js.Array[Animation] = js.native
+
   var bloomKernel: Double = js.native
   var bloomWeight: Double = js.native
   var bloomScale: Double = js.native
@@ -8281,7 +7817,7 @@ object DefaultRenderingPipeline extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.LensRenderingPipeline")
-class LensRenderingPipeline protected () extends PostProcessRenderPipeline {
+class LensRenderingPipeline extends PostProcessRenderPipeline {
   def this(name: String, parameters: js.Any, scene: Scene, ratio: Double = ???, cameras: js.Array[Camera] = ???) = this()
   var LensChromaticAberrationEffect: String = js.native
   var HighlightsEnhancingEffect: String = js.native
@@ -8310,7 +7846,7 @@ class LensRenderingPipeline protected () extends PostProcessRenderPipeline {
 
 @js.native
 @JSGlobal("BABYLON.SSAO2RenderingPipeline")
-class SSAO2RenderingPipeline protected () extends PostProcessRenderPipeline {
+class SSAO2RenderingPipeline extends PostProcessRenderPipeline {
   def this(name: String, scene: Scene, ratio: js.Any, cameras: js.Array[Camera] = ???) = this()
   var SSAOOriginalSceneColorEffect: String = js.native
   var SSAORenderEffect: String = js.native
@@ -8335,7 +7871,7 @@ object SSAO2RenderingPipeline extends js.Object {
 
 @js.native
 @JSGlobal("BABYLON.SSAORenderingPipeline")
-class SSAORenderingPipeline protected () extends PostProcessRenderPipeline {
+class SSAORenderingPipeline extends PostProcessRenderPipeline {
   def this(name: String, scene: Scene, ratio: js.Any, cameras: js.Array[Camera] = ???) = this()
   var SSAOOriginalSceneColorEffect: String = js.native
   var SSAORenderEffect: String = js.native
@@ -8352,7 +7888,7 @@ class SSAORenderingPipeline protected () extends PostProcessRenderPipeline {
 
 @js.native
 @JSGlobal("BABYLON.StandardRenderingPipeline")
-class StandardRenderingPipeline protected () extends PostProcessRenderPipeline with IDisposable with IAnimatable {
+class StandardRenderingPipeline extends PostProcessRenderPipeline with IDisposable with IAnimatable {
   def this(name: String, scene: Scene, ratio: Double, originalPostProcess: PostProcess = ???, cameras: js.Array[Camera] = ???) = this()
   var originalPostProcess: PostProcess = js.native
   var downSampleX4PostProcess: PostProcess = js.native
@@ -8397,7 +7933,7 @@ class StandardRenderingPipeline protected () extends PostProcessRenderPipeline w
   var depthOfFieldDistance: Double = js.native
   var depthOfFieldBlurWidth: Double = js.native
   var motionStrength: Double = js.native
-  override var animations: js.Array[Animation] = js.native
+
   var BloomEnabled: Boolean = js.native
   var DepthOfFieldEnabled: Boolean = js.native
   var LensFlareEnabled: Boolean = js.native
@@ -8428,26 +7964,22 @@ object BABYLON extends js.Object {
   type IndicesArray = js.Array[Double] | Int32Array | Uint32Array | Uint16Array
   type PostProcessOptions = js.Any
   def expandToProperty(callback: String, targetKey: String = ???): js.Function2[js.Any, String, Unit] = js.native
-  /*
-  def serialize(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  def serializeAsTexture(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  def serializeAsColor3(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  def serializeAsFresnelParameters(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  def serializeAsVector2(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  def serializeAsVector3(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  def serializeAsMeshReference(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  def serializeAsColorCurves(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  def serializeAsColor4(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  def serializeAsImageProcessingConfiguration(sourceName: String = ???): js.Function2[js.Any, String | symbol, Unit] = js.native
-  */
+  def serialize(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
+  def serializeAsTexture(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
+  def serializeAsColor3(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
+  def serializeAsFresnelParameters(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
+  def serializeAsVector2(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
+  def serializeAsVector3(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
+  def serializeAsMeshReference(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
+  def serializeAsColorCurves(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
+  def serializeAsColor4(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
+  def serializeAsImageProcessingConfiguration(sourceName: String = ???): js.Function2[js.Any, String, Unit] = js.native
   def className(name: String, module: String = ???): js.Function1[Object, Unit] = js.native
 }
 
 }
 
-  trait PointerEvent
-
-  @js.native
+@js.native
 trait Window extends js.Object {
   def mozIndexedDB(func: js.Any): js.Dynamic = js.native
   def webkitIndexedDB(func: js.Any): js.Dynamic = js.native
@@ -8463,15 +7995,15 @@ trait Window extends js.Object {
   def mozRequestAnimationFrame(func: js.Any): js.Dynamic = js.native
   def oRequestAnimationFrame(func: js.Any): js.Dynamic = js.native
   var WebGLRenderingContext: WebGLRenderingContext = js.native
-//  var MSGesture: MSGesture = js.native
+//   var MSGesture: MSGesture = js.native
   var CANNON: js.Any = js.native
   var SIMD: js.Any = js.native
   var AudioContext: AudioContext = js.native
   var webkitAudioContext: AudioContext = js.native
   var PointerEvent: js.Any = js.native
   var Math: Math = js.native
-//  var Uint8Array: Uint8ArrayConstructor = js.native
-//  var Float32Array: Float32ArrayConstructor = js.native
+//   var Uint8Array: Uint8ArrayConstructor = js.native
+//   var Float32Array: Float32ArrayConstructor = js.native
   var mozURL: js.Any = js.native
   var msURL: js.Any = js.native
   var VRFrameData: js.Any = js.native
@@ -8555,27 +8087,6 @@ trait WebGLTexture extends js.Object {
   var `type`: Double = js.native
   var format: Double = js.native
   var onLoadedCallbacks: js.Array[js.Function] = js.native
-  var _size: Double = js.native
-  var _baseWidth: Double = js.native
-  var _baseHeight: Double = js.native
-  var _width: Double = js.native
-  var _height: Double = js.native
-  var _workingCanvas: HTMLCanvasElement = js.native
-  var _workingContext: CanvasRenderingContext2D = js.native
-  var _framebuffer: WebGLFramebuffer = js.native
-  var _depthStencilBuffer: WebGLRenderbuffer = js.native
-  var _MSAAFramebuffer: WebGLFramebuffer = js.native
-  var _MSAARenderBuffer: WebGLRenderbuffer = js.native
-  var _cachedCoordinatesMode: Double = js.native
-  var _cachedWrapU: Double = js.native
-  var _cachedWrapV: Double = js.native
-  var _isDisabled: Boolean = js.native
-  var _generateStencilBuffer: Boolean = js.native
-  var _generateDepthBuffer: Boolean = js.native
-  var _sphericalPolynomial: BABYLON.SphericalPolynomial = js.native
-  var _lodTextureHigh: BABYLON.BaseTexture = js.native
-  var _lodTextureMid: BABYLON.BaseTexture = js.native
-  var _lodTextureLow: BABYLON.BaseTexture = js.native
 }
 
 @js.native
@@ -8642,8 +8153,8 @@ trait Math extends js.Object {
 trait SIMDglobal extends js.Object {
   var SIMD: SIMD = js.native
   var Math: Math = js.native
-//  var Uint8Array: Uint8ArrayConstructor = js.native
-//  var Float32Array: Float32ArrayConstructor = js.native
+//   var Uint8Array: Uint8ArrayConstructor = js.native
+//   var Float32Array: Float32ArrayConstructor = js.native
 }
 
 @js.native
@@ -8674,9 +8185,7 @@ trait GamepadPose extends js.Object {
 
 package SIMD {
 
-  import scala.scalajs.js.typedarray.{Float64Array, Int16Array, Int32Array, Uint16Array, Uint32Array, Uint8Array, Uint8ClampedArray}
-
-  @js.native
+@js.native
 trait Float32x4 extends js.Object {
   var constructor: Float32x4Constructor = js.native
   override def valueOf(): Float32x4 = js.native
@@ -9098,13 +8607,7 @@ trait ImageBitmap extends js.Object {
   def close(): Unit = js.native
 }
 
-  // own
-  @js.native
-  trait WebGLObject extends js.Any
-
-
-
-  @js.native
+@js.native
 @JSGlobal
 class WebGLQuery extends WebGLObject {
 }
@@ -9168,9 +8671,9 @@ object Earcut extends js.Object {
 
 @js.native
 trait ExtendedGamepadButton extends GamepadButton {
-  //def pressed: Boolean = js.native
+  def pressed: Boolean = js.native
   def touched: Boolean = js.native
-  //def value: Double = js.native
+  def value: Double = js.native
 }
 
 @js.native
@@ -9180,6 +8683,3 @@ object Importedjs extends js.Object {
   var VRDisplay: js.Any = js.native
   var VRFrameData: js.Any = js.native
 }
-
-}
-
