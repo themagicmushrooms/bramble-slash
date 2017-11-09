@@ -13,7 +13,9 @@ BS: bramble slash(er)
 - https://github.com/outr/scalajs-pixijs
 
 ## 3D engine
-- http://www.babylonjs.com/
+- http://www.babylonjs.com/ but is there a scalajs facade? we could do one, especially as it has some typescript interface.
+- https://threejs.org/ with https://github.com/antonkulaga/threejs-facade (maintained?)
+- others are not really FOSS, it seems
 
 ## more stuff around pixi (2D)
 - https://github.com/kittykatattack
@@ -25,3 +27,7 @@ BS: bramble slash(er)
 - https://github.com/kramer425/matter-scala-js
 - https://github.com/pixijs/pixi.js/issues/2262
 
+
+## random
+- diablo in js + canvas, almost, http://mitallast.github.io/diablo-js/
+- babylon.js seems "better" than three.js http://www.html5gamedevs.com/topic/14622-building-a-diablo-type-game-should-i-go-for-babylonjs-or-threejs/

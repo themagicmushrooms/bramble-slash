@@ -1,0 +1,10 @@
+6582,6583c6582,6583
+<     const ToLinearSpace = 2.2;
+<     const Epsilon = 0.001;
+---
+>     const ToLinearSpace: number;
+>     const Epsilon: number;
+14615c14615
+<         private readonly isRecursiveFree;
+---
+>         private readonly isRecursiveFree: boolean;
