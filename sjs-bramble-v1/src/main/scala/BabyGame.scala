@@ -1,4 +1,4 @@
-import importedjs.{BABYLON, HTMLCanvasElement}
+
 import org.scalajs.dom
 import org.scalajs.dom.Event
 import org.scalajs.dom.raw.HTMLElement

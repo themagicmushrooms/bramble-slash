@@ -1,0 +1,27 @@
+3935c3935
+< class AbstractMesh extends Node with IDisposable with ICullable with IGetSetVerticesData {
+---
+> class AbstractMesh extends Node with ICullable with IGetSetVerticesData {
+5494c5494
+<   var physicsJoint: js.Any = js.native
+---
+> 
+5738d5737
+<   override var aspectRatio: Double = js.native
+6187a6187,6188
+>   def handleButtonChange(buttonIdx: Double,value: ExtendedGamepadButton,changes: GamepadButtonChanges): scala.scalajs.js.Dynamic = ???
+>   def initControllerMesh(scene: Scene,meshLoaded: scala.scalajs.js.Function1[AbstractMesh,Unit]): scala.scalajs.js.Dynamic = ???
+6198a6200,6202
+>   def handleButtonChange(buttonIdx: Double,value: ExtendedGamepadButton,changes: GamepadButtonChanges): scala.scalajs.js.Dynamic = ???
+>   def initControllerMesh(scene: Scene,meshLoaded: scala.scalajs.js.Function1[AbstractMesh,Unit]): scala.scalajs.js.Dynamic = ???
+> 
+6934,6935c6938,6939
+<   var position: Vector3 = js.native
+<   var rotationQuaternion: Quaternion = js.native
+---
+> 
+> 
+7387d7390
+<   override var isBlocking: Boolean = js.native
+7565d7567
+<   override var isBlocking: Boolean = js.native

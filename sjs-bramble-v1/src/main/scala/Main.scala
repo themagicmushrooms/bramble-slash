@@ -1,5 +1,4 @@
 import language.experimental.macros
-
 import org.scalajs.dom
 import org.scalajs.dom.html
 
@@ -35,7 +34,6 @@ class BranchSegment(val from: Point, val to: Point) {
     )
   }
 }
-
 
 @JSExport
 class BSTest (
