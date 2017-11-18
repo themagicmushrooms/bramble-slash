@@ -1,3 +1,8 @@
+## Source for assets
+
+- https://www.gamedev.net/forums/topic/693233-free-art-assets/
+- http://www.procjam.com/art/
+
 ## Name
 BS: bramble slash(er)
 
