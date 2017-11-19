@@ -65,7 +65,7 @@ class BabyGame() {
 
 
     // create a built-in "ground" shape
-    val ground = BABYLON.MeshBuilder.CreateGround("ground", js.Dynamic.literal(width = 6, height = 6, subdivisions = 2), this._scene)
+    val ground = BABYLON.MeshBuilder.CreateGround("ground", js.Dictionary("width" -> 6, "height" -> 6, "subdivisions" -> 2), this._scene)
     val groundMaterial = new BABYLON.StandardMaterial("myMaterial", _scene)
     groundMaterial.diffuseColor = new BABYLON.Color3(0.7, 0.5, 0.1);
     groundMaterial.specularColor = new BABYLON.Color3(0.5, 0.6, 0.87);
@@ -123,7 +123,7 @@ class BabyGame() {
       val displacement = mesh.getDirection(new Vector3(0, 0, 1))
       val endPos = segment.from.add(displacement)
 
-      val sphere = BABYLON.MeshBuilder.CreateSphere("sphere", js.Dynamic.literal(segments = 16, diameter = segment.width), this._scene)
+      val sphere = BABYLON.MeshBuilder.CreateSphere("sphere", js.Dictionary("segments" -> 16, "diameter" -> segment.width), this._scene)
       sphere.position = endPos
 
       val nbChildren = 3
