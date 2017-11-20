@@ -130,12 +130,11 @@ class BabyGame() {
       val childLengthFactor = 0.8
       val childWidthFactor = 0.5
       for(childNum <- 1 to nbChildren) {
-        val yaw = π / 2 + (r.nextFloat() - 1) * π / 4
-        val pitchMin = 2 * π * (childNum - 1) / nbChildren
-        val pitchRange = 2 * π / nbChildren
-        val pitch = pitchMin + r.nextFloat() * pitchRange
-        val roll = 0
-        val childOrientation = rotateBranch(segment.orientation, yaw, pitch, roll)
+        val inclination = π / 3 + (r.nextFloat() - 1) * π / 6
+        val longitudeMin = 2 * π * (childNum - 1) / nbChildren
+        val longitudeRange = 2 * π / nbChildren
+        val longitude = longitudeMin + r.nextFloat() * longitudeRange
+        val childOrientation = rotateBranch(segment.orientation, inclination, longitude)
         val child = new BranchSegment2(endPos, childOrientation, segment.length * childLengthFactor, segment.width * childWidthFactor)
         render(child, depth - 1)
       }
@@ -143,10 +142,12 @@ class BabyGame() {
 
   }
 
-  def rotateBranch(originalOrientation: Vector3, yaw: Double, pitch: Double, roll: Double): Vector3 = {
+  def rotateBranch(originalOrientation: Vector3, inclination: Double, longitude: Double): Vector3 = {
     val originalQuaternion = Quaternion.RotationYawPitchRoll(originalOrientation.y, originalOrientation.x, originalOrientation.z)
-    val rotation = Quaternion.RotationYawPitchRoll(yaw, pitch ,roll)
-    originalQuaternion.multiply(rotation).toEulerAngles()
+    val rollToLongitude = Quaternion.RotationYawPitchRoll(0, 0, longitude)
+    val incline = Quaternion.RotationYawPitchRoll(inclination, 0, 0)
+    val cancelRoll = Quaternion.RotationYawPitchRoll(0, 0, -longitude)
+    originalQuaternion.multiply(rollToLongitude).multiply(incline).multiply(cancelRoll).toEulerAngles()
   }
 
   def update() = {
