@@ -7,6 +7,8 @@ version := "0.1-SNAPSHOT"
 scalaVersion := "2.11.8"
 scalaVersion in ThisBuild := "2.11.8"
 
+scalaJSOptimizerOptions ~= { _.withParallel(false) }
+
 lazy val macros = (project in file("macros")).settings(
   libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
 )
